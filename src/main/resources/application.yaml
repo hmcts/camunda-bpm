@@ -37,7 +37,7 @@ camunda:
       create: All tasks
     generic-properties:
       properties:
-        userResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
+        generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
 
 server:
   servlet:
