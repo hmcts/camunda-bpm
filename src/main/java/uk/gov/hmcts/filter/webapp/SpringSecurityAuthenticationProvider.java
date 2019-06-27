@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 
-import static uk.gov.hmcts.app.UserIdSanitiser.*;
-
 public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenticationProvider {
 
     @Override
@@ -34,13 +32,6 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
             return AuthenticationResult.unsuccessful();
         }
 
-        if (((List)authentication.getAuthorities()).get(0) instanceof SimpleGrantedAuthority) {
-            return new AuthenticationResult(
-                    null,
-                    false
-            );
-
-        }
         List<OidcUserAuthority> authorities = (List<OidcUserAuthority>) authentication.getAuthorities();
 
         Map<String, Object> attributes = authorities.get(0).getAttributes();
