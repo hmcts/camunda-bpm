@@ -1,6 +1,5 @@
-package com.camunda.demo.filter.webapp;
+package uk.gov.hmcts.filter.webapp;
 
-import java.util.Collection;
 import java.util.Map;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -8,7 +7,6 @@ import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -16,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
+
+import static uk.gov.hmcts.app.UserIdSanitiser.*;
 
 public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenticationProvider {
 
@@ -45,20 +45,19 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
 
         Map<String, Object> attributes = authorities.get(0).getAttributes();
 
-        String id = name.replaceAll("-_", "");
         AuthenticationResult authenticationResult = new AuthenticationResult(
-                id,
+                name,
                 true
         );
         authenticationResult.setGroups(getUserGroups(authentication));
 
         IdentityService identityService = engine.getIdentityService();
-        User user = identityService.newUser(id);
+        User user = identityService.newUser(name);
         user.setFirstName(attributes.get("given_name").toString());
         user.setLastName(attributes.get("family_name").toString());
-        user.setEmail(attributes.get("upn").toString());
+        user.setEmail(attributes.get("unique_name").toString());
 
-        identityService.deleteUser(id);
+        identityService.deleteUser(name);
         identityService.saveUser(user);
 
         return authenticationResult;

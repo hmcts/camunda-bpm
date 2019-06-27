@@ -35,6 +35,10 @@ camunda:
       firstName: Admin
     filter:
       create: All tasks
+    generic-properties:
+      properties:
+        userResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
+
 server:
   servlet:
     context-path: /camunda

@@ -1,4 +1,4 @@
-package com.camunda.demo;
+package uk.gov.hmcts;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
@@ -24,7 +24,6 @@ public class CamundaApplication {
   // This is only used for testing purposes
   @Bean
   public CommandLineRunner createDemoProcessInstance(){
-
     return (String[] args) -> runtimeService.startProcessInstanceByKey("springboot-security-sso");
 
   }
