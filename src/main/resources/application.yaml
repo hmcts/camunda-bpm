@@ -1,3 +1,7 @@
+logging:
+  level:
+    root: INFO
+
 spring:
   datasource:
     url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE
@@ -32,4 +36,6 @@ camunda:
     filter:
       create: All tasks
 server:
+  servlet:
+    context-path: /camunda
   port: 8080

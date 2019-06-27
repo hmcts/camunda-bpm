@@ -9,6 +9,7 @@ import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,22 +34,31 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
             return AuthenticationResult.unsuccessful();
         }
 
+        if (((List)authentication.getAuthorities()).get(0) instanceof SimpleGrantedAuthority) {
+            return new AuthenticationResult(
+                    null,
+                    false
+            );
+
+        }
         List<OidcUserAuthority> authorities = (List<OidcUserAuthority>) authentication.getAuthorities();
 
         Map<String, Object> attributes = authorities.get(0).getAttributes();
+
+        String id = name.replaceAll("-_", "");
         AuthenticationResult authenticationResult = new AuthenticationResult(
-                name,
+                id,
                 true
         );
         authenticationResult.setGroups(getUserGroups(authentication));
 
         IdentityService identityService = engine.getIdentityService();
-        User user = identityService.newUser(name);
+        User user = identityService.newUser(id);
         user.setFirstName(attributes.get("given_name").toString());
         user.setLastName(attributes.get("family_name").toString());
         user.setEmail(attributes.get("upn").toString());
-        
-        identityService.deleteUser(name);
+
+        identityService.deleteUser(id);
         identityService.saveUser(user);
 
         return authenticationResult;
