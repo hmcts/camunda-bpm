@@ -1,4 +1,4 @@
-package uk.gov.hmcts.app;
+package uk.gov.hmcts.reform.camunda.bpm.app;
 
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.authorization.Authorization;

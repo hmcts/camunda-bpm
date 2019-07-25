@@ -1,4 +1,4 @@
-package uk.gov.hmcts.filter.webapp;
+package uk.gov.hmcts.reform.camunda.bpm.filter.webapp;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -18,7 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
-import uk.gov.hmcts.app.AuthorizationHelper;
+import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 
 import static java.util.Collections.emptyList;
 
