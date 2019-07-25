@@ -10,9 +10,8 @@ repositories {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
     }
 
-    maven {
-        url = 'http://repo.maven.apache.org/maven2'
-    }
+    jcenter()
+    mavenCentral()
 }
 
 dependencyManagement {
@@ -61,4 +60,8 @@ bootJar {
         attributes 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
     }
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
 }
