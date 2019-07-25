@@ -1,4 +1,4 @@
-package uk.gov.hmcts.config;
+package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import java.util.Collections;
 import org.camunda.bpm.webapp.impl.security.auth.ContainerBasedAuthenticationFilter;
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
-        filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider", "uk.gov.hmcts.filter.webapp.SpringSecurityAuthenticationProvider"));
+        filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider", "uk.gov.hmcts.reform.camunda.bpm.filter.webapp.SpringSecurityAuthenticationProvider"));
         filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/app/*");
         return filterRegistration;

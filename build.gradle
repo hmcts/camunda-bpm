@@ -1,0 +1,67 @@
+plugins {
+    id 'application'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
+    }
+
+    jcenter()
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
+    }
+    imports {
+        mavenBom 'org.camunda.bpm:camunda-bom:7.11.1-ee'
+    }
+}
+
+
+dependencies {
+    compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.3.2'
+    compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.security.oauth:spring-security-oauth2:2.3.6.RELEASE'
+    compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:3.3.2'
+    compile 'com.h2database:h2:1.4.199'
+    compile 'org.camunda.spin:camunda-spin-dataformat-all:1.6.7'
+    compile 'org.camunda.bpm:camunda-engine-plugin-spin'
+    compile 'org.springframework.boot:spring-boot-actuator'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
+    testCompile 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:0.2'
+    testCompile 'org.slf4j:jul-to-slf4j:1.7.26'
+}
+
+group = 'uk.gov.hmcts.reform'
+version = '1.0-SNAPSHOT'
+description = 'Camunda BPM Spring Boot Application'
+sourceCompatibility = '1.8'
+
+mainClassName = 'uk.gov.hmcts.reform.camunda.bmp.CamundaApplication'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+bootJar {
+
+    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+
+    manifest {
+        attributes 'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+    }
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}

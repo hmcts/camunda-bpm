@@ -1,4 +1,4 @@
-package uk.gov.hmcts;
+package uk.gov.hmcts.reform.camunda.bpm;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @SpringBootApplication
 @EnableWebSecurity
-@EnableProcessApplication("springboot-security-sso")
+@EnableProcessApplication("example-processs")
 public class CamundaApplication {
 
   @Autowired
@@ -24,7 +24,7 @@ public class CamundaApplication {
   // This is only used for testing purposes
   @Bean
   public CommandLineRunner createDemoProcessInstance(){
-    return (String[] args) -> runtimeService.startProcessInstanceByKey("springboot-security-sso");
+    return (String[] args) -> runtimeService.startProcessInstanceByKey("example-processs");
 
   }
 }
