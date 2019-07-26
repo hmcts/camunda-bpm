@@ -40,4 +40,4 @@ camunda:
 server:
   servlet:
     context-path: /
-  port: 8080
+  port: 8999
