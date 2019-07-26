@@ -2,10 +2,14 @@ plugins {
     id 'application'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.flywaydb.flyway' version '5.2.4'
 }
 
 repositories {
     mavenLocal()
+    maven {
+        url "https://dl.bintray.com/hmcts/hmcts-maven"
+    }
     maven {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
     }
@@ -13,6 +17,10 @@ repositories {
     jcenter()
     mavenCentral()
 }
+
+def versions = [
+        logging: '5.0.1',
+]
 
 dependencyManagement {
     imports {
@@ -23,18 +31,24 @@ dependencyManagement {
     }
 }
 
-
 dependencies {
     compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.3.2'
     compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.security.oauth:spring-security-oauth2:2.3.6.RELEASE'
     compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:3.3.2'
-    compile 'com.h2database:h2:1.4.199'
     compile 'org.camunda.spin:camunda-spin-dataformat-all:1.6.7'
     compile 'org.camunda.bpm:camunda-engine-plugin-spin'
     compile 'org.springframework.boot:spring-boot-actuator'
+    compile 'org.postgresql:postgresql:42.2.6'
+    compile 'org.flywaydb:flyway-core:5.2.4'
+
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: versions.logging
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.logging
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.logging
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:0.2'
@@ -46,10 +60,26 @@ version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
 sourceCompatibility = '1.8'
 
-mainClassName = 'uk.gov.hmcts.reform.camunda.bmp.CamundaApplication'
+mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+
+flyway {
+    url = System.getenv('FLYWAY_URL')
+    user = System.getenv('FLYWAY_USER')
+    password = System.getenv('FLYWAY_PASSWORD')
+    baselineOnMigrate = true
+    baselineVersion = '000'
+}
+
+task migratePostgresDatabase(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+    baselineOnMigrate = true
+    if (project.hasProperty("dburl")) {
+        url = "jdbc:postgresql://${dburl}"
+    }
 }
 
 bootJar {

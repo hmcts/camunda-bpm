@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  camunda-bpm:
+    build:
+      context: .
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    environment:
+      - CAMUNDA_DB_PASSWORD=camunda
+      - CAMUNDA_DB_HOST=host.docker.internal
+      - CAMUNDA_DB_PORT=5434
+      - CLIENT_ID
+      - CLIENT_SECRET
+      - ISSUER_URI
+      - ENABLE_SCHEMA_UPDATE=true
+    ports:
+      - 8999:8999
+    depends_on:
+      - camunda-bpm-database
+  camunda-bpm-database:
+    build:
+      context: docker/database
+    ports:
+      - 5898:5432
+    volumes:
+      - camunda-bpm:/var/lib/postgresql/data
+
+volumes:
+  camunda-bpm:
