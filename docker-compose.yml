@@ -17,7 +17,7 @@ services:
       - ISSUER_URI
       - ENABLE_SCHEMA_UPDATE=true
     ports:
-      - 8999:8080
+      - 8999:8999
     depends_on:
       - camunda-bpm-database
   camunda-bpm-database:
