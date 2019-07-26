@@ -11,11 +11,12 @@ services:
     environment:
       - CAMUNDA_DB_PASSWORD=camunda
       - CAMUNDA_DB_HOST=host.docker.internal
-      - CAMUNDA_DB_PORT=5434
+      - CAMUNDA_DB_PORT=5898
       - CLIENT_ID
       - CLIENT_SECRET
       - ISSUER_URI
       - ENABLE_SCHEMA_UPDATE=true
+      - SPRING_FLYWAY_ENABLED=false
     ports:
       - 8999:8999
     depends_on:
