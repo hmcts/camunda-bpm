@@ -24,7 +24,7 @@ services:
     build:
       context: docker/database
     ports:
-      - 5434:5432
+      - 5898:5432
     volumes:
       - camunda-bpm:/var/lib/postgresql/data
 
