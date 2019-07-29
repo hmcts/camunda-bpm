@@ -35,9 +35,33 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
     database:
-      schema-update: ${ENABLE_SCHEMA_UPDATE:false}
+#    We manage database versioning through flyway. Using this can cause the schema to go out of sync.
+      schema-update: false
 
 server:
   servlet:
     context-path: /
   port: 8999
+camundaAccess:
+  admin:
+    deploymentAccess: false
+    taskAccess: true
+    processDefinition: true
+    processInstance: true
+    batchAccess: true
+    decisionDefinitionAccess: true
+    optimiseAccess: true
+camundaGroups:
+  cmcadmin:
+    adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
+    tenantId: cmc
+    groupId: cmc-admin
+    accessControl: admin
+  probateadmin:
+    adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
+    tenantId: probate
+    groupId: probate-admin
+    accessControl: admin
+camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
+
+

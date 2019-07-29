@@ -1,8 +1,10 @@
 plugins {
     id 'application'
+    id 'checkstyle'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.flywaydb.flyway' version '5.2.4'
+    id 'org.owasp.dependencycheck' version '5.2.0'
 }
 
 repositories {
@@ -28,6 +30,25 @@ dependencyManagement {
     }
     imports {
         mavenBom 'org.camunda.bpm:camunda-bom:7.11.1-ee'
+    }
+}
+
+checkstyle {
+    maxWarnings = 0
+    toolVersion = '8.21'
+    // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
+    configDir = new File(rootDir, 'config/checkstyle')
+}
+
+// https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
+dependencyCheck {
+    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
+    // range of 0-10 fails the build, anything greater and it doesn't fail the build
+    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
+    suppressionFile = 'config/owasp/suppressions.xml'
+    analyzers {
+        // Disable scanning of .NET related binaries
+        assemblyEnabled = false
     }
 }
 
@@ -89,6 +110,19 @@ bootJar {
     manifest {
         attributes 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
+                details.useVersion '2.9.9'
+            }
+            if (details.requested.name == 'jackson-databind') {
+                details.useVersion '2.9.9.1'
+            }
+        }
     }
 }
 

@@ -15,7 +15,7 @@ public class AuthorizationHelper {
 
     public void deploymentAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.DEPLOYMENT)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -29,7 +29,7 @@ public class AuthorizationHelper {
 
     public void taskAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.TASK)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -43,7 +43,7 @@ public class AuthorizationHelper {
 
     public void processDefinition(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.PROCESS_DEFINITION)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -57,7 +57,7 @@ public class AuthorizationHelper {
 
     public void processInstance(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.PROCESS_INSTANCE)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -71,7 +71,7 @@ public class AuthorizationHelper {
 
     public void batchAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.BATCH)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -85,7 +85,7 @@ public class AuthorizationHelper {
 
     public void decisionDefinitionAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.DECISION_DEFINITION)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -99,7 +99,7 @@ public class AuthorizationHelper {
 
     public void optimiseAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.OPTIMIZE)
-                .groupIdIn(groupId).count() > 0;
+            .groupIdIn(groupId).count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.addPermission(Permissions.ALL);
@@ -113,7 +113,7 @@ public class AuthorizationHelper {
 
     public void cockpitAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.APPLICATION)
-                .groupIdIn(groupId).resourceId("cockpit").count() > 0;
+            .groupIdIn(groupId).resourceId("cockpit").count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.setGroupId(groupId);
@@ -127,7 +127,7 @@ public class AuthorizationHelper {
 
     public void tasklistAccess(String groupId) {
         boolean authExists = authorizationService.createAuthorizationQuery().resourceType(Resources.APPLICATION)
-                .groupIdIn(groupId).resourceId("tasklist").count() > 0;
+            .groupIdIn(groupId).resourceId("tasklist").count() > 0;
         if (!authExists) {
             Authorization authorization = authorizationService.createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
             authorization.setGroupId(groupId);
