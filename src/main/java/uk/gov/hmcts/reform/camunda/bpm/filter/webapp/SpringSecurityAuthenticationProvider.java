@@ -78,16 +78,6 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
     Authorization authorization = authorizationService
         .createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
 
-//        boolean cmcAdminAuthExists = authorizationService.createAuthorizationQuery().resourceType(Resources.APPLICATION)
-//                .groupIdIn(CMC_ADMIN_CAMUNDA_GROUP).resourceId("*").count() > 0;
-//        if (!cmcAdminAuthExists) {
-//            authorization.setGroupId(CMC_ADMIN_CAMUNDA_GROUP);
-//            authorization.addPermission(Permissions.ACCESS);
-//            authorization.setResource(Resources.APPLICATION);
-//            authorization.setResourceId("*");
-//            authorizationService.saveAuthorization(authorization);
-//        }
-
     refreshAuthorisation(authorizationHelper);
 
     authorizationHelper.cockpitAccess(DEFAULT_GROUP);
@@ -183,9 +173,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
               identityService
                   .createTenantGroupMembership(groupConfig.getTenantId(), groupConfig.getGroupId());
             }
-            //  if (identityService.createUserQuery().memberOfGroup(groupConfig.getGroupId()).count() == 0) {
             identityService.createMembership(id, groupConfig.getGroupId());
-            // }
             camundaGroups.add(groupConfig.getGroupId());
           }
         }

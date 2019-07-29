@@ -3,15 +3,10 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 public class GroupConfig {
 
   private String adGroupId;
-
   private String tenantName;
-
   private String tenantId;
-
   private String groupId;
-
   private String groupName;
-
   private AccessControl accessControl;
 
   public String getAdGroupId() {
