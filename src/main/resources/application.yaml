@@ -35,7 +35,7 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
     database:
-#    We manage database versioning through flyway. Using this can cause schema out of sync.
+#    We manage database versioning through flyway. Using this can cause the schema to go out of sync.
       schema-update: false
 
 server:
