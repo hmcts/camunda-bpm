@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'checkstyle'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.flywaydb.flyway' version '5.2.4'
@@ -29,6 +30,13 @@ dependencyManagement {
     imports {
         mavenBom 'org.camunda.bpm:camunda-bom:7.11.1-ee'
     }
+}
+
+checkstyle {
+    maxWarnings = 0
+    toolVersion = '8.18'
+    // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
+    configDir = new File(rootDir, 'config/checkstyle')
 }
 
 dependencies {

@@ -14,17 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableProcessApplication("example-processs")
 public class CamundaApplication {
 
-  @Autowired
-  RuntimeService runtimeService;
+    @Autowired
+    RuntimeService runtimeService;
 
-  public static void main(String... args) {
-    SpringApplication.run(CamundaApplication.class, args);
-  }
+    public static void main(String... args) {
+        SpringApplication.run(CamundaApplication.class, args);
+    }
 
-  // This is only used for testing purposes
-  @Bean
-  public CommandLineRunner createDemoProcessInstance(){
-    return (String[] args) -> runtimeService.startProcessInstanceByKey("example-processs");
+    // This is only used for testing purposes
+    @Bean
+    public CommandLineRunner createDemoProcessInstance() {
+        return (String[] args) -> runtimeService.startProcessInstanceByKey("example-processs");
 
-  }
+    }
 }
