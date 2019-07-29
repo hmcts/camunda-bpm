@@ -3,11 +3,9 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 public class GroupConfig {
 
     private String adGroupId;
-    private String tenantName;
     private String tenantId;
     private String groupId;
-    private String groupName;
-    private AccessControl accessControl;
+    private String accessControl;
 
     public String getAdGroupId() {
         return adGroupId;
@@ -15,14 +13,6 @@ public class GroupConfig {
 
     public void setAdGroupId(String adGroupId) {
         this.adGroupId = adGroupId;
-    }
-
-    public String getTenantName() {
-        return tenantName;
-    }
-
-    public void setTenantName(String tenantName) {
-        this.tenantName = tenantName;
     }
 
     public String getTenantId() {
@@ -33,14 +23,6 @@ public class GroupConfig {
         this.tenantId = tenantId;
     }
 
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
     public String getGroupId() {
         return groupId;
     }
@@ -49,12 +31,11 @@ public class GroupConfig {
         this.groupId = groupId;
     }
 
-
-    public AccessControl getAccessControl() {
+    public String getAccessControl() {
         return accessControl;
     }
 
-    public void setAccessControl(AccessControl accessControl) {
+    public void setAccessControl(String accessControl) {
         this.accessControl = accessControl;
     }
 

@@ -90,8 +90,8 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
 
     private void refreshAuthorisation(AuthorizationHelper authorizationHelper) {
         configProperties.getCamundaGroups().forEach((key, groupConfig) -> {
-                if (groupConfig.getAccessControl() != null) {
-                    AccessControl accessControl = groupConfig.getAccessControl();
+                AccessControl accessControl = configProperties.getAccessControl().get(groupConfig.getAccessControl());
+                if (accessControl != null) {
                     if (accessControl.isDeploymentAccess()) {
                         authorizationHelper.deploymentAccess(groupConfig.getGroupId());
                     }
@@ -137,7 +137,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
                     camundaTenants.add(groupConfig.getTenantId());
                     if (identityService.createTenantQuery().tenantId(groupConfig.getTenantId()).count() == 0) {
                         Tenant tenant = identityService.newTenant(groupConfig.getTenantId());
-                        tenant.setName(groupConfig.getTenantName());
+                        tenant.setName(groupConfig.getTenantId());
                         identityService.saveTenant(tenant);
                     }
 
@@ -164,7 +164,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
                 if (adGroups.contains(groupConfig.getAdGroupId())) {
                     if (identityService.createGroupQuery().groupId(groupConfig.getGroupId()).count() == 0) {
                         Group group = identityService.newGroup(groupConfig.getGroupId());
-                        group.setName(groupConfig.getGroupName());
+                        group.setName(groupConfig.getGroupId());
                         identityService.saveGroup(group);
                     }
 
