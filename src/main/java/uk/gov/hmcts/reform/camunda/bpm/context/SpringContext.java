@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * SpringContext allows static access to Spring ApplicationContext. This is used to inject
- * Spring components in  non-spring managed classes.
+ * Spring components in non-spring managed classes.
  */
 @Component
 public class SpringContext implements ApplicationContextAware {
