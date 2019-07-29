@@ -3,8 +3,10 @@ logging:
     root: INFO
 
 spring:
+  flyway:
+   enabled: false
   datasource:
-    url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
+    url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5898}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
     username: ${CAMUNDA_DB_USER_NAME:camunda}
     password: ${CAMUNDA_DB_PASSWORD:camunda}
   security:
@@ -41,3 +43,35 @@ server:
   servlet:
     context-path: /
   port: 8999
+camundaGroups:
+  cmcadmin:
+    adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
+    tenantName: cmc
+    tenantId: Civil Money Claims
+    groupId: cmc-admin
+    groupName: CMC Admin
+    accessControl:
+      deploymentAccess: false
+      taskAccess: true
+      processDefinition: true
+      processInstance: true
+      batchAccess: true
+      decisionDefinitionAccess: true
+      optimiseAccess: true
+  probateadmin:
+    adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
+    tenantName: Probate
+    tenantId: probate
+    groupId: probate-admin
+    groupName: Probate Admin
+    accessControl:
+      deploymentAccess: false
+      taskAccess: true
+      processDefinition: true
+      processInstance: true
+      batchAccess: true
+      decisionDefinitionAccess: true
+      optimiseAccess: true
+camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
+
+
