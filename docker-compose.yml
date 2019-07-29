@@ -15,8 +15,6 @@ services:
       - CLIENT_ID
       - CLIENT_SECRET
       - ISSUER_URI
-      - ENABLE_SCHEMA_UPDATE=true
-      - SPRING_FLYWAY_ENABLED=false
     ports:
       - 8999:8999
     depends_on:

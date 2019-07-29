@@ -3,8 +3,6 @@ logging:
     root: INFO
 
 spring:
-  flyway:
-   enabled: false
   datasource:
     url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
     username: ${CAMUNDA_DB_USER_NAME:camunda}
@@ -37,7 +35,8 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
     database:
-      schema-update: ${ENABLE_SCHEMA_UPDATE:false}
+#    We manage database versioning through flyway. Using this can cause schema out of sync.
+      schema-update: false
 
 server:
   servlet:
