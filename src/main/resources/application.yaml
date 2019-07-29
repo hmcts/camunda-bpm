@@ -55,15 +55,13 @@ camundaAccess:
 camundaGroups:
   cmcadmin:
     adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
-    tenantName: cmc
+    tenantId: cmc
     groupId: cmc-admin
     accessControl: admin
   probateadmin:
     adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
-    tenantName: Probate
     tenantId: probate
     groupId: probate-admin
-    groupName: Probate Admin
     accessControl: admin
 camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
 
