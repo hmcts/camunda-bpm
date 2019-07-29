@@ -39,8 +39,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
 
     @Override
     @SuppressWarnings("unchecked")
-    public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request,
-                                                         ProcessEngine engine) {
+    public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request, ProcessEngine engine) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
