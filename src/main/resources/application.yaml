@@ -1,7 +1,17 @@
 logging:
   level:
     root: INFO
-
+security:
+  anonymous: false
+management:
+  endpoint:
+    health:
+      show-details: "always"
+  security:
+    enabled: false
+  endpoints:
+    web:
+      base-path: /
 spring:
   datasource:
     url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}

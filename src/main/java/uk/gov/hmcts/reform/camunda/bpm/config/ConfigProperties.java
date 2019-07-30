@@ -11,7 +11,7 @@ public class ConfigProperties {
 
     private Map<String, GroupConfig> camundaGroups;
 
-    private Map<String, AccessControl> accessControl;
+    private Map<String, AccessControl> camundaAccess;
 
     private String camundaAdminGroupId;
 
@@ -31,11 +31,11 @@ public class ConfigProperties {
         this.camundaAdminGroupId = camundaAdminGroupId;
     }
 
-    public Map<String, AccessControl> getAccessControl() {
-        return accessControl;
+    public Map<String, AccessControl> getCamundaAccess() {
+        return camundaAccess;
     }
 
-    public void setAccessControl(Map<String, AccessControl> accessControl) {
-        this.accessControl = accessControl;
+    public void setCamundaAccess(Map<String, AccessControl> camundaAccess) {
+        this.camundaAccess = camundaAccess;
     }
 }

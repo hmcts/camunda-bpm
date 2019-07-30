@@ -89,7 +89,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
 
     private void refreshAuthorisation(AuthorizationHelper authorizationHelper) {
         configProperties.getCamundaGroups().forEach((key, groupConfig) -> {
-                AccessControl accessControl = configProperties.getAccessControl().get(groupConfig.getAccessControl());
+                AccessControl accessControl = configProperties.getCamundaAccess().get(groupConfig.getAccessControl());
                 if (accessControl != null) {
                     if (accessControl.isDeploymentAccess()) {
                         authorizationHelper.deploymentAccess(groupConfig.getGroupId());
