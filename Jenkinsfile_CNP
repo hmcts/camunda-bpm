@@ -24,7 +24,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline(type, product, app) {
-
+ before('build') {
+    withTeamSecrets(config, 'prod') {
+    }
+  }
   enableDbMigration()
   enableDockerBuild()
   installCharts()
