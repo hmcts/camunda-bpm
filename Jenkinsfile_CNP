@@ -23,10 +23,20 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
 withPipeline(type, product, app) {
  after('checkout') {
     withTeamSecrets(config, 'prod') {
         echo 'Adding secrets'
+        sh 'printenv'
     }
     sh 'printenv'
 
