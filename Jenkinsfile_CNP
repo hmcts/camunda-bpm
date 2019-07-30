@@ -28,6 +28,8 @@ withPipeline(type, product, app) {
     withTeamSecrets(config, 'prod') {
         echo 'Adding secrets'
     }
+    sh 'printenv'
+
   }
   enableDbMigration()
   enableDockerBuild()
