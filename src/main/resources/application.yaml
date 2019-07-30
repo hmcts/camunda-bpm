@@ -51,7 +51,7 @@ camunda:
 server:
   servlet:
     context-path: /
-  port: 8989
+  port: 8999
 camundaAccess:
   admin:
     deploymentAccess: false
