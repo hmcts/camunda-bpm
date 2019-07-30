@@ -28,6 +28,7 @@ withPipeline(type, product, app) {
     withTeamSecrets(config, 'prod') {
         echo 'Adding secrets'
         sh 'printenv'
+        env.TEST_VAR= env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
     }
     sh 'printenv'
 
