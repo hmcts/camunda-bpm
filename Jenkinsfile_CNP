@@ -25,10 +25,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline(type, product, app) {
  before('build') {
-   withSubscription('prod') {
     withTeamSecrets(config, 'prod') {
         echo 'Adding secrets'
-    }
     }
   }
   enableDbMigration()
