@@ -25,9 +25,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline(type, product, app) {
  before('build') {
-   withSubscription(subscription) {
+   withSubscription('prod') {
     withTeamSecrets(config, 'prod') {
-        echo 'About to build infra in AAT'
+        echo 'Adding secrets'
     }
     }
   }
