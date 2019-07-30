@@ -14,6 +14,10 @@ repositories {
     }
     maven {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
+        credentials {
+            username "$CAMUNDA_NEXUS_USER"
+            password "$CAMUNDA_NEXUS_PASSWORD"
+        }
     }
 
     jcenter()
@@ -62,13 +66,15 @@ dependencies {
     compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:3.3.2'
     compile 'org.camunda.spin:camunda-spin-dataformat-all:1.6.7'
     compile 'org.camunda.bpm:camunda-engine-plugin-spin'
-    compile 'org.springframework.boot:spring-boot-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.postgresql:postgresql:42.2.6'
     compile 'org.flywaydb:flyway-core:5.2.4'
 
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: versions.logging
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.logging
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.logging
+
+    compile "uk.gov.hmcts.reform:health-spring-boot-starter:0.0.4"
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
