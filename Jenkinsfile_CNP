@@ -26,12 +26,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, app) {
  after('checkout') {
     withTeamSecrets(config, 'prod') {
-        echo 'Adding secrets'
-        sh 'printenv'
         env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER= env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
         env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD= env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
     }
-    sh 'printenv'
 
   }
   enableDbMigration()
