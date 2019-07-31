@@ -2,7 +2,7 @@ logging:
   level:
     root: INFO
 security:
-  anonymous: false
+  anonymous: ${SECURITY_ANONYMOUS:false}
 management:
   endpoint:
     health:
