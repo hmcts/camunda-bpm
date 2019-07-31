@@ -7,15 +7,12 @@ def product = "camunda"
 def app = "bpm"
 
 def secrets = [
-  'rpe-prod':
-    [
-      secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
-      secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+        secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
+        secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
     ]
-]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
-  [ $class: 'AzureKeyVaultSecret',
+  [
     secretType: 'Secret',
     name: secretName,
     version: '',
@@ -23,17 +20,16 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
-withPipeline(type, product, app) {
- after('checkout') {
-    withTeamSecrets(config, 'prod') {
-        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER= env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
-        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD= env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
+withAzureKeyvault( azureKeyVaultSecrets: secrets,
+                   keyVaultURLOverride: 'https://rpe-prod.vault.azure.net') {
+    withPipeline(type, product, app) {
+     after('checkout') {
+            sh 'printenv'
+      }
+      enableDbMigration()
+      enableDockerBuild()
+      installCharts()
+      loadVaultSecrets(secrets)
+
     }
-
-  }
-  enableDbMigration()
-  enableDockerBuild()
-  installCharts()
-  loadVaultSecrets(secrets)
-
 }
