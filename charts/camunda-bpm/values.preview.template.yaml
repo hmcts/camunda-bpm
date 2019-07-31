@@ -9,5 +9,6 @@ java:
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
     SPRING_PROFILES_ACTIVE: default
+    SPRING_FLYWAY_ENABLED: false
 postgresql:
   enabled: true
