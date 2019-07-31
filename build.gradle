@@ -72,6 +72,7 @@ sonarqube {
         property "sonar.projectName", "Reform :: camunda-bpm"
         property "sonar.projectKey", "uk.gov.hmcts.reform:camunda-bpm"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.coverage.exclusions", "**/config/**"
     }
 }
 dependencies {
