@@ -8,5 +8,6 @@ java:
     CAMUNDA_DB_USER_NAME: "{{ .Values.postgresql.postgresqlUsername}}"
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     SECURITY_ANONYMOUS: true
+    CAMUNDA_BPM_DATABASE_SCHEMA-UPDATE: true
 postgresql:
   enabled: true
