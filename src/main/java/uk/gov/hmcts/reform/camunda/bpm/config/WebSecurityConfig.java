@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        if(allowAnonymous) {
+        if (allowAnonymous) {
             http.csrf().disable()
                 .authorizeRequests().anyRequest().anonymous().and().httpBasic().disable();
         } else {
@@ -53,10 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "security", name = "anonymous", havingValue="false", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "security", name = "anonymous", havingValue = "false", matchIfMissing = true)
     public FilterRegistrationBean containerBasedAuthenticationFilter() {
 
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+        //noinspection unchecked
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.webapp.SpringSecurityAuthenticationProvider"));

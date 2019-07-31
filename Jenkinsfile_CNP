@@ -1,0 +1,37 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "camunda"
+def app = "bpm"
+
+def secrets = [
+        secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
+        secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+    ]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
+
+withPipeline(type, product, app) {
+ after('checkout') {
+    withAzureKeyvault( azureKeyVaultSecrets: secrets,
+                       keyVaultURLOverride: 'https://rpe-prod.vault.azure.net') {
+        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
+        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
+     }
+  }
+  enableDbMigration()
+  enableDockerBuild()
+  installCharts()
+  loadVaultSecrets(secrets)
+
+}
