@@ -2,7 +2,7 @@ logging:
   level:
     root: INFO
 security:
-  anonymous: ${SECURITY_ANONYMOUS:false}
+  anonymous: false
 management:
   endpoint:
     health:
@@ -23,14 +23,14 @@ spring:
         registration:
           azure:
             provider: azure
-            client-id: ${CLIENT_ID}
-            client-secret: ${CLIENT_SECRET}
+            client-id: ${CLIENT_ID:invalidclientId}
+            client-secret: ${CLIENT_SECRETinvalidSecret}
             authorization-grant-type: authorization_code
             scope:
               - openid
         provider:
           azure:
-            issuer-uri: ${ISSUER_URI}
+            issuer-uri: ${ISSUER_URI:invalidUrl}
 camunda:
   bpm:
     authorization:
