@@ -32,6 +32,4 @@ withPipeline(type, product, app) {
   enableDbMigration()
   enableDockerBuild()
   installCharts()
-  loadVaultSecrets(secrets)
-
 }
