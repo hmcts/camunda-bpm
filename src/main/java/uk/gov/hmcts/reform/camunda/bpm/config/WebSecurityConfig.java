@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public FilterRegistrationBean containerBasedAuthenticationFilter() {
 
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+        //noinspection unchecked
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.webapp.SpringSecurityAuthenticationProvider"));
