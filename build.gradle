@@ -67,6 +67,15 @@ sourceSets {
         }
         resources.srcDir file('src/smokeTest/resources')
     }
+    functionalTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/functionalTest/java')
+        }
+        resources.srcDir file('src/functionalTest/resources')
+    }
+
 }
 
 task smoke(type: Test) {
@@ -75,7 +84,10 @@ task smoke(type: Test) {
     classpath = sourceSets.smokeTest.runtimeClasspath
 }
 
-
+task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+}
 
 jacocoTestReport {
     executionData(test)
