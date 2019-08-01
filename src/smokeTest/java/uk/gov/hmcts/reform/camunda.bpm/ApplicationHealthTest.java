@@ -1,5 +1,7 @@
 package uk.gov.hmcts.reform.camunda.bpm;
 
+import io.restassured.RestAssured;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +19,10 @@ public class ApplicationHealthTest {
     @Value("${test-url}")
     private String testUrl;
 
+    @Before
+    public void before() {
+        RestAssured.useRelaxedHTTPSValidation();
+    }
 
     @Test
     public void should_return_UP_for_liveness_check() {
