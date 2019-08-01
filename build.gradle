@@ -58,6 +58,25 @@ dependencyCheck {
     }
 }
 
+sourceSets {
+    smokeTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+        resources.srcDir file('src/smokeTest/resources')
+    }
+}
+
+task smoke(type: Test) {
+    description = "Runs Smoke Tests"
+    testClassesDirs = sourceSets.smokeTest.output.classesDirs
+    classpath = sourceSets.smokeTest.runtimeClasspath
+}
+
+
+
 jacocoTestReport {
     executionData(test)
     reports {
@@ -99,6 +118,11 @@ dependencies {
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:0.2'
     testCompile 'org.slf4j:jul-to-slf4j:1.7.26'
+
+    smokeTestCompile sourceSets.main.runtimeClasspath
+    smokeTestCompile sourceSets.test.runtimeClasspath
+    smokeTestCompile group: 'io.rest-assured', name: 'rest-assured'
+
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -111,6 +135,8 @@ mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+
 
 
 flyway {
