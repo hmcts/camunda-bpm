@@ -11,12 +11,14 @@ management:
     web:
       base-path: /
 spring:
+  flyway:
+    enabled: false
   security:
     enabled: false
   profiles:
     active: springauth
   datasource:
-    url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
+    url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5898}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
     username: ${CAMUNDA_DB_USER_NAME:camunda}
     password: ${CAMUNDA_DB_PASSWORD:camunda}
 camunda:
@@ -39,7 +41,7 @@ camunda:
 server:
   servlet:
     context-path: /
-  port: 8999
+  port: 8998
 camundaAccess:
   admin:
     deploymentAccess: false
@@ -53,12 +55,12 @@ camundaGroups:
   cmcadmin:
     adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
     tenantId: cmc
-    groupId: cmc-admin
+    groupId: cmcadmin
     accessControl: admin
   probateadmin:
     adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
     tenantId: probate
-    groupId: probate-admin
+    groupId: probateadmin
     accessControl: admin
 camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
 
