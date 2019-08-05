@@ -51,20 +51,6 @@ camundaAccess:
     batchAccess: true
     decisionDefinitionAccess: true
     optimiseAccess: true
-camundaGroups:
-  cmcadmin:
-    adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
-    tenantId: cmc
-    groupId: cmcadmin
-    accessControl: admin
-  probateadmin:
-    adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
-    tenantId: probate
-    groupId: probateadmin
-    accessControl: admin
-camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
-
-
 ---
 spring:
   profiles: springauth

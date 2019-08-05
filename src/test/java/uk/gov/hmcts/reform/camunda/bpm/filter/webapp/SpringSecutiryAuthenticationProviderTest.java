@@ -20,12 +20,12 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap;
 import uk.gov.hmcts.reform.camunda.bpm.CamundaApplication;
-import uk.gov.hmcts.reform.camunda.bpm.filter.webapp.SpringSecurityAuthenticationProvider;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +40,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = CamundaApplication.class)
+@TestPropertySource(locations = "classpath:application.yaml")
 public class SpringSecutiryAuthenticationProviderTest {
 
     @ClassRule
@@ -129,7 +130,7 @@ public class SpringSecutiryAuthenticationProviderTest {
         getAuthenticationContext(Arrays.asList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"cmcadminuser");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
-        String[] cmcAdminGroups = {"default", "cmcadmin"};
+        String[] cmcAdminGroups = {"default", "cmc-admin"};
 
         assertThat(result.isAuthenticated()).isEqualTo(true);
         assertThat(result.getGroups()).contains(cmcAdminGroups);
@@ -162,7 +163,7 @@ public class SpringSecutiryAuthenticationProviderTest {
         getAuthenticationContext(Arrays.asList("c43232cc-8f6d-4910-8bd1-47947f7c9a44"),"probatetestuser");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
-        String[] probateTestGroups = {"default", "probatetest"};
+        String[] probateTestGroups = {"default", "probate-test"};
 
         assertThat(result.isAuthenticated()).isEqualTo(true);
         assertThat(result.getGroups()).contains(probateTestGroups);
