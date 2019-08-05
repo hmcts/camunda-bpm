@@ -51,8 +51,10 @@
     <cve>CVE-2016-6497</cve>
   </suppress>
   <suppress>
-    <notes><![CDATA[Used only in testing and seems false positive]]></notes>
-    <gav regex="true">^org\.testcontainers:postgresql:.*$</gav>
+    <notes><![CDATA[
+   test container postgresql file name: postgresql-1.11.4.jar
+   ]]></notes>
+    <filePath regex="true">.*postgresql-1.11.4.jar</filePath>
     <cpe>cpe:/a:postgresql:postgresql</cpe>
   </suppress>
 </suppressions>
