@@ -12,7 +12,6 @@ import org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticati
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
-import org.springframework.util.Assert;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.AccessControl;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
@@ -21,7 +20,6 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
