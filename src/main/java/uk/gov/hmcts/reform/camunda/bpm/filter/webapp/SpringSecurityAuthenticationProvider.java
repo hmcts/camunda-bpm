@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.util.Assert;
+import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.AccessControl;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
@@ -20,10 +21,13 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
+
 
 @SuppressWarnings("unused")
 public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenticationProvider {
@@ -122,14 +126,10 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
     private void updateUser(String id, Map<String, Object> attributes,
                             IdentityService identityService) {
 
-        Assert.notNull(attributes.get(GIVEN_NAME), "Given name cannot be null");
-        Assert.notNull(attributes.get(FAMILY_NAME), "Family name cannot be null");
-        Assert.notNull(attributes.get(UNIQUE_NAME), "Unique name cannot be null");
-
         User user = identityService.newUser(id);
-        user.setFirstName(attributes.get(GIVEN_NAME).toString());
-        user.setLastName(attributes.get(FAMILY_NAME).toString());
-        user.setEmail(attributes.get(UNIQUE_NAME).toString());
+        user.setFirstName(requireNonNull(attributes.get(GIVEN_NAME)).toString());
+        user.setLastName(requireNonNull(attributes.get(FAMILY_NAME)).toString());
+        user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
 
         identityService.deleteUser(id);
         identityService.saveUser(user);
