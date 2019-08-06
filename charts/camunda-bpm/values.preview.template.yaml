@@ -7,6 +7,8 @@ java:
     CAMUNDA_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
     CAMUNDA_DB_USER_NAME: "{{ .Values.postgresql.postgresqlUsername}}"
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
-    SECURITY_ANONYMOUS: true
+    CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
+    SPRING_PROFILES_ACTIVE: default
+    SPRING_FLYWAY_ENABLED: false
 postgresql:
   enabled: true

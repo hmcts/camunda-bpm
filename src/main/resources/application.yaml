@@ -1,8 +1,6 @@
 logging:
   level:
     root: INFO
-security:
-  anonymous: false
 management:
   endpoint:
     health:
@@ -13,24 +11,16 @@ management:
     web:
       base-path: /
 spring:
+  flyway:
+    enabled: false
+  security:
+    enabled: false
+  profiles:
+    active: springauth
   datasource:
     url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
     username: ${CAMUNDA_DB_USER_NAME:camunda}
     password: ${CAMUNDA_DB_PASSWORD:camunda}
-  security:
-    oauth2:
-      client:
-        registration:
-          azure:
-            provider: azure
-            client-id: ${CLIENT_ID}
-            client-secret: ${CLIENT_SECRET}
-            authorization-grant-type: authorization_code
-            scope:
-              - openid
-        provider:
-          azure:
-            issuer-uri: ${ISSUER_URI}
 camunda:
   bpm:
     authorization:
@@ -61,17 +51,21 @@ camundaAccess:
     batchAccess: true
     decisionDefinitionAccess: true
     optimiseAccess: true
-camundaGroups:
-  cmcadmin:
-    adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
-    tenantId: cmc
-    groupId: cmc-admin
-    accessControl: admin
-  probateadmin:
-    adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
-    tenantId: probate
-    groupId: probate-admin
-    accessControl: admin
-camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
-
-
+---
+spring:
+  profiles: springauth
+  security:
+    enabled: true
+    oauth2:
+      client:
+        registration:
+          azure:
+            provider: azure
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+        provider:
+          azure:
+            issuer-uri: ${ISSUER_URI}

@@ -58,6 +58,37 @@ dependencyCheck {
     }
 }
 
+sourceSets {
+    smokeTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+        resources.srcDir file('src/smokeTest/resources')
+    }
+    functionalTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/functionalTest/java')
+        }
+        resources.srcDir file('src/functionalTest/resources')
+    }
+
+}
+
+task smoke(type: Test) {
+    description = "Runs Smoke Tests"
+    testClassesDirs = sourceSets.smokeTest.output.classesDirs
+    classpath = sourceSets.smokeTest.runtimeClasspath
+}
+
+task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+}
+
 jacocoTestReport {
     executionData(test)
     reports {
@@ -72,6 +103,7 @@ sonarqube {
         property "sonar.projectName", "Reform :: camunda-bpm"
         property "sonar.projectKey", "uk.gov.hmcts.reform:camunda-bpm"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.coverage.exclusions", "**/config/**"
     }
 }
 dependencies {
@@ -98,6 +130,12 @@ dependencies {
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testCompile 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:0.2'
     testCompile 'org.slf4j:jul-to-slf4j:1.7.26'
+    testCompile 'org.testcontainers:postgresql:1.11.4'
+
+    smokeTestCompile sourceSets.main.runtimeClasspath
+    smokeTestCompile sourceSets.test.runtimeClasspath
+    smokeTestCompile group: 'io.rest-assured', name: 'rest-assured'
+
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -110,6 +148,8 @@ mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+
 
 
 flyway {

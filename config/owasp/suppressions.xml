@@ -31,4 +31,30 @@
     <cve>CVE-2019-12384</cve>
     <cve>CVE-2019-12814</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+            Used only in tests.
+            File name: groovy-xml-2.4.12.jar
+        ]]>
+    </notes>
+    <gav regex="true">^org\.codehaus\.groovy:groovy-xml:.*$</gav>
+    <cve>CVE-2016-6497</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+            Used only in tests.
+            File name: groovy-json-2.4.12.jar
+        ]]>
+    </notes>
+    <gav regex="true">^org\.codehaus\.groovy:groovy-json:.*$</gav>
+    <cve>CVE-2016-6497</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   test container postgresql file name: postgresql-1.11.4.jar
+   ]]></notes>
+    <filePath regex="true">.*postgresql-1.11.4.jar</filePath>
+    <cpe>cpe:/a:postgresql:postgresql</cpe>
+  </suppress>
 </suppressions>

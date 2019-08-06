@@ -1,0 +1,45 @@
+spring:
+  flyway:
+    enabled: false
+  security:
+    enabled: true
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:11.4://localhost/camunda
+camunda:
+  bpm:
+    database.schema-update: true
+    authorization:
+      enabled: true
+    generic-properties:
+      properties:
+        generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
+camundaGroups:
+  cmcadmin:
+    adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
+    tenantId: cmc
+    groupId: cmc-admin
+    accessControl: admin
+  probatetest:
+    adGroupId: c43232cc-8f6d-4910-8bd1-47947f7c9a44
+    tenantId: probate
+    groupId: probate-test
+    accessControl: testaccess
+camundaAdminGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
+camundaAccess:
+  admin:
+    deploymentAccess: false
+    taskAccess: true
+    processDefinition: true
+    processInstance: true
+    batchAccess: true
+    decisionDefinitionAccess: true
+    optimiseAccess: true
+  testaccess:
+    deploymentAccess: false
+    taskAccess: true
+    processDefinition: true
+    processInstance: false
+    batchAccess: false
+    decisionDefinitionAccess: true
+    optimiseAccess: false

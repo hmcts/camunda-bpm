@@ -11,7 +11,7 @@ import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.AccessControl;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
@@ -20,9 +20,12 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
+
 
 @SuppressWarnings("unused")
 public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenticationProvider {
@@ -54,7 +57,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
             return AuthenticationResult.unsuccessful();
         }
 
-        List<OidcUserAuthority> authorities = (List<OidcUserAuthority>) authentication.getAuthorities();
+        List<OAuth2UserAuthority> authorities = (List<OAuth2UserAuthority>) authentication.getAuthorities();
 
         Map<String, Object> attributes = authorities.get(0).getAttributes();
 
@@ -62,6 +65,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
             id,
             true
         );
+
 
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);
@@ -119,10 +123,11 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
 
     private void updateUser(String id, Map<String, Object> attributes,
                             IdentityService identityService) {
+
         User user = identityService.newUser(id);
-        user.setFirstName(attributes.get(GIVEN_NAME).toString());
-        user.setLastName(attributes.get(FAMILY_NAME).toString());
-        user.setEmail(attributes.get(UNIQUE_NAME).toString());
+        user.setFirstName(requireNonNull(attributes.get(GIVEN_NAME)).toString());
+        user.setLastName(requireNonNull(attributes.get(FAMILY_NAME)).toString());
+        user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
 
         identityService.deleteUser(id);
         identityService.saveUser(user);
