@@ -1,0 +1,31 @@
+java:
+  applicationPort: 8999
+  environment:
+    CAMUNDA_DB_HOST: camunda-bpm-release-postgresql
+    CAMUNDA_DB_PORT: 5432
+    CAMUNDA_DB_NAME: camunda
+    CAMUNDA_DB_USER_NAME: camunda
+    CAMUNDA_DB_PASSWORD: camunda
+    CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
+    SPRING_PROFILES_ACTIVE: default
+    SPRING_FLYWAY_ENABLED: false
+  image: hmctsprivate.azurecr.io/camunda/bpm:latest
+  ingressHost: camunda-bpm-release.service.core-compute-preview.internal
+  ingressIP: 10.97.17.51
+  consulIP: 10.97.11.254
+  readinessDelay: 90
+  livenessDelay: 90
+postgresql:
+  enabled: true
+#  initdbScripts:
+#    init.sql: |-
+#      CREATE USER camunda WITH PASSWORD 'camunda';
+#      CREATE DATABASE camunda WITH OWNER = camunda ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+#  postgresqlDatabase: camunda
+#  postgresqlUsername: camunda
+#  postgresqlPassword: camunda
+#  nameOverride: postgres
+
+global:
+  subscriptionId: bf308a5c-0624-4334-8ff8-8dca9fd43783
+  tenantId: 531ff96d-0ae9-462a-8d2d-bec7c0b42082
