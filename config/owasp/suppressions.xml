@@ -30,10 +30,6 @@
     <cve>CVE-2019-12086</cve>
     <cve>CVE-2019-12384</cve>
     <cve>CVE-2019-12814</cve>
-    <cve>CVE-2019-14379</cve>
-    <cve>CVE-2019-14439</cve>
-    <cve>CVE-2019-14540</cve>
-    <cve>CVE-2019-16335</cve>
   </suppress>
   <suppress>
     <notes><![CDATA[
@@ -61,4 +57,17 @@
     <filePath regex="true">.*postgresql-1.11.4.jar</filePath>
     <cpe>cpe:/a:postgresql:postgresql</cpe>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+			Doesn't look exploitable, will wait for new jackson databind library
+			]]></notes>
+    <gav regex="true">.*</gav>
+    <cve>CVE-2019-10086</cve>
+    <cve>CVE-2019-14379</cve>
+    <cve>CVE-2019-14439</cve>
+    <cve>CVE-2019-16335</cve>
+    <cve>CVE-2019-14540</cve>
+    <cve>CVE-2019-12402</cve>
+  </suppress>
 </suppressions>
+
