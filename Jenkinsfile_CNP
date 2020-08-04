@@ -30,5 +30,4 @@ withPipeline(type, product, app) {
      }
   }
   enableDbMigration("camunda")
-  installCharts()
 }
