@@ -1,3 +1,4 @@
 java:
   applicationPort: 8999
-  image: 'https://hmctspublic.azurecr.io/camunda-bpm:latest'
+  aadIdentityName: camunda
+  image: 'hmctspublic.azurecr.io/camunda/bpm:latest'

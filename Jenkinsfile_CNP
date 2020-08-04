@@ -29,7 +29,5 @@ withPipeline(type, product, app) {
         env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
      }
   }
-  enableDbMigration()
-  enableDockerBuild()
-  installCharts()
+  enableDbMigration("camunda")
 }
