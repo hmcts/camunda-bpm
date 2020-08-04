@@ -158,7 +158,8 @@ dependencies {
 group = 'uk.gov.hmcts.reform'
 version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
 
@@ -198,10 +199,7 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
-                details.useVersion '2.9.9'
-            }
-            if (details.requested.name == 'jackson-databind') {
-                details.useVersion '2.9.9.1'
+                details.useVersion '2.11.2'
             }
         }
     }
