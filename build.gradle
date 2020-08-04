@@ -125,34 +125,33 @@ sonarqube {
 ext["rest-assured.version"] = '4.3.1'
 
 dependencies {
-    compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.4.4'
-    compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE'
-    compile 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.13.0'
-    compile 'org.camunda.spin:camunda-spin-dataformat-all:1.9.0'
-    compile 'org.camunda.bpm:camunda-engine-plugin-spin'
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.postgresql:postgresql:42.2.14'
-    compile 'org.flywaydb:flyway-core:6.5.3'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.4.4'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.13.0'
+    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.9.0'
+    implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.postgresql:postgresql:42.2.14'
+    implementation 'org.flywaydb:flyway-core:6.5.3'
 
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: versions.logging
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.logging
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.logging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
 
-    compile "uk.gov.hmcts.reform:health-spring-boot-starter:0.0.5"
+    implementation "uk.gov.hmcts.reform:health-spring-boot-starter:0.0.5"
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
-    testCompile 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
-    testCompile 'org.slf4j:jul-to-slf4j:1.7.30'
-    testCompile 'org.testcontainers:postgresql:1.14.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
+    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
+    testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
+    testImplementation 'org.testcontainers:postgresql:1.14.3'
 
-    smokeTestCompile sourceSets.main.runtimeClasspath
-    smokeTestCompile sourceSets.test.runtimeClasspath
-    smokeTestCompile group: 'io.rest-assured', name: 'rest-assured'
+    smokeTestImplementation sourceSets.main.runtimeClasspath
+    smokeTestImplementation sourceSets.test.runtimeClasspath
+    smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured'
 
 }
 
