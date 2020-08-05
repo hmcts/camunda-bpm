@@ -120,7 +120,7 @@ dependencyManagement {
         mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
     }
     imports {
-        mavenBom 'org.camunda.bpm:camunda-bom:7.11.1-ee'
+        mavenBom 'org.camunda.bpm:camunda-bom:7.13.0'
     }
 }
 
