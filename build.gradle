@@ -125,7 +125,7 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.3.2'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.4.4'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
