@@ -33,6 +33,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,7 +42,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = CamundaApplication.class)
 @TestPropertySource(locations = "classpath:application.yaml")
-public class SpringSecutiryAuthenticationProviderTest {
+public class SpringSecurityAuthenticationProviderTest {
 
     @ClassRule
     public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
@@ -77,7 +78,7 @@ public class SpringSecutiryAuthenticationProviderTest {
 
     @Test
     public void shouldbe_Unauthorized_when_noPrincipalName() {
-        getAuthenticationContextWithoutPrincipalName(Arrays.asList("44886fcb-4564-4bf9-98a5-4f7629078223"),"testName");
+        getAuthenticationContextWithoutPrincipalName(singletonList("44886fcb-4564-4bf9-98a5-4f7629078223"),"testName");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
                 new MockHttpServletRequest(), processEngine);
 
@@ -86,7 +87,7 @@ public class SpringSecutiryAuthenticationProviderTest {
 
     @Test
     public void shouldbe_having_admingroup_when_having_adminGroupId() {
-        getAuthenticationContext(Arrays.asList("44886fcb-4564-4bf9-98a5-4f7629078223"),"adminUser");
+        getAuthenticationContext(singletonList("44886fcb-4564-4bf9-98a5-4f7629078223"),"adminUser");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
 
@@ -96,38 +97,38 @@ public class SpringSecutiryAuthenticationProviderTest {
 
     @Test
     public void shouldbe_authorized_withDefaultGroup_when_nonmapped_GroupId() {
-        getAuthenticationContext(Arrays.asList("2a1c93c8-b6f2-11e9-a2a3-2a2ae2dbcce4"),"defaultUser");
+        getAuthenticationContext(singletonList("2a1c93c8-b6f2-11e9-a2a3-2a2ae2dbcce4"),"defaultUser");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
 
         assertThat(result.isAuthenticated()).isEqualTo(true);
         assertThat(result.getGroups()).contains("default");
 
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.APPLICATION, "cockpit")).isEqualTo(true);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.APPLICATION, "tasklist")).isEqualTo(true);
 
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.OPTIMIZE, "*")).isEqualTo(false);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.DECISION_DEFINITION, "*")).isEqualTo(false);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.BATCH, "*")).isEqualTo(false);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.PROCESS_INSTANCE, "*")).isEqualTo(false);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.PROCESS_DEFINITION, "*")).isEqualTo(false);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.TASK, "*")).isEqualTo(false);
-        assertThat(authorizationService.isUserAuthorized("defaultUser",Arrays.asList("default"), Permissions.ALL,
+        assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
             Resources.DEPLOYMENT, "*")).isEqualTo(false);
 
     }
 
     @Test
     public void shouldbe_authorized_withAdminRelevantPermissions_when_having_customAdminGroupId() {
-        getAuthenticationContext(Arrays.asList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"cmcadminuser");
+        getAuthenticationContext(singletonList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"cmcadminuser");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
         String[] cmcAdminGroups = {"default", "cmc-admin"};
@@ -141,8 +142,6 @@ public class SpringSecutiryAuthenticationProviderTest {
             Resources.APPLICATION, "cockpit")).isEqualTo(true);
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
             Resources.APPLICATION, "tasklist")).isEqualTo(true);
-        assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.OPTIMIZE, "*")).isEqualTo(true);
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
             Resources.DECISION_DEFINITION, "*")).isEqualTo(true);
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
@@ -160,7 +159,7 @@ public class SpringSecutiryAuthenticationProviderTest {
 
     @Test
     public void shouldbe_authorized_withRelevantLimitedPermissions_when_having_customGroupId() {
-        getAuthenticationContext(Arrays.asList("c43232cc-8f6d-4910-8bd1-47947f7c9a44"),"probatetestuser");
+        getAuthenticationContext(singletonList("c43232cc-8f6d-4910-8bd1-47947f7c9a44"),"probatetestuser");
         AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
         String[] probateTestGroups = {"default", "probate-test"};
@@ -200,7 +199,7 @@ public class SpringSecutiryAuthenticationProviderTest {
         );
 
         Authentication authentication = new OAuth2AuthenticationToken(mock(DefaultOidcUser.class),
-            Arrays.asList(new OAuth2UserAuthority(attributes)), "testId");
+                singletonList(new OAuth2UserAuthority(attributes)), "testId");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authentication;
 
@@ -211,9 +210,4 @@ public class SpringSecutiryAuthenticationProviderTest {
         when(authentication.getName()).thenReturn(name);
 
     }
-
-    private void getAuthenticationContext(List<String> groups) {
-        getAuthenticationContext(groups, "testname");
-    }
-
 }
