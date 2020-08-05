@@ -45,15 +45,6 @@ def versions = [
         logging: '5.1.7',
 ]
 
-dependencyManagement {
-    imports {
-        mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
-    }
-    imports {
-        mavenBom 'org.camunda.bpm:camunda-bom:7.13.0-ee'
-    }
-}
-
 checkstyle {
     maxWarnings = 0
     toolVersion = '8.21'
@@ -123,6 +114,15 @@ sonarqube {
 }
 
 ext["rest-assured.version"] = '4.3.1'
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
+    }
+    imports {
+        mavenBom 'org.camunda.bpm:camunda-bom:7.13.0-ee'
+    }
+}
 
 dependencies {
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.4.4'

@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = CamundaApplication.class)
 @TestPropertySource(locations = "classpath:application.yaml")
-public class SpringSecutiryAuthenticationProviderTest {
+public class SpringSecurityAuthenticationProviderTest {
 
     @ClassRule
     public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
