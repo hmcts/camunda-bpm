@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@addregistryoverride")
+@Library("Infrastructure")
 
 def type = "java"
 def product = "camunda"
