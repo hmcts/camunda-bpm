@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    propertiesvolume:
+      prefixed: false
+      paths: /mnt/secrets/camunda
+      aliases:
+        camunda-postgres-password: CAMUNDA_DB_PASSWORD
