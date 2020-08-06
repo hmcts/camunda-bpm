@@ -14,31 +14,31 @@ module "database" {
 }
 
 resource "azurerm_key_vault_secret" "postgres-user" {
-  name         = "bpm-postgres-user"
+  name         = "bpm-POSTGRES-USER"
   value        = module.database.user_name
   key_vault_id = module.vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "postgres-password" {
-  name         = "bpm-postgres-password"
+  name         = "bpm-POSTGRES-PASS"
   value        = module.database.postgresql_password
   key_vault_id = module.vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "postgres-host" {
-  name         = "bpm-postgres-host"
+  name         = "bpm-POSTGRES-HOST"
   value        = module.database.host_name
   key_vault_id = module.vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "postgres-port" {
-  name         = "bpm-postgres-port"
+  name         = "bpm-POSTGRES-PORT"
   value        = module.database.postgresql_listen_port
   key_vault_id = module.vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "postgres-database" {
-  name         = "bpm-postgres-database"
+  name         = "bpm-POSTGRES-DATABASE"
   value        = module.database.postgresql_database
   key_vault_id = module.vault.key_vault_id
 }

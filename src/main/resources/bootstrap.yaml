@@ -4,4 +4,4 @@ spring:
       prefixed: false
       paths: /mnt/secrets/camunda
       aliases:
-        bpm-postgres-password: CAMUNDA_DB_PASSWORD
+        bpm-POSTGRES-PASS: CAMUNDA_DB_PASSWORD
