@@ -38,19 +38,29 @@ camunda:
 #    We manage database versioning through flyway. Using this can cause the schema to go out of sync.
       schema-update: false
 
-server:
-  servlet:
-    context-path: /
-  port: 8999
+    webapp:
+      application-path: /
+camundaGroups:
+  cmcadmin:
+    adGroupId: 3830f73c-22c0-436c-893d-e1869d2bc551 # rpe-tenant
+    tenantId: rpe
+    groupId: rpe-admin
+    accessControl: admin
 camundaAccess:
   admin:
-    deploymentAccess: false
+    deploymentAccess: true
     taskAccess: true
     processDefinition: true
     processInstance: true
     batchAccess: true
     decisionDefinitionAccess: true
     optimiseAccess: true
+
+server:
+  servlet:
+    context-path: /
+  port: 8999
+
 ---
 spring:
   profiles: springauth
