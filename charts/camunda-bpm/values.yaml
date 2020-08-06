@@ -3,7 +3,7 @@ java:
   aadIdentityName: camunda
   image: 'hmctspublic.azurecr.io/camunda/bpm:latest'
   keyVaults:
-    "camunda":
+    camunda:
       secrets:
         - camunda-postgres-password
   environment:
