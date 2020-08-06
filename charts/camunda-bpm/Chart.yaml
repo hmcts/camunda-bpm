@@ -1,6 +1,6 @@
 name: camunda-bpm
 home: https://github.com/hmcts/camunda-bpm
-version: 0.0.5
+version: 0.0.6
 description: Camunda bpm
 maintainers:
   - name: HMCTS Platform engineering team
