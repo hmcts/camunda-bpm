@@ -2,3 +2,12 @@ java:
   applicationPort: 8999
   aadIdentityName: camunda
   image: 'hmctspublic.azurecr.io/camunda/bpm:latest'
+  keyVaults:
+    camunda:
+      secrets:
+        - camunda-postgres-password
+  environment:
+    CAMUNDA_DB_HOST: "hmcts-camunda-{{ .Values.global.environment }}.postgres.database.azure.com"
+    CAMUNDA_DB_NAME: "camunda"
+    CAMUNDA_DB_USER_NAME: "camundaadmin@hmcts-camunda-{{ .Values.global.environment }}"
+    CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"

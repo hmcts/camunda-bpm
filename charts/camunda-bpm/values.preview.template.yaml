@@ -10,5 +10,6 @@ java:
     CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
     SPRING_PROFILES_ACTIVE: default
     SPRING_FLYWAY_ENABLED: false
+    SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
   postgresql:
     enabled: true
