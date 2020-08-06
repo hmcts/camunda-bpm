@@ -120,18 +120,18 @@ dependencyManagement {
         mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
     }
     imports {
-        mavenBom 'org.camunda.bpm:camunda-bom:7.12.9-ee'
+        mavenBom 'org.camunda.bpm:camunda-bom:7.13.3-ee'
     }
 }
 
 dependencies {
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:3.4.4'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.13.0'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE'
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:3.4.4'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.13.0'
     implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.9.0'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
