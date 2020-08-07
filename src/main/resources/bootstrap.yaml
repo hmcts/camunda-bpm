@@ -5,3 +5,5 @@ spring:
       paths: /mnt/secrets/camunda
       aliases:
         bpm-POSTGRES-PASS: CAMUNDA_DB_PASSWORD
+        openid-client-id: spring.security.oauth2.client.registration.azure.client-id
+        openid-client-secret: spring.security.oauth2.client.registration.azure.client-secret

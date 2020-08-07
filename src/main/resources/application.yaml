@@ -15,8 +15,6 @@ spring:
     enabled: false
   security:
     enabled: false
-  profiles:
-    active: springauth
   datasource:
     url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
     username: ${CAMUNDA_DB_USER_NAME:camunda}
@@ -78,4 +76,4 @@ spring:
               - openid
         provider:
           azure:
-            issuer-uri: ${ISSUER_URI}
+            issuer-uri: ${ISSUER_URI:https://sts.windows.net/531ff96d-0ae9-462a-8d2d-bec7c0b42082/}
