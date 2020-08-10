@@ -39,13 +39,14 @@ camunda:
     webapp:
       application-path: /
 camundaGroups:
-  cmcadmin:
-    adGroupId: 3830f73c-22c0-436c-893d-e1869d2bc551 # rpe-tenant
+  rpe:
+    adGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
     tenantId: rpe
-    groupId: rpe-admin
-    accessControl: admin
+    groupId: user
+
+camundaAdminGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
 camundaAccess:
-  admin:
+  user:
     deploymentAccess: true
     taskAccess: true
     processDefinition: true
