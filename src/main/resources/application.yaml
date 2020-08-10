@@ -42,7 +42,18 @@ camundaGroups:
   rpe:
     adGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
     tenantId: rpe
-    groupId: user
+    groupId: rpe
+    accessControl: user
+  work-allocation:
+    adGroupId: cdeb331b-adfe-46a7-a2c8-a628e2d35d96
+    tenantId: work-allocation
+    groupId: work-allocation
+    accessControl: user
+  civil-unspecified:
+    adGroupId: 40c33f5a-24d0-4b22-a923-df8a80a59cd9
+    tenantId: civil-unspecified
+    groupId: civil-unspecified
+    accessControl: user
 
 camundaAdminGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
 camundaAccess:
