@@ -25,7 +25,7 @@ camunda:
       enabled: true
     admin-user:
       id: admin
-      password: admin
+      password: ${CAMUNDA_ADMIN_PASSWORD:admin}
       firstName: Admin
     filter:
       create: All tasks
