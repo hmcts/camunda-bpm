@@ -1,11 +1,11 @@
 name: camunda-bpm
 home: https://github.com/hmcts/camunda-bpm
-version: 0.0.9
+version: 0.0.10
 description: Camunda bpm
 maintainers:
   - name: HMCTS Platform engineering team
 apiVersion: v2
 dependencies:
   - name: java
-    version: 3.2.0
+    version: 3.2.1
     repository: '@hmctspublic' 
