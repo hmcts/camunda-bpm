@@ -12,3 +12,4 @@ java:
     CAMUNDA_DB_NAME: "camunda"
     CAMUNDA_DB_USER_NAME: "camundaadmin@hmcts-camunda-{{ .Values.global.environment }}"
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    CAMUNDA_DB_CONN_OPTIONS: ?sslmode=require&gssEncMode=disable
