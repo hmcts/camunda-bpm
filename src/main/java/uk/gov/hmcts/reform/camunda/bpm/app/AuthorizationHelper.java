@@ -7,7 +7,7 @@ import org.camunda.bpm.engine.authorization.Resources;
 
 public class AuthorizationHelper {
 
-    private AuthorizationService authorizationService;
+    private final AuthorizationService authorizationService;
 
     public AuthorizationHelper(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
@@ -92,7 +92,6 @@ public class AuthorizationHelper {
             authorization.setResource(Resources.DECISION_DEFINITION);
             authorization.setResourceId("*");
             authorization.setGroupId(groupId);
-
             authorizationService.saveAuthorization(authorization);
         }
     }

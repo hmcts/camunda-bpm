@@ -141,6 +141,7 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
+    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'

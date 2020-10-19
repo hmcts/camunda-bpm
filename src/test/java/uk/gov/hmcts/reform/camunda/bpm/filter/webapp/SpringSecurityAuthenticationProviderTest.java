@@ -25,7 +25,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap;
+import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.camunda.bpm.CamundaApplication;
+import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,12 +68,14 @@ public class SpringSecurityAuthenticationProviderTest {
     @Autowired
     private AuthorizationService authorizationService;
 
+    @MockBean
+    private ServiceAuthorisationApi serviceAuthorisationApi;
 
     @Test
     public void shouldbe_Unauthorized_when_nosecuritycontext() {
         SecurityContextHolder.getContext().setAuthentication(null);
         HttpServletRequest request = new MockHttpServletRequest();
-        AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(request,
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
         assertThat(result.isAuthenticated()).isEqualTo(false);
     }
@@ -79,7 +83,7 @@ public class SpringSecurityAuthenticationProviderTest {
     @Test
     public void shouldbe_Unauthorized_when_noPrincipalName() {
         getAuthenticationContextWithoutPrincipalName(singletonList("44886fcb-4564-4bf9-98a5-4f7629078223"),"testName");
-        AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
                 new MockHttpServletRequest(), processEngine);
 
         assertThat(result.isAuthenticated()).isEqualTo(false);
@@ -88,7 +92,7 @@ public class SpringSecurityAuthenticationProviderTest {
     @Test
     public void shouldbe_having_admingroup_when_having_adminGroupId() {
         getAuthenticationContext(singletonList("44886fcb-4564-4bf9-98a5-4f7629078223"),"adminUser");
-        AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
 
         assertThat(result.isAuthenticated()).isEqualTo(true);
@@ -98,7 +102,7 @@ public class SpringSecurityAuthenticationProviderTest {
     @Test
     public void shouldbe_authorized_withDefaultGroup_when_nonmapped_GroupId() {
         getAuthenticationContext(singletonList("2a1c93c8-b6f2-11e9-a2a3-2a2ae2dbcce4"),"defaultUser");
-        AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
 
         assertThat(result.isAuthenticated()).isEqualTo(true);
@@ -129,7 +133,7 @@ public class SpringSecurityAuthenticationProviderTest {
     @Test
     public void shouldbe_authorized_withAdminRelevantPermissions_when_having_customAdminGroupId() {
         getAuthenticationContext(singletonList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"cmcadminuser");
-        AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
         String[] cmcAdminGroups = {"default", "cmc-admin"};
 
@@ -160,7 +164,7 @@ public class SpringSecurityAuthenticationProviderTest {
     @Test
     public void shouldbe_authorized_withRelevantLimitedPermissions_when_having_customGroupId() {
         getAuthenticationContext(singletonList("c43232cc-8f6d-4910-8bd1-47947f7c9a44"),"probatetestuser");
-        AuthenticationResult result = new SpringSecurityAuthenticationProvider().extractAuthenticatedUser(
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
         String[] probateTestGroups = {"default", "probate-test"};
 
@@ -192,9 +196,9 @@ public class SpringSecurityAuthenticationProviderTest {
     private Authentication getAuthenticationContextWithoutPrincipalName(List<String> groups, String name) {
         Map<String, Object> attributes = ImmutableMap.of(
             "groups", groups,
-            SpringSecurityAuthenticationProvider.GIVEN_NAME,name,
-            SpringSecurityAuthenticationProvider.FAMILY_NAME,name,
-            SpringSecurityAuthenticationProvider.UNIQUE_NAME,name
+            SpringSecurityWebappAuthenticationProvider.GIVEN_NAME,name,
+            SpringSecurityWebappAuthenticationProvider.FAMILY_NAME,name,
+            SpringSecurityWebappAuthenticationProvider.UNIQUE_NAME,name
 
         );
 

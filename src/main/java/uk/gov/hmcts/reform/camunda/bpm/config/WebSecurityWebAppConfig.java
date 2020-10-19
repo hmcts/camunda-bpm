@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,9 +17,10 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import java.util.Collections;
 
 @Configuration
-@ConditionalOnProperty(prefix = "spring.security", name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "camunda.ui.auth", name = "enabled", matchIfMissing = false)
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Order(100)
+public class WebSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
@@ -50,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //noinspection unchecked
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
-            "uk.gov.hmcts.reform.camunda.bpm.filter.webapp.SpringSecurityAuthenticationProvider"));
+            "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
         filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/app/*");
         return filterRegistration;
