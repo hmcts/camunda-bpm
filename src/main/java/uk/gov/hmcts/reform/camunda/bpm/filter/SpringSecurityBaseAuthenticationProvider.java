@@ -58,19 +58,7 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
             }
         );
     }
-
-    private void updateUser(String id, Map<String, Object> attributes,
-                            IdentityService identityService) {
-
-        User user = identityService.newUser(id);
-        user.setFirstName(requireNonNull(attributes.get(GIVEN_NAME)).toString());
-        user.setLastName(requireNonNull(attributes.get(FAMILY_NAME)).toString());
-        user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
-
-        identityService.deleteUser(id);
-        identityService.saveUser(user);
-    }
-
+    
     protected List<String> getTenantsAndProvision(String id, List<GroupConfig> applicableGroups,
                                                   IdentityService identityService) {
         List<String> camundaTenants = new ArrayList<>();
