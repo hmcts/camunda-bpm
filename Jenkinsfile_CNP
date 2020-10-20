@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@test_error")
+@Library("Infrastructure")
 
 def type = "java"
 def product = "camunda"
