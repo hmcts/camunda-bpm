@@ -122,6 +122,12 @@ dependencyManagement {
     imports {
         mavenBom 'org.camunda.bpm:camunda-bom:7.13.3-ee'
     }
+    dependencies {
+        // CVE-2018-10237 - Unbounded memory allocation
+        dependencySet(group: 'com.google.guava', version: '29.0-jre') {
+            entry 'guava'
+        }
+    }
 }
 
 dependencies {
