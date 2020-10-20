@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.camunda.bpm.filter;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.identity.Tenant;
-import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticationProvider;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.AccessControl;
@@ -12,9 +11,6 @@ import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static java.util.Objects.requireNonNull;
 
 
 @SuppressWarnings("unused")
