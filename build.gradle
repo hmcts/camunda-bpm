@@ -103,7 +103,7 @@ jacocoTestReport {
         xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
-
+project.tasks['sonarqube'].dependsOn jacocoTestReport
 sonarqube {
     properties {
         property "sonar.projectName", "Reform :: camunda-bpm"
