@@ -14,12 +14,11 @@ import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
 import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.HttpHeaders;
 
 @SuppressWarnings("unused")
 public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
