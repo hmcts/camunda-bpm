@@ -26,9 +26,8 @@ public class WebSecurityApiConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public FilterRegistrationBean authenticationFilter() {
-        FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-        //noinspection unchecked
+    public FilterRegistrationBean<ProcessEngineAuthenticationFilter> authenticationFilter() {
+        FilterRegistrationBean<ProcessEngineAuthenticationFilter> filterRegistration = new FilterRegistrationBean<>();
         filterRegistration.setFilter(new ProcessEngineAuthenticationFilter());
         filterRegistration.addInitParameter("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityApiAuthenticationProvider");
