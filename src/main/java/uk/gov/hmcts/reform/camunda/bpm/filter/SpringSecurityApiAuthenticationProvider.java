@@ -6,8 +6,6 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.reform.authorisation.exceptions.InvalidTokenException;
 import uk.gov.hmcts.reform.authorisation.exceptions.ServiceException;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
@@ -16,18 +14,18 @@ import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
 import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SuppressWarnings("unused")
 public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
 
     public static final String AUTHORISATION = "ServiceAuthorization";
-    private static final Logger LOG = LoggerFactory.getLogger(SpringSecurityApiAuthenticationProvider.class);
-
+    
     @Override
     @SuppressWarnings("unchecked")
     public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request, ProcessEngine engine) {
@@ -35,8 +33,8 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         try {
             AuthTokenValidator authTokenValidator = SpringContext.getAppContext().getBean(AuthTokenValidator.class);
-            String bearerToken = "extractBearerToken(request)";
-            String serviceName = "unspec-service";//authTokenValidator.getServiceName(bearerToken);
+            String bearerToken = extractBearerToken(request);
+            String serviceName = authTokenValidator.getServiceName(bearerToken);
             configProperties = SpringContext.getAppContext().getBean(ConfigProperties.class);
             AuthenticationResult authenticationResult = new AuthenticationResult(
                 serviceName,
@@ -52,7 +50,7 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
             List<String> camundaGroups = getCamundaGroupsAndProvision(serviceName, applicableGroups, identityService);
             authenticationResult.setGroups(camundaGroups);
 
-            if (authenticationResult.getTenants().size() == 0) {
+            if (authenticationResult.getTenants().isEmpty()) {
                 return AuthenticationResult.unsuccessful();
             }
 
