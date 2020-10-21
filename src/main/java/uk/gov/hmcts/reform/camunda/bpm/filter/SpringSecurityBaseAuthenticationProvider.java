@@ -13,39 +13,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@SuppressWarnings("unused")
 public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuthenticationProvider {
 
     public static final String DEFAULT_GROUP_NAME = "All users";
-    private static final String CAMUNDA_ADMIN_GROUP = "camunda-admin";
     private static final String DEFAULT_GROUP = "default";
     protected ConfigProperties configProperties;
 
     protected void refreshAuthorisation(AuthorizationHelper authorizationHelper) {
         configProperties.getCamundaGroups().forEach((key, groupConfig) -> {
                 AccessControl accessControl = configProperties.getCamundaAccess().get(groupConfig.getAccessControl());
-                if (accessControl != null) {
-                    if (accessControl.isDeploymentAccess()) {
-                        authorizationHelper.deploymentAccess(groupConfig.getGroupId());
-                    }
-                    if (accessControl.isTaskAccess()) {
-                        authorizationHelper.taskAccess(groupConfig.getGroupId());
-                    }
-                    if (accessControl.isProcessDefinition()) {
-                        authorizationHelper.processDefinition(groupConfig.getGroupId());
-                    }
-                    if (accessControl.isProcessInstance()) {
-                        authorizationHelper.processInstance(groupConfig.getGroupId());
-                    }
-                    if (accessControl.isBatchAccess()) {
-                        authorizationHelper.batchAccess(groupConfig.getGroupId());
-                    }
-                    if (accessControl.isDecisionDefinitionAccess()) {
-                        authorizationHelper.decisionDefinitionAccess(groupConfig.getGroupId());
-                    }
-                    if (accessControl.isOptimiseAccess()) {
-                        authorizationHelper.optimiseAccess(groupConfig.getGroupId());
-                    }
+                if (accessControl == null) {
+                    return;
+                }
+                if (accessControl.isDeploymentAccess()) {
+                    authorizationHelper.deploymentAccess(groupConfig.getGroupId());
+                }
+                if (accessControl.isTaskAccess()) {
+                    authorizationHelper.taskAccess(groupConfig.getGroupId());
+                }
+                if (accessControl.isProcessDefinition()) {
+                    authorizationHelper.processDefinition(groupConfig.getGroupId());
+                }
+                if (accessControl.isProcessInstance()) {
+                    authorizationHelper.processInstance(groupConfig.getGroupId());
+                }
+                if (accessControl.isBatchAccess()) {
+                    authorizationHelper.batchAccess(groupConfig.getGroupId());
+                }
+                if (accessControl.isDecisionDefinitionAccess()) {
+                    authorizationHelper.decisionDefinitionAccess(groupConfig.getGroupId());
+                }
+                if (accessControl.isOptimiseAccess()) {
+                    authorizationHelper.optimiseAccess(groupConfig.getGroupId());
                 }
             }
         );
