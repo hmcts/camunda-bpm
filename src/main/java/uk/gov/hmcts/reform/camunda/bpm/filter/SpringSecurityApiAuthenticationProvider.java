@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
 
 @SuppressWarnings("unused")
 public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
@@ -29,7 +28,6 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
     @SuppressWarnings("unchecked")
     public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request, ProcessEngine engine) {
 
-        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         try {
             AuthTokenValidator authTokenValidator = SpringContext.getAppContext().getBean(AuthTokenValidator.class);
             String bearerToken = extractBearerToken(request);
@@ -54,7 +52,7 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
             }
 
             AuthorizationService authorizationService = engine.getAuthorizationService();
-            Authorization authorization = authorizationService
+            authorizationService
                 .createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
 
             AuthorizationHelper authorizationHelper = new AuthorizationHelper(

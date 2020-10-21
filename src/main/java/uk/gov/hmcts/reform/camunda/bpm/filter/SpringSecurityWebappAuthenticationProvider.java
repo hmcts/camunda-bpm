@@ -78,7 +78,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         }
         authenticationResult.setGroups(camundaGroups);
         AuthorizationService authorizationService = engine.getAuthorizationService();
-        Authorization authorization = authorizationService
+        authorizationService
             .createNewAuthorization(Authorization.AUTH_TYPE_GRANT);
 
         AuthorizationHelper authorizationHelper = new AuthorizationHelper(

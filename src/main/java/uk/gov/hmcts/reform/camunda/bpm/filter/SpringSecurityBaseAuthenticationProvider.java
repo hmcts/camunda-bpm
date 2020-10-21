@@ -16,10 +16,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuthenticationProvider {
 
-    public static final String GIVEN_NAME = "given_name";
-    public static final String FAMILY_NAME = "family_name";
-    public static final String UNIQUE_NAME = "unique_name";
-    public static final String GROUPS_ATTRIBUTE = "groups";
     public static final String DEFAULT_GROUP_NAME = "All users";
     private static final String CAMUNDA_ADMIN_GROUP = "camunda-admin";
     private static final String DEFAULT_GROUP = "default";
@@ -58,7 +54,7 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
     protected List<String> getTenantsAndProvision(String id, List<GroupConfig> applicableGroups,
                                                   IdentityService identityService) {
         List<String> camundaTenants = new ArrayList<>();
-        applicableGroups.forEach((groupConfig) -> {
+        applicableGroups.forEach(groupConfig -> {
                 camundaTenants.add(groupConfig.getTenantId());
                 if (identityService.createTenantQuery().tenantId(groupConfig.getTenantId()).count() == 0) {
                     Tenant tenant = identityService.newTenant(groupConfig.getTenantId());
@@ -81,7 +77,7 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
                                                         IdentityService identityService) {
         List<String> camundaGroups = new ArrayList<>();
 
-        applicableGroups.forEach((groupConfig) -> {
+        applicableGroups.forEach(groupConfig -> {
                 if (identityService.createGroupQuery().groupId(groupConfig.getGroupId()).count() == 0) {
                     Group group = identityService.newGroup(groupConfig.getGroupId());
                     group.setName(groupConfig.getGroupId());
