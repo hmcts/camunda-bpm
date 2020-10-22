@@ -79,7 +79,7 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         HttpServletRequest request = new MockHttpServletRequest();
         AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
-        assertThat(result.isAuthenticated()).isEqualTo(false);
+        assertThat(result.isAuthenticated()).isFalse();
     }
 
     @Test
@@ -88,7 +88,7 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
                 new MockHttpServletRequest(), processEngine);
 
-        assertThat(result.isAuthenticated()).isEqualTo(false);
+        assertThat(result.isAuthenticated()).isFalse();
     }
 
     @Test
@@ -97,7 +97,7 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
 
-        assertThat(result.isAuthenticated()).isEqualTo(true);
+        assertThat(result.isAuthenticated()).isTrue();
         assertThat(result.getGroups()).contains("default","camunda-admin");
     }
 
@@ -107,28 +107,28 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
             new MockHttpServletRequest(), processEngine);
 
-        assertThat(result.isAuthenticated()).isEqualTo(true);
+        assertThat(result.isAuthenticated()).isTrue();
         assertThat(result.getGroups()).contains("default");
 
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.APPLICATION, "cockpit")).isEqualTo(true);
+            Resources.APPLICATION, "cockpit")).isTrue();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.APPLICATION, "tasklist")).isEqualTo(true);
+            Resources.APPLICATION, "tasklist")).isTrue();
 
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.OPTIMIZE, "*")).isEqualTo(false);
+            Resources.OPTIMIZE, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.DECISION_DEFINITION, "*")).isEqualTo(false);
+            Resources.DECISION_DEFINITION, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.BATCH, "*")).isEqualTo(false);
+            Resources.BATCH, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.PROCESS_INSTANCE, "*")).isEqualTo(false);
+            Resources.PROCESS_INSTANCE, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.PROCESS_DEFINITION, "*")).isEqualTo(false);
+            Resources.PROCESS_DEFINITION, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.TASK, "*")).isEqualTo(false);
+            Resources.TASK, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("defaultUser", singletonList("default"), Permissions.ALL,
-            Resources.DEPLOYMENT, "*")).isEqualTo(false);
+            Resources.DEPLOYMENT, "*")).isFalse();
 
     }
 
@@ -139,28 +139,28 @@ public class SpringSecurityWebappAuthenticationProviderTest {
             new MockHttpServletRequest(), processEngine);
         String[] cmcAdminGroups = {"default", "cmc-admin"};
 
-        assertThat(result.isAuthenticated()).isEqualTo(true);
+        assertThat(result.isAuthenticated()).isTrue();
         assertThat(result.getGroups()).contains(cmcAdminGroups);
         assertThat(result.getTenants()).contains("cmc");
 
 
         assertThat(authorizationService.isUserAuthorized("cmcadminuser", Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.APPLICATION, "cockpit")).isEqualTo(true);
+            Resources.APPLICATION, "cockpit")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.APPLICATION, "tasklist")).isEqualTo(true);
+            Resources.APPLICATION, "tasklist")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.DECISION_DEFINITION, "*")).isEqualTo(true);
+            Resources.DECISION_DEFINITION, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.BATCH, "*")).isEqualTo(true);
+            Resources.BATCH, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.PROCESS_INSTANCE, "*")).isEqualTo(true);
+            Resources.PROCESS_INSTANCE, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.PROCESS_DEFINITION, "*")).isEqualTo(true);
+            Resources.PROCESS_DEFINITION, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.TASK, "*")).isEqualTo(true);
+            Resources.TASK, "*")).isTrue();
 
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(cmcAdminGroups), Permissions.ALL,
-            Resources.DEPLOYMENT, "*")).isEqualTo(false);
+            Resources.DEPLOYMENT, "*")).isFalse();
     }
 
     @Test
@@ -170,29 +170,29 @@ public class SpringSecurityWebappAuthenticationProviderTest {
             new MockHttpServletRequest(), processEngine);
         String[] probateTestGroups = {"default", "probate-test"};
 
-        assertThat(result.isAuthenticated()).isEqualTo(true);
+        assertThat(result.isAuthenticated()).isTrue();
         assertThat(result.getGroups()).contains(probateTestGroups);
         assertThat(result.getTenants()).contains("probate");
 
 
         assertThat(authorizationService.isUserAuthorized("probatetestuser", Arrays.asList(probateTestGroups),
-            Permissions.ALL, Resources.APPLICATION, "cockpit")).isEqualTo(true);
+            Permissions.ALL, Resources.APPLICATION, "cockpit")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.APPLICATION, "tasklist")).isEqualTo(true);
+            Permissions.ALL,  Resources.APPLICATION, "tasklist")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.OPTIMIZE, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.OPTIMIZE, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL, Resources.DECISION_DEFINITION, "*")).isEqualTo(true);
+            Permissions.ALL, Resources.DECISION_DEFINITION, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("cmcadminuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.BATCH, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.BATCH, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.PROCESS_INSTANCE, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.PROCESS_INSTANCE, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.PROCESS_DEFINITION, "*")).isEqualTo(true);
+            Permissions.ALL,  Resources.PROCESS_DEFINITION, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.TASK, "*")).isEqualTo(true);
+            Permissions.ALL,  Resources.TASK, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probatetestuser",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.DEPLOYMENT, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.DEPLOYMENT, "*")).isFalse();
     }
 
     private Authentication getAuthenticationContextWithoutPrincipalName(List<String> groups, String name) {
