@@ -92,7 +92,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
         when(authTokenValidator.getServiceName(anyString())).thenReturn("cmc-claim-store");
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
-        assertThat(result.isAuthenticated()).isEqualTo(true);
+        assertThat(result.isAuthenticated()).isTrue();
     }
     
     @Test
@@ -103,29 +103,29 @@ public class SpringSecurityApiAuthenticationProviderTest {
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(
             request, processEngine);
         String[] probateTestGroups = {"probate-test"};
-        assertThat(result.isAuthenticated()).isEqualTo(true);
+        assertThat(result.isAuthenticated()).isTrue();
         assertThat(result.getGroups()).contains(probateTestGroups);
         assertThat(result.getTenants()).contains("probate");
 
 
         assertThat(authorizationService.isUserAuthorized("probate-service", Arrays.asList(probateTestGroups),
-            Permissions.ALL, Resources.APPLICATION, "cockpit")).isEqualTo(false);
+            Permissions.ALL, Resources.APPLICATION, "cockpit")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.APPLICATION, "tasklist")).isEqualTo(false);
+            Permissions.ALL,  Resources.APPLICATION, "tasklist")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.OPTIMIZE, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.OPTIMIZE, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL, Resources.DECISION_DEFINITION, "*")).isEqualTo(true);
+            Permissions.ALL, Resources.DECISION_DEFINITION, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.BATCH, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.BATCH, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.PROCESS_INSTANCE, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.PROCESS_INSTANCE, "*")).isFalse();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.PROCESS_DEFINITION, "*")).isEqualTo(true);
+            Permissions.ALL,  Resources.PROCESS_DEFINITION, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.TASK, "*")).isEqualTo(true);
+            Permissions.ALL,  Resources.TASK, "*")).isTrue();
         assertThat(authorizationService.isUserAuthorized("probate-service",Arrays.asList(probateTestGroups),
-            Permissions.ALL,  Resources.DEPLOYMENT, "*")).isEqualTo(false);
+            Permissions.ALL,  Resources.DEPLOYMENT, "*")).isFalse();
     }
 
 }
