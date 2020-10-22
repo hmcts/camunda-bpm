@@ -62,7 +62,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
         
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
-        assertThat(result.isAuthenticated()).isEqualTo(false);
+        assertThat(result.isAuthenticated()).isFalse();
     }
 
     @Test
@@ -72,7 +72,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
         when(authTokenValidator.getServiceName(anyString())).thenThrow(InvalidTokenException.class);
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
-        assertThat(result.isAuthenticated()).isEqualTo(false);
+        assertThat(result.isAuthenticated()).isFalse();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
         when(authTokenValidator.getServiceName(anyString())).thenReturn("unmapped");
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
-        assertThat(result.isAuthenticated()).isEqualTo(false);
+        assertThat(result.isAuthenticated()).isFalse();
     }
 
     @Test
