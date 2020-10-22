@@ -16,7 +16,6 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
@@ -59,7 +58,7 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
                 engine.getAuthorizationService());
 
             refreshAuthorisation(authorizationHelper);
-            return AuthenticationResult.successful(serviceName);
+            return authenticationResult;
         } catch (InvalidTokenException | ServiceException exception) {
             return AuthenticationResult.unsuccessful();
         }

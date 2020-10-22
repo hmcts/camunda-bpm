@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
@@ -44,7 +45,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = CamundaApplication.class)
 @TestPropertySource(locations = "classpath:application.yaml")
-public class SpringSecurityAuthenticationProviderTest {
+@DirtiesContext
+public class SpringSecurityWebappAuthenticationProviderTest {
 
     @ClassRule
     public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
