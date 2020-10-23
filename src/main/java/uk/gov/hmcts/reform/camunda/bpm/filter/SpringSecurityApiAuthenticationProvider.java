@@ -6,6 +6,8 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.reform.authorisation.exceptions.InvalidTokenException;
 import uk.gov.hmcts.reform.authorisation.exceptions.ServiceException;
 import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
@@ -21,7 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
 public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(SpringSecurityApiAuthenticationProvider.class);
+
     @Override
     @SuppressWarnings("unchecked")
     public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request, ProcessEngine engine) {
@@ -59,6 +63,7 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
             refreshAuthorisation(authorizationHelper);
             return authenticationResult;
         } catch (InvalidTokenException | ServiceException exception) {
+            LOG.warn("Unsuccessful service authentication", exception);
             return AuthenticationResult.unsuccessful();
         }
 
