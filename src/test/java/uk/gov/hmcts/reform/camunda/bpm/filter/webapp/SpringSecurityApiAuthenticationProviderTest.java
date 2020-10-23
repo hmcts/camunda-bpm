@@ -19,6 +19,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.exceptions.InvalidTokenException;
+import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.camunda.bpm.CamundaApplication;
 import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityApiAuthenticationProvider;
@@ -68,7 +69,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
     @Test
     public void shouldbe_Unauthorized_when_s2sException() {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(SpringSecurityApiAuthenticationProvider.AUTHORISATION,TOKEN);
+        request.addHeader(ServiceAuthFilter.AUTHORISATION,TOKEN);
         when(authTokenValidator.getServiceName(anyString())).thenThrow(InvalidTokenException.class);
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
@@ -78,7 +79,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
     @Test
     public void shouldbe_Unauthorized_when_serviceName_not_mapped() {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(SpringSecurityApiAuthenticationProvider.AUTHORISATION,TOKEN);
+        request.addHeader(ServiceAuthFilter.AUTHORISATION,TOKEN);
         when(authTokenValidator.getServiceName(anyString())).thenReturn("unmapped");
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
@@ -88,7 +89,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
     @Test
     public void shouldbe_authorized_when_serviceName_mapped() {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(SpringSecurityApiAuthenticationProvider.AUTHORISATION,TOKEN);
+        request.addHeader(ServiceAuthFilter.AUTHORISATION,TOKEN);
         when(authTokenValidator.getServiceName(anyString())).thenReturn("cmc-claim-store");
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
@@ -98,7 +99,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
     @Test
     public void shouldbe_authorized_withRelevantLimitedPermissions_when_having_customGroupId() {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(SpringSecurityApiAuthenticationProvider.AUTHORISATION,TOKEN);
+        request.addHeader(ServiceAuthFilter.AUTHORISATION,TOKEN);
         when(authTokenValidator.getServiceName(anyString())).thenReturn("probate-service");
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(
             request, processEngine);

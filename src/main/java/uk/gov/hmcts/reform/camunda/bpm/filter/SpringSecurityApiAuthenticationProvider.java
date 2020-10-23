@@ -8,6 +8,7 @@ import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import uk.gov.hmcts.reform.authorisation.exceptions.InvalidTokenException;
 import uk.gov.hmcts.reform.authorisation.exceptions.ServiceException;
+import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
@@ -20,8 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
 public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
-
-    public static final String AUTHORISATION = "ServiceAuthorization";
     
     @Override
     @SuppressWarnings("unchecked")
@@ -66,7 +65,7 @@ public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseA
     }
 
     private String extractBearerToken(HttpServletRequest request) {
-        String token = request.getHeader(AUTHORISATION);
+        String token = request.getHeader(ServiceAuthFilter.AUTHORISATION);
         if (token == null) {
             throw new InvalidTokenException("ServiceAuthorization Token is missing");
         }
