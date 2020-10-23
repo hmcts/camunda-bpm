@@ -103,12 +103,12 @@ jacocoTestReport {
         xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
-
+project.tasks['sonarqube'].dependsOn jacocoTestReport
 sonarqube {
     properties {
         property "sonar.projectName", "Reform :: camunda-bpm"
         property "sonar.projectKey", "uk.gov.hmcts.reform:camunda-bpm"
-        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
         property "sonar.coverage.exclusions", "**/config/**"
     }
 }
@@ -121,6 +121,12 @@ dependencyManagement {
     }
     imports {
         mavenBom 'org.camunda.bpm:camunda-bom:7.13.3-ee'
+    }
+    dependencies {
+        // CVE-2018-10237 - Unbounded memory allocation
+        dependencySet(group: 'com.google.guava', version: '29.0-jre') {
+            entry 'guava'
+        }
     }
 }
 
@@ -141,6 +147,7 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
+    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'

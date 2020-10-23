@@ -20,6 +20,12 @@ spring:
     username: ${CAMUNDA_DB_USER_NAME:camunda}
     password: ${CAMUNDA_DB_PASSWORD:camunda}
 camunda:
+  api:
+    auth:
+      enabled: true
+  ui: 
+    auth:
+      enabled: false
   bpm:
     authorization:
       enabled: true
@@ -49,11 +55,16 @@ camundaGroups:
     tenantId: work-allocation
     groupId: work-allocation
     accessControl: user
+      - wa-task-management-api
+      - wa-task-configuration-api
+      - wa-workflow-api
   civil-unspecified:
     adGroupId: 40c33f5a-24d0-4b22-a923-df8a80a59cd9
     tenantId: civil-unspecified
     groupId: civil-unspecified
     accessControl: user
+    s2sServiceNames:
+      - unspec-service
 
 camundaAdminGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
 camundaAccess:
@@ -70,7 +81,9 @@ server:
   servlet:
     context-path: /
   port: 8999
-
+idam:
+  s2s-auth:
+    url: ${S2S_URL:http://localhost:4552}
 ---
 spring:
   profiles: springauth
@@ -89,3 +102,7 @@ spring:
         provider:
           azure:
             issuer-uri: ${ISSUER_URI:https://sts.windows.net/531ff96d-0ae9-462a-8d2d-bec7c0b42082/}
+camunda:
+  ui:
+    auth:
+      enabled: true
