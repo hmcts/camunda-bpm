@@ -45,6 +45,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = CamundaApplication.class)
 @TestPropertySource(locations = "classpath:application.yaml")
+//**Add it to new tests only if needed.** Application startup fails with ENGINE-08043 when running multiple tests.
 @DirtiesContext
 public class SpringSecurityWebappAuthenticationProviderTest {
 

@@ -35,7 +35,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = CamundaApplication.class)
 @TestPropertySource(locations = "classpath:application.yaml")
-@DirtiesContext
+//**Add it to new tests only if needed.** Application startup fails with ENGINE-08043 when running multiple tests.
+@DirtiesContext 
 public class SpringSecurityApiAuthenticationProviderTest {
     
     public static final String TOKEN = "dummytoken";
