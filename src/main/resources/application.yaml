@@ -55,6 +55,7 @@ camundaGroups:
     tenantId: work-allocation
     groupId: work-allocation
     accessControl: user
+    s2sServiceNames:
       - wa-task-management-api
       - wa-task-configuration-api
       - wa-workflow-api
