@@ -59,6 +59,7 @@ camundaGroups:
       - wa_task_management_api
       - wa_task_configuration_api
       - wa_workflow_api
+      - wa_case_event_handler
   civil-unspecified:
     adGroupId: 40c33f5a-24d0-4b22-a923-df8a80a59cd9
     tenantId: civil-unspecified
