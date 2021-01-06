@@ -52,8 +52,18 @@ camundaGroups:
     accessControl: user
   work-allocation:
     adGroupId: cdeb331b-adfe-46a7-a2c8-a628e2d35d96
-    tenantId: work-allocation
-    groupId: work-allocation
+    tenantId: wa
+    groupId: wa
+    accessControl: user
+    s2sServiceNames:
+      - wa_task_management_api
+      - wa_task_configuration_api
+      - wa_workflow_api
+      - wa_case_event_handler
+  ia:
+    adGroupId: b16db4e7-5cd6-409a-9f10-632089d91ff5
+    tenantId: ia
+    groupId: ia
     accessControl: user
     s2sServiceNames:
       - wa_task_management_api
