@@ -45,10 +45,10 @@ camunda:
     webapp:
       application-path: /
 camundaGroups:
-  rpe:
-    adGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
-    tenantId: rpe
-    groupId: rpe
+  platops:
+    adGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
+    tenantId: platops
+    groupId: platops
     accessControl: user
   work-allocation:
     adGroupId: cdeb331b-adfe-46a7-a2c8-a628e2d35d96
