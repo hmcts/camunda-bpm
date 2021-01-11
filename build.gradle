@@ -216,7 +216,7 @@ configurations.all {
                 details.useVersion '2.11.2'
             }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '10.0.0'
+                details.useVersion '9.0.41'
             }
             // Rest Assured 4.3.0 uses groovy 3
             if (details.requested.group in ['org.codehaus.groovy']) {
