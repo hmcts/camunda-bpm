@@ -46,7 +46,7 @@ camunda:
       application-path: /
 camundaGroups:
   rpe:
-    adGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
+    adGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
     tenantId: rpe
     groupId: rpe
     accessControl: user
@@ -78,7 +78,7 @@ camundaGroups:
     s2sServiceNames:
       - unspec-service
 
-camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
+camundaAdminGroupId: c36eaede-a0ae-4967-8fed-0a02960b1370
 camundaAccess:
   user:
     deploymentAccess: true
