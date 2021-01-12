@@ -17,13 +17,13 @@ repositories {
     maven {
         url "https://dl.bintray.com/hmcts/hmcts-maven"
     }
-    maven {
-        url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
-        credentials {
-            username "$CAMUNDA_NEXUS_USER"
-            password "$CAMUNDA_NEXUS_PASSWORD"
-        }
-    }
+    // maven {
+    //     url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
+    //     credentials {
+    //         username "$CAMUNDA_NEXUS_USER"
+    //         password "$CAMUNDA_NEXUS_PASSWORD"
+    //     }
+    // }
 
     jcenter()
     mavenCentral()
@@ -119,9 +119,9 @@ dependencyManagement {
     imports {
         mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
     }
-    imports {
-        mavenBom 'org.camunda.bpm:camunda-bom:7.13.3-ee'
-    }
+    // imports {
+    //     mavenBom 'org.camunda.bpm:camunda-bom:7.13.3-ee'
+    // }
     dependencies {
         // CVE-2020-26945 - Mishandles deserialization of object streams.
         dependency group: 'org.mybatis', name: 'mybatis', version: '3.5.6'
@@ -155,7 +155,7 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
-    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.3'
+    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
