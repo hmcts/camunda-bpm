@@ -70,4 +70,10 @@
    ]]></notes>
     <cve>CVE-2020-13943</cve>
   </suppress>
+  <suppress until="2022-01-01">
+    <notes><![CDATA[
+     Suppressing as it's already set to use jackson-databind 2.11.2
+   ]]></notes>
+    <cve>CVE-2020-25649</cve>
+  </suppress>
 </suppressions>
