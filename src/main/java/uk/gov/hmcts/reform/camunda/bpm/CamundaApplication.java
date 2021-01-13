@@ -6,10 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableProcessApplication("example-processs")
+@EnableFeignClients(basePackages =
+    {
+        "uk.gov.hmcts.reform.authorisation",
+        "uk.gov.hmcts.reform.camunda.bpm",
+    })
 public class CamundaApplication {
 
     @Autowired

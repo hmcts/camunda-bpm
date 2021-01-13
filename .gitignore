@@ -5,3 +5,4 @@ target/
 build
 out/
 .secrets
+gradle.properties

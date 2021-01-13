@@ -43,6 +43,9 @@ dependencyUpdates {
 
 def versions = [
         logging: '5.1.7',
+        junit: '5.7.0',
+        junitPlatform   : '1.7.0',
+
 ]
 
 checkstyle {
@@ -65,6 +68,16 @@ dependencyCheck {
 }
 
 sourceSets {
+
+    testUtils {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/testUtils/java')
+        }
+        resources.srcDir file('src/testUtils/resources')
+    }
+
     smokeTest {
         java {
             compileClasspath += main.output
@@ -73,14 +86,25 @@ sourceSets {
         }
         resources.srcDir file('src/smokeTest/resources')
     }
+
     functionalTest {
         java {
-            compileClasspath += main.output
-            runtimeClasspath += main.output
+            compileClasspath += testUtils.output
+            runtimeClasspath += testUtils.output
             srcDir file('src/functionalTest/java')
         }
         resources.srcDir file('src/functionalTest/resources')
     }
+
+    integrationTest {
+        java {
+            compileClasspath += testUtils.output
+            runtimeClasspath += testUtils.output
+            srcDir file('src/integrationTest/java')
+        }
+        resources.srcDir file('src/integrationTest/resources')
+    }
+
 
 }
 
@@ -95,15 +119,26 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
     classpath = sourceSets.functionalTest.runtimeClasspath
 }
 
+task integration(type: Test) {
+    description = "Runs integration tests"
+    group = "Verification"
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    failFast = true
+}
+
+
 jacocoTestReport {
-    executionData(test)
+    executionData(test, integration)
     reports {
         xml.enabled = true
         csv.enabled = false
         xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
-project.tasks['sonarqube'].dependsOn jacocoTestReport
+
+project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
+
 sonarqube {
     properties {
         property "sonar.projectName", "Reform :: camunda-bpm"
@@ -113,7 +148,16 @@ sonarqube {
     }
 }
 
-ext["rest-assured.version"] = '4.3.1'
+ext.libraries = [
+    "rest-assured": { version = '4.3.1' },
+    junit5: [
+        "org.junit.jupiter:junit-jupiter-api:${versions.junit}",
+        "org.junit.jupiter:junit-jupiter-engine:${versions.junit}",
+        "org.junit.jupiter:junit-jupiter-params:${versions.junit}",
+        "org.junit.platform:junit-platform-commons:${versions.junitPlatform}",
+        "org.junit.platform:junit-platform-engine:${versions.junitPlatform}"
+    ]
+]
 
 dependencyManagement {
     imports {
@@ -146,6 +190,13 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.16'
     implementation 'org.flywaydb:flyway-core:6.5.4'
 
+    //Jax-B Dependencies
+    implementation "javax.xml.bind:jaxb-api:2.3.1"
+//    implementation "javax.activation:activation:1.1.1"
+    implementation "com.sun.xml.bind:jaxb-impl:3.0.0"
+    implementation "org.glassfish.jaxb:jaxb-runtime:3.0.0"
+
+
     implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
@@ -156,6 +207,22 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
     testImplementation 'org.testcontainers:postgresql:1.14.3'
+
+    testCompile "com.github.tomakehurst:wiremock-jre8:2.27.2"
+    testCompile "org.junit.vintage:junit-vintage-engine:${versions.junit}"
+
+    testImplementation libraries.junit5
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    testUtilsImplementation sourceSets.main.runtimeClasspath
+    testUtilsImplementation sourceSets.test.runtimeClasspath
+
+    integrationTestImplementation sourceSets.main.runtimeClasspath
+    integrationTestImplementation sourceSets.test.runtimeClasspath
+    integrationTestImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     smokeTestImplementation sourceSets.main.runtimeClasspath
     smokeTestImplementation sourceSets.test.runtimeClasspath
@@ -175,8 +242,13 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+tasks.withType(Test) {
+    useJUnitPlatform()
 
-
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
 
 flyway {
     url = System.getenv('FLYWAY_URL')
