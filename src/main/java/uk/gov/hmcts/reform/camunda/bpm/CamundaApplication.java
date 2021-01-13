@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableProcessApplication("example-processs")
+@EnableProcessApplication("sample-process")
 public class CamundaApplication {
 
     @Autowired
@@ -22,7 +22,7 @@ public class CamundaApplication {
     // This is only used for testing purposes
     @Bean
     public CommandLineRunner createDemoProcessInstance() {
-        return (String[] args) -> runtimeService.startProcessInstanceByKey("example-processs");
+        return (String[] args) -> runtimeService.startProcessInstanceByKey("sample-process");
 
     }
 }
