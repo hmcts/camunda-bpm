@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 public class TaskConfigurationServiceTest {
 
 
+    private static final int MAX_RETRIES = 3;
     private static final String CASE_ID = "CASE_123456789";
     private static final String TASK_NAME = "A task name";
     private static final String SERVICE_TOKEN = "Bearer SERVICE_TOKEN";
@@ -41,7 +42,7 @@ public class TaskConfigurationServiceTest {
 
     @Before
     public void setUp() {
-        taskConfigurationService = new TaskConfigurationService(authTokenGenerator, taskConfigurationServiceApi);
+        taskConfigurationService = new TaskConfigurationService(MAX_RETRIES, authTokenGenerator, taskConfigurationServiceApi);
 
         taskId = UUID.randomUUID().toString();
 

@@ -59,3 +59,5 @@ idam:
 task-configuration-api:
   url: ${TASK_CONFIGURATION_URL:http://localhost:8091}
 
+configuration:
+  max_retries: ${MAX_TASK_CONFIGURATION_RETRIES:3}

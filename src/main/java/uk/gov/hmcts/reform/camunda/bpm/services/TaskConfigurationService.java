@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.camunda.bpm.services;
 import feign.FeignException;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.camunda.bpm.clients.TaskConfigurationServiceApi;
@@ -19,19 +20,20 @@ import static java.util.Objects.requireNonNull;
 @Service
 public class TaskConfigurationService {
 
-    private static final int MAX_RETRIES = 3;
     private final TaskConfigurationServiceApi taskConfigurationServiceApi;
     private final AuthTokenGenerator authTokenGenerator;
     private final FeignRetryPolicy<ConfigureTaskResponse> withFeignRetryPolicy;
 
 
     @Autowired
-    public TaskConfigurationService(AuthTokenGenerator authTokenGenerator,
-                                    TaskConfigurationServiceApi taskConfigurationServiceApi
+    public TaskConfigurationService(
+        @Value("${configuration.max_retries}") int maxRetries,
+        AuthTokenGenerator authTokenGenerator,
+        TaskConfigurationServiceApi taskConfigurationServiceApi
     ) {
         this.authTokenGenerator = authTokenGenerator;
         this.taskConfigurationServiceApi = taskConfigurationServiceApi;
-        withFeignRetryPolicy = new FeignRetryPolicy<>(MAX_RETRIES);
+        withFeignRetryPolicy = new FeignRetryPolicy<>(maxRetries);
     }
 
     public void configureTask(DelegateTask task) {
