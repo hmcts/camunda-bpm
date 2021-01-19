@@ -190,13 +190,6 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.16'
     implementation 'org.flywaydb:flyway-core:6.5.4'
 
-    //Jax-B Dependencies
-    implementation "javax.xml.bind:jaxb-api:2.3.1"
-//    implementation "javax.activation:activation:1.1.1"
-    implementation "com.sun.xml.bind:jaxb-impl:3.0.0"
-    implementation "org.glassfish.jaxb:jaxb-runtime:3.0.0"
-
-
     implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
