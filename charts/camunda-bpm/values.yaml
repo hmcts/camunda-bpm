@@ -13,4 +13,5 @@ java:
     CAMUNDA_DB_USER_NAME: "camundaadmin@hmcts-camunda-{{ .Values.global.environment }}"
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     CAMUNDA_DB_CONN_OPTIONS: ?sslmode=require&gssEncMode=disable
-    S2S_URL: rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    TASK_CONFIGURATION_URL: "http://wa-task-configuration-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
