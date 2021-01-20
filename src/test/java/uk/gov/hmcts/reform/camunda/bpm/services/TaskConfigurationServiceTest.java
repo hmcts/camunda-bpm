@@ -12,7 +12,6 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.camunda.bpm.clients.TaskConfigurationServiceApi;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
-import uk.gov.hmcts.reform.camunda.bpm.exception.ServerErrorException;
 
 import java.util.Map;
 import java.util.UUID;
@@ -156,22 +155,17 @@ public class TaskConfigurationServiceTest {
     }
 
     @Test
-    public void should_throw_server_error_exception_when_feign_exception() {
+    public void should_set_task_state_to_unconfigured_when_task_configuration_feign_exception() {
 
         when(taskConfigurationServiceApi.configureTask(
             eq(SERVICE_TOKEN),
             eq(taskId),
             any(ConfigureTaskRequest.class)
         )).thenThrow(FeignException.FeignServerException.class);
-        assertThatThrownBy(() -> taskConfigurationService.configureTask(testTask))
-            .isInstanceOf(ServerErrorException.class)
-            .hasMessage(
-                String.format(
-                    "There was a problem configuring the task with id: %s",
-                    taskId
-                )
-            )
-            .hasCauseInstanceOf(FeignException.class);
+
+        taskConfigurationService.configureTask(testTask);
+
+        verify(testTask, times(1)).setVariable("taskState", "unconfigured");
 
     }
 
