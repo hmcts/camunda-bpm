@@ -2,11 +2,11 @@ package uk.gov.hmcts.reform.camunda.bpm.services;
 
 import feign.FeignException;
 import org.slf4j.Logger;
-import org.springframework.http.HttpStatus;
 
 import java.util.function.Supplier;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class FeignRetryPolicy<T> {
     private static final Logger LOG = getLogger(FeignRetryPolicy.class);
@@ -22,17 +22,10 @@ public class FeignRetryPolicy<T> {
         try {
             return function.get();
         } catch (Exception ex) {
-            if (ex.getCause() != null && ex.getCause() instanceof FeignException) {
-                FeignException rootException = (FeignException) ex.getCause();
-                if (HttpStatus.NOT_FOUND.value() == rootException.status()) {
-                    LOG.error("Non retryable exception was received, call will be aborted.");
-                    return null;
-                } else {
-                    return retry(function);
-                }
+            if (isRetryableException(ex)) {
+                return retry(function);
             } else {
-                LOG.error(
-                    "An unexpected error occurred while making a call with retry policy, call will be aborted");
+                LOG.error("Non retryable exception was received, call will be aborted.");
                 return null;
             }
         }
@@ -49,13 +42,7 @@ public class FeignRetryPolicy<T> {
             try {
                 return function.get();
             } catch (Exception ex) {
-                if (ex.getCause() != null && ex.getCause() instanceof FeignException) {
-                    FeignException rootException = (FeignException) ex.getCause();
-                    if (HttpStatus.NOT_FOUND.value() == rootException.status()) {
-                        //Should not retry
-                        LOG.error("Non retryable exception was received, call will be aborted.");
-                        break;
-                    }
+                if (isRetryableException(ex)) {
                     // increment retry count and check for max retries exceed
                     retryCount++;
                     LOG.warn("[{}/{}] - Call failed on retry.", retryCount, maxRetries);
@@ -64,12 +51,23 @@ public class FeignRetryPolicy<T> {
                         break;
                     }
                 } else {
-                    LOG.error(
-                        "An unexpected error occurred while making a call with retry policy, call will be aborted");
-                    return null;
+                    LOG.error("Non retryable exception was received, call will be aborted.");
+                    break;
                 }
             }
         }
         return null;
+    }
+
+    private boolean isRetryableException(Exception ex) {
+        if (ex.getCause() != null && ex.getCause() instanceof FeignException) {
+            FeignException rootException = (FeignException) ex.getCause();
+            if (rootException.status() != NOT_FOUND.value()) {
+                // Can retry exception
+                return true;
+            }
+        }
+        //Should not retry
+        return false;
     }
 }
