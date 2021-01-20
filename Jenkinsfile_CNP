@@ -6,11 +6,13 @@ def type = "java"
 def product = "camunda"
 def app = "bpm"
 
+
 def secrets = [
-    'camunda-${env}' : [
-        secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
-        secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
-    ],
+    secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
+    secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+]
+
+def vaultSecrets = [
     's2s-${env}': [
         secret('microservicekey-wa-task-management-api', 'S2S_SECRET_TASK_MANAGEMENT_API'),
     ]
@@ -29,6 +31,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 
 withPipeline(type, product, app) {
+
+    loadVaultSecrets(vaultSecrets)
 
     after('checkout') {
     withAzureKeyvault( azureKeyVaultSecrets: secrets,
