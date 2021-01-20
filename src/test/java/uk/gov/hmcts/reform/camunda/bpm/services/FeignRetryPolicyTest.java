@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.camunda.bpm.services;
 
-import camundajar.impl.com.google.gson.Gson;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -72,7 +71,7 @@ public class FeignRetryPolicyTest {
 
         List<ILoggingEvent> logsList = listAppender.list;
         assertEquals(
-            "An unexpected error occurred while making a call with retry policy, call will be aborted",
+            "Non retryable exception was received, call will be aborted.",
             logsList.get(0).getFormattedMessage());
         assertEquals(Level.ERROR, logsList.get(0).getLevel());
 
@@ -87,7 +86,7 @@ public class FeignRetryPolicyTest {
 
         Supplier<ConfigureTaskResponse> methodCall = () -> {
             if (withFeignRetryPolicy.getRetryCount() == 0) {
-                throw exception;
+                throw new RuntimeException(exception);
             } else {
                 return responseMock;
             }
@@ -112,7 +111,7 @@ public class FeignRetryPolicyTest {
         FeignException exception = mock(FeignException.class);
 
         Supplier<ConfigureTaskResponse> methodCall = () -> {
-            throw exception;
+            throw new RuntimeException(exception);
         };
 
         ConfigureTaskResponse result = withFeignRetryPolicy.run(methodCall);
@@ -145,7 +144,7 @@ public class FeignRetryPolicyTest {
         when(exception.status()).thenReturn(HttpStatus.NOT_FOUND.value());
 
         Supplier<ConfigureTaskResponse> methodCall = () -> {
-            throw exception;
+            throw new RuntimeException(exception);
         };
 
         ConfigureTaskResponse result = withFeignRetryPolicy.run(methodCall);
@@ -162,20 +161,18 @@ public class FeignRetryPolicyTest {
 
     }
 
-
     @Test
-    public void should_return_null_and_retry_once_first_call_is_unsuccessful_and_then_non_retryable_exception() {
+    public void should_retry_once_first_call_is_unsuccessful_and_then_non_retryable_exception() {
 
-        FeignException exception = mock(FeignException.class);
-
+        FeignException exception = mock(FeignException.ServiceUnavailable.class);
         FeignException nonRetryableException = mock(FeignException.class);
         when(nonRetryableException.status()).thenReturn(HttpStatus.NOT_FOUND.value());
 
         Supplier<ConfigureTaskResponse> methodCall = () -> {
-            if (withFeignRetryPolicy.getRetryCount() == 0) {
-                throw exception;
+            if (withFeignRetryPolicy.getRetryCount() == 1) {
+                throw new RuntimeException(nonRetryableException);
             } else {
-                throw nonRetryableException;
+                throw new RuntimeException(exception);
             }
         };
 
@@ -185,7 +182,6 @@ public class FeignRetryPolicyTest {
         assertEquals(1, withFeignRetryPolicy.getRetryCount());
 
         List<ILoggingEvent> logsList = listAppender.list;
-        Gson g = new Gson();
         assertEquals("Call failed, The call will be retried 3 times.", logsList.get(0).getFormattedMessage());
         assertEquals(Level.WARN, logsList.get(0).getLevel());
 
