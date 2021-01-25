@@ -50,7 +50,7 @@ import static org.mockito.Mockito.when;
 public class SpringSecurityWebappAuthenticationProviderTest {
 
     @ClassRule
-    public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
+    public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("hmctspublic.azurecr.io/imported/postgres:11.9")
         .withDatabaseName("camunda")
         .withUsername("camunda")
         .withPassword("camunda").withExposedPorts(5432);
