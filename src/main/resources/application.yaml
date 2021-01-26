@@ -95,6 +95,7 @@ server:
   servlet:
     context-path: /
   port: 8999
+
 idam:
   s2s-auth:
     url: ${S2S_URL:http://localhost:4552}
