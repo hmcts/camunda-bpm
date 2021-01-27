@@ -22,7 +22,6 @@ class EventHandlerConfiguration {
 
     @EventListener
     public void onTaskCreatedEvent(DelegateTask delegateTask) {
-        System.out.println("called");
 
         // Avoid the first 2 demo tasks that get created for testing purposes on application startup
         if (!TEST_PURPOSES_ASSIGNEE_ID.equals(delegateTask.getAssignee())) {
