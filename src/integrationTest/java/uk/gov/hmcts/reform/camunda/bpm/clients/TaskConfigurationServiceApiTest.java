@@ -2,12 +2,15 @@ package uk.gov.hmcts.reform.camunda.bpm.clients;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.apache.commons.io.FileUtils;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import uk.gov.hmcts.reform.camunda.bpm.SpringBootIntegrationBaseTest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
@@ -32,6 +35,11 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
     private static WireMockServer wireMockServer;
     private String taskId;
 
+    @ClassRule
+    public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
+        .withDatabaseName("camunda")
+        .withUsername("camunda")
+        .withPassword("camunda").withExposedPorts(5432);
 
     @Autowired
     private TaskConfigurationServiceApi taskConfigurationServiceApi;
