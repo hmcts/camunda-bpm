@@ -95,14 +95,7 @@ server:
   servlet:
     context-path: /
   port: 8999
-idam:
-  s2s-auth:
-    url: ${S2S_URL:http://localhost:4552}
-    name: ${S2S_NAME_CAMUNDA_BPM:camunda_bpm}
-    secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
 
-task-configuration-api:
-  url: ${TASK_CONFIGURATION_URL:http://localhost:8091}
 
 ---
 spring:
@@ -127,3 +120,11 @@ camunda:
     auth:
       enabled: true
 
+idam:
+  s2s-auth:
+    url: ${S2S_URL:http://localhost:4552}
+    name: ${S2S_NAME_CAMUNDA_BPM:camunda_bpm}
+    secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
+
+task-configuration-api:
+  url: ${TASK_CONFIGURATION_URL:http://localhost:8091}
