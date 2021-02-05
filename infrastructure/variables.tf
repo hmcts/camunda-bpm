@@ -2,13 +2,19 @@ variable "common_tags" {
   type = "map"
 }
 
+variable "raw_product" {
+  default = "camunda"
+}
+
 variable "product" {}
 
 variable "component" {}
 
 variable "subscription" {}
 
-variable "env" {}
+variable "env" {
+  type = "string"
+}
 
 variable "location" {
   default = "UK South"

@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   flyway:
     enabled: false
   security:
@@ -47,3 +49,15 @@ camundaAccess:
     batchAccess: false
     decisionDefinitionAccess: true
     optimiseAccess: false
+
+idam:
+  s2s-auth:
+    url: ${S2S_URL:http://localhost:4552}
+    name: ${S2S_NAME_CAMUNDA_BPM:camunda_bpm}
+    secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
+
+task-configuration-api:
+  url: ${TASK_CONFIGURATION_URL:http://localhost:8091}
+
+configuration:
+  max_retries: ${MAX_TASK_CONFIGURATION_RETRIES:3}

@@ -36,16 +36,16 @@ import static org.mockito.Mockito.when;
     classes = CamundaApplication.class)
 @TestPropertySource(locations = "classpath:application.yaml")
 //**Add it to new tests only if needed.** Application startup fails with ENGINE-08043 when running multiple tests.
-@DirtiesContext 
+@DirtiesContext
 public class SpringSecurityApiAuthenticationProviderTest {
-    
+
     public static final String TOKEN = "dummytoken";
     @ClassRule
     public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
         .withDatabaseName("camunda")
         .withUsername("camunda")
-        .withPassword("camunda").withExposedPorts(5433);
-    
+        .withPassword("camunda").withExposedPorts(5432);
+
     @Autowired
     private ProcessEngine processEngine;
 
@@ -61,7 +61,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
     @Test
     public void shouldbe_Unauthorized_when_noHeader() {
         HttpServletRequest request = new MockHttpServletRequest();
-        
+
         AuthenticationResult result = new SpringSecurityApiAuthenticationProvider().extractAuthenticatedUser(request,
             processEngine);
         assertThat(result.isAuthenticated()).isFalse();
@@ -96,7 +96,7 @@ public class SpringSecurityApiAuthenticationProviderTest {
             processEngine);
         assertThat(result.isAuthenticated()).isTrue();
     }
-    
+
     @Test
     public void shouldbe_authorized_withRelevantLimitedPermissions_when_having_customGroupId() {
         MockHttpServletRequest request = new MockHttpServletRequest();

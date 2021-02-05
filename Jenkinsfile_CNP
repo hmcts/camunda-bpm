@@ -6,10 +6,19 @@ def type = "java"
 def product = "camunda"
 def app = "bpm"
 
+
 def secrets = [
-        secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
-        secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+    secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
+    secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+]
+
+def vaultSecrets = [
+    's2s-${env}': [
+        secret('microservicekey-wa-task-management-api', 'S2S_SECRET_TASK_MANAGEMENT_API'),
     ]
+]
+
+
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   [
@@ -22,12 +31,19 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 
 withPipeline(type, product, app) {
- after('checkout') {
+
+    loadVaultSecrets(vaultSecrets)
+
+    after('checkout') {
     withAzureKeyvault( azureKeyVaultSecrets: secrets,
                        keyVaultURLOverride: 'https://rpe-prod.vault.azure.net') {
         env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
         env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
      }
   }
-  enableDbMigration("camunda")
+
+    env.S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+    env.TASK_CONFIGURATION_URL = "http://wa-task-configuration-api-aat.service.core-compute-aat.internal"
+
+    enableDbMigration("camunda")
 }
