@@ -58,6 +58,7 @@ camundaGroups:
     groupId: wa
     accessControl: user
     s2sServiceNames:
+      - wa_camunda_pipeline_upload
       - wa_task_management_api
       - wa_task_configuration_api
       - wa_workflow_api
