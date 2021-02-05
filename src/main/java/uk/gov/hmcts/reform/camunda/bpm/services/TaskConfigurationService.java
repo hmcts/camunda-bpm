@@ -27,7 +27,7 @@ public class TaskConfigurationService {
 
     @Autowired
     public TaskConfigurationService(
-        @Value("${configuration.max_retries}") int maxRetries,
+        @Value("${configuration.maxRetries}") int maxRetries,
         AuthTokenGenerator authTokenGenerator,
         TaskConfigurationServiceApi taskConfigurationServiceApi
     ) {
