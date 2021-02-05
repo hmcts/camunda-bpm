@@ -31,12 +31,13 @@ class EventHandlerConfiguration {
             // Avoid the first 2 demo tasks that get created for testing purposes on application startup
             if (!TEST_PURPOSES_ASSIGNEE_ID.equals(delegateTask.getAssignee())) {
 
-            /*
-             Uses DelegateTask as it is a mutable object
-             Call wa-task-configuration to retrieve configuration for a tasks.
-             The reason it is done in this way is because the tasks does not yet exist in the database
-             when this event is triggered
-             */
+                /*
+                 Uses DelegateTask as it is a mutable object
+                 Call wa-task-configuration to retrieve configuration for a tasks.
+                 The reason it is done in this way is because the tasks does not yet exist in the database
+                 when this event is triggered
+                 */
+
                 taskConfigurationService.configureTask(delegateTask);
             }
         }
