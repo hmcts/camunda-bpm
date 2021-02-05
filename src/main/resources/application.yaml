@@ -106,7 +106,8 @@ task-configuration-api:
   url: ${TASK_CONFIGURATION_URL:http://localhost:8091}
 
 configuration:
-  max_retries: ${MAX_TASK_CONFIGURATION_RETRIES:3}
+  maxRetries: ${MAX_TASK_CONFIGURATION_RETRIES:3}
+  autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:false}
 
 ---
 spring:
