@@ -42,7 +42,11 @@ public class TaskConfigurationServiceTest {
 
     @Before
     public void setUp() {
-        taskConfigurationService = new TaskConfigurationService(MAX_RETRIES, authTokenGenerator, taskConfigurationServiceApi);
+        taskConfigurationService = new TaskConfigurationService(
+            MAX_RETRIES,
+            authTokenGenerator,
+            taskConfigurationServiceApi
+        );
 
         taskId = UUID.randomUUID().toString();
 
