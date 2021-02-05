@@ -47,9 +47,8 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
 
     @BeforeAll
     static void configure() {
-        wireMockServer = new WireMockServer(8888);
+        wireMockServer = new WireMockServer(8880);
         wireMockServer.start();
-
     }
 
     @AfterAll
