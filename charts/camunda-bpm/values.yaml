@@ -7,6 +7,7 @@ java:
       secrets:
         - bpm-POSTGRES-PASS
         - camunda-admin-password
+        - s2s-secret-camunda-bpm
   environment:
     CAMUNDA_DB_HOST: "hmcts-camunda-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
