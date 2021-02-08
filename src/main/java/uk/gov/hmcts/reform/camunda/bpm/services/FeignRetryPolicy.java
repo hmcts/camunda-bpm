@@ -47,7 +47,7 @@ public class FeignRetryPolicy<T> {
                     retryCount++;
                     LOG.warn("[{}/{}] - Call failed on retry.", retryCount, maxRetries);
                     if (retryCount >= maxRetries) {
-                        LOG.error("Maximum allowed retries exceeded.");
+                        LOG.error("Maximum allowed retries exceeded.", ex);
                         break;
                     }
                 } else {
