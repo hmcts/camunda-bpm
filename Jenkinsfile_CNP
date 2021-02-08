@@ -14,7 +14,7 @@ def secrets = [
 
 def vaultSecrets = [
     's2s-${env}': [
-        secret('microservicekey-wa-task-management-api', 'S2S_SECRET_TASK_MANAGEMENT_API'),
+        secret('microservicekey-camunda-bpm', 'S2S_SECRET_CAMUNDA_BPM'),
     ]
 ]
 
