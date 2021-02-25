@@ -46,4 +46,6 @@ withPipeline(type, product, app) {
     env.TASK_CONFIGURATION_URL = "http://wa-task-configuration-api-aat.service.core-compute-aat.internal"
 
     enableDbMigration("camunda")
+    def branchesToSync = ['demo', 'perftest', 'ithc']
+    syncBranchesWithMaster(branchesToSync)
 }
