@@ -187,7 +187,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE'
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.13.0'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.15.0'
     implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.10.0'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
