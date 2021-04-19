@@ -11,7 +11,7 @@
     <notes><![CDATA[
     file name: spring-security-crypto-5.1.5.RELEASE.jar
     ]]></notes>
-    <filePath regex="true">.*spring-security-oauth2-core-5.4.4.RELEASE.jar</filePath>
+    <filePath regex="true">.*spring-security-oauth2-core-5.1.5.RELEASE.jar</filePath>
     <cve>CVE-2018-1258</cve>
   </suppress>
   <suppress>
