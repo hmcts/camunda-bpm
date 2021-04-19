@@ -43,8 +43,8 @@ dependencyUpdates {
 
 def versions = [
         logging: '5.1.7',
-        junit: '5.7.0',
-        junitPlatform   : '1.7.0',
+        junit: '5.7.1',
+        junitPlatform   : '1.7.1',
 
 ]
 
@@ -164,7 +164,7 @@ dependencyManagement {
         mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
     }
     imports {
-        mavenBom 'org.camunda.bpm:camunda-bom:7.13.3-ee'
+        mavenBom 'org.camunda.bpm:camunda-bom:7.15.0-ee'
     }
     dependencies {
         // CVE-2020-26945 - Mishandles deserialization of object streams.
@@ -181,13 +181,13 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:7.13.0-ee'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:7.15.0-ee'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.1.RELEASE'
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.13.0'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.15.0'
     implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.10.0'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -205,7 +205,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
-    testImplementation 'org.testcontainers:postgresql:1.15.1'
+    testImplementation 'org.testcontainers:postgresql:1.15.2'
 
     testCompile "com.github.tomakehurst:wiremock-jre8:2.27.2"
     testCompile "org.junit.vintage:junit-vintage-engine:${versions.junit}"
@@ -281,7 +281,7 @@ configurations.all {
                 details.useVersion '2.12.1'
             }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '10.0.5'
+                details.useVersion '9.0.45'
             }
             // Rest Assured 4.3.0 uses groovy 3
             if (details.requested.group in ['org.codehaus.groovy']) {
