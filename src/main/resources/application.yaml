@@ -113,7 +113,9 @@ configuration:
 
 ---
 spring:
-  profiles: springauth
+  config:
+    activate:
+      on-profile: springauth
   security:
     enabled: true
     oauth2:
