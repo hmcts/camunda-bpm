@@ -6,7 +6,7 @@ java:
     camunda:
       secrets:
         - name: bpm-POSTGRES-PASS
-          alias: CAMUNDA_DB_PASSWORD
+          alias: spring.datasource.password
         - name: camunda-admin-password
           alias: CAMUNDA_ADMIN_PASSWORD
         - name: s2s-secret-camunda-bpm
