@@ -116,6 +116,7 @@ spring:
   config:
     activate:
       on-profile: springauth
+    import: "optional:configtree:/mnt/secrets/camunda/"
   security:
     enabled: true
     oauth2:
