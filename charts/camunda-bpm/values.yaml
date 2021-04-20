@@ -2,10 +2,6 @@ java:
   applicationPort: 8999
   aadIdentityName: camunda
   image: 'hmctsprivate.azurecr.io/camunda/bpm:latest'
-      secrets:
-        - bpm-POSTGRES-PASS
-        - camunda-admin-password
-        - s2s-secret-camunda-bpm
   keyVaults:
     camunda:
       secrets:
