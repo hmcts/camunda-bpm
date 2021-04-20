@@ -5,9 +5,12 @@ java:
   keyVaults:
     camunda:
       secrets:
-        - bpm-POSTGRES-PASS
-        - camunda-admin-password
-        - s2s-secret-camunda-bpm
+        - name: bpm-POSTGRES-PASS
+          alias: CAMUNDA_DB_PASSWORD
+        - name: camunda-admin-password
+          alias: CAMUNDA_ADMIN_PASSWORD
+        - name: s2s-secret-camunda-bpm
+          alias: S2S_SECRET_CAMUNDA_BPM
   environment:
     CAMUNDA_DB_HOST: "hmcts-camunda-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
