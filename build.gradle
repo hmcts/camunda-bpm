@@ -194,8 +194,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.16'
     implementation 'org.flywaydb:flyway-core:6.5.7'
     // JAX-B dependencies for JDK 9+
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
-    implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.0'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.4'
 
     implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
