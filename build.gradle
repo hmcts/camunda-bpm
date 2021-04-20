@@ -191,7 +191,7 @@ dependencies {
     implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.10.1'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.postgresql:postgresql:42.2.16'
+    implementation 'org.postgresql:postgresql:42.2.19'
     implementation 'org.flywaydb:flyway-core:6.5.7'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.4'
