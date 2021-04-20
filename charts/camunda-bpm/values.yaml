@@ -11,6 +11,8 @@ java:
           alias: CAMUNDA_ADMIN_PASSWORD
         - name: s2s-secret-camunda-bpm
           alias: S2S_SECRET_CAMUNDA_BPM
+        - name: AppInsightsInstrumentationKey
+          alias: azure.application-insights.instrumentation-key
   environment:
     CAMUNDA_DB_HOST: "hmcts-camunda-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
