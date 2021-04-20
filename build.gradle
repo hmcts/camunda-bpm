@@ -3,7 +3,7 @@ import org.flywaydb.gradle.task.FlywayMigrateTask
 plugins {
     id 'application'
     id 'checkstyle'
-    id 'com.github.ben-manes.versions' version '0.36.0'
+    id 'com.github.ben-manes.versions' version '0.38.0'
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.flywaydb.flyway' version '6.5.7'
@@ -205,7 +205,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
-    testImplementation 'org.testcontainers:postgresql:1.15.2'
+    testImplementation 'org.testcontainers:postgresql:1.15.3'
 
     testCompile "com.github.tomakehurst:wiremock-jre8:2.27.2"
     testCompile "org.junit.vintage:junit-vintage-engine:${versions.junit}"
