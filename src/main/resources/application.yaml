@@ -123,8 +123,8 @@ spring:
         registration:
           azure:
             provider: azure
-            client-id: ${CLIENT_ID}
-            client-secret: ${CLIENT_SECRET}
+            client-id: ${CLIENT_ID:}
+            client-secret: ${CLIENT_SECRET:}
             authorization-grant-type: authorization_code
             scope:
               - openid
