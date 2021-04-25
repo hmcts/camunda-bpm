@@ -19,6 +19,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +29,7 @@ public class TaskConfigurationServiceTest {
 
 
     private static final int MAX_RETRIES = 3;
+    private static final String TASK_ID = "reviewTheAppeal";
     private static final String CASE_ID = "CASE_123456789";
     private static final String TASK_NAME = "A task name";
     private static final String SERVICE_TOKEN = "Bearer SERVICE_TOKEN";
@@ -113,6 +115,8 @@ public class TaskConfigurationServiceTest {
 
         verify(testTask, times(0)).setAssignee(any());
         verify(testTask, times(1)).setVariablesLocal(expectedVariables);
+        verify(testTask, never()).setVariable(any(), any());
+        verify(testTask, never()).setVariables(any());
 
     }
 
@@ -164,6 +168,8 @@ public class TaskConfigurationServiceTest {
 
         verify(testTask, times(1)).setAssignee(assignee);
         verify(testTask, times(1)).setVariablesLocal(expectedVariables);
+        verify(testTask, never()).setVariable(any(), any());
+        verify(testTask, never()).setVariables(any());
 
     }
 
@@ -179,12 +185,15 @@ public class TaskConfigurationServiceTest {
         taskConfigurationService.configureTask(testTask);
 
         verify(testTask, times(1)).setVariableLocal("taskState", "unconfigured");
+        verify(testTask, never()).setVariable(any(), any());
+        verify(testTask, never()).setVariables(any());
 
     }
 
     private Map<String, Object> getRequiredVariables() {
         return
             Map.of(
+                "taskId", TASK_ID,
                 "caseId", CASE_ID,
                 "name", TASK_NAME
             );
