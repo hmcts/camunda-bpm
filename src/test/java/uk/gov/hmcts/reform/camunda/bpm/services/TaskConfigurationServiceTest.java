@@ -78,7 +78,10 @@ public class TaskConfigurationServiceTest {
                 "caseId", CASE_ID,
                 "securityClassification", "PUBLIC",
                 "autoAssigned", false,
-                "taskSystem", "SELF");
+                "taskSystem", "SELF",
+                "name", TASK_NAME,
+                "taskType", "aTaskId"
+            );
 
         when(taskConfigurationServiceApi.configureTask(
             eq(SERVICE_TOKEN),
@@ -104,11 +107,12 @@ public class TaskConfigurationServiceTest {
                 "securityClassification", "PUBLIC",
                 "autoAssigned", false,
                 "taskSystem", "SELF",
-                "name", TASK_NAME
+                "name", TASK_NAME,
+                "taskType", "aTaskId"
             );
 
         verify(testTask, times(0)).setAssignee(any());
-        verify(testTask, times(1)).setVariables(expectedVariables);
+        verify(testTask, times(1)).setVariablesLocal(expectedVariables);
 
     }
 
@@ -125,7 +129,10 @@ public class TaskConfigurationServiceTest {
                 "caseId", CASE_ID,
                 "securityClassification", "PUBLIC",
                 "autoAssigned", true,
-                "taskSystem", "SELF");
+                "taskSystem", "SELF",
+                "taskType", "aTaskId",
+                "name", TASK_NAME
+            );
 
         when(taskConfigurationServiceApi.configureTask(
             eq(SERVICE_TOKEN),
@@ -151,11 +158,12 @@ public class TaskConfigurationServiceTest {
                 "securityClassification", "PUBLIC",
                 "autoAssigned", true,
                 "taskSystem", "SELF",
-                "name", TASK_NAME
+                "name", TASK_NAME,
+                "taskType", "aTaskId"
             );
 
         verify(testTask, times(1)).setAssignee(assignee);
-        verify(testTask, times(1)).setVariables(expectedVariables);
+        verify(testTask, times(1)).setVariablesLocal(expectedVariables);
 
     }
 
