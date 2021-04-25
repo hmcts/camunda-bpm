@@ -12,8 +12,6 @@ import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
 import uk.gov.hmcts.reform.camunda.bpm.exception.ServerErrorException;
 
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
@@ -44,32 +42,17 @@ public class TaskConfigurationService {
             () -> performConfigureTaskAction(task.getId(), new ConfigureTaskRequest(variables)
             ));
 
-
-        // If the call resulted in a non-retryable exception update the task state to unconfigured only.
+        // If the call resulted in a non-retryable exception update task state process variable to unconfigured only.
         if (response == null) {
             task.setVariable("taskState", "unconfigured");
         } else {
-
-            /*
-              Merge old original variables with the new ones from the response.
-              Favouring the response process variables as they might contain updates.
-            */
-            Map<String, Object> mergedVariables = Stream.concat(
-                variables.entrySet().stream(),
-                response.getConfigurationVariables().entrySet().stream())
-                .collect(
-                    Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue.equals(newValue) ? oldValue : newValue)
-                );
-
             // If response contained an assignee also update mutable object's assignee
             if (response.getAssignee() != null) {
                 task.setAssignee(response.getAssignee());
             }
-            // Update task mutable object with merged process variables
-            task.setVariables(mergedVariables);
+
+            // Update all new variables as local variables scope
+            task.setVariablesLocal(response.getConfigurationVariables());
         }
     }
 
