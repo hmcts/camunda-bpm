@@ -178,7 +178,7 @@ public class TaskConfigurationServiceTest {
 
         taskConfigurationService.configureTask(testTask);
 
-        verify(testTask, times(1)).setVariable("taskState", "unconfigured");
+        verify(testTask, times(1)).setVariableLocal("taskState", "unconfigured");
 
     }
 

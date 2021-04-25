@@ -42,9 +42,9 @@ public class TaskConfigurationService {
             () -> performConfigureTaskAction(task.getId(), new ConfigureTaskRequest(variables)
             ));
 
-        // If the call resulted in a non-retryable exception update task state process variable to unconfigured only.
+        // If the call resulted in a non-retryable exception update task state to unconfigured only.
         if (response == null) {
-            task.setVariable("taskState", "unconfigured");
+            task.setVariableLocal("taskState", "unconfigured");
         } else {
             // If response contained an assignee also update mutable object's assignee
             if (response.getAssignee() != null) {
