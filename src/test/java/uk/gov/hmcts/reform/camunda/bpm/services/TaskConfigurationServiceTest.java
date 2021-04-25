@@ -82,7 +82,7 @@ public class TaskConfigurationServiceTest {
                 "autoAssigned", false,
                 "taskSystem", "SELF",
                 "name", TASK_NAME,
-                "taskType", "aTaskId"
+                "taskType", "reviewTheAppeal"
             );
 
         when(taskConfigurationServiceApi.configureTask(
@@ -110,7 +110,7 @@ public class TaskConfigurationServiceTest {
                 "autoAssigned", false,
                 "taskSystem", "SELF",
                 "name", TASK_NAME,
-                "taskType", "aTaskId"
+                "taskType", "reviewTheAppeal"
             );
 
         verify(testTask, times(0)).setAssignee(any());
@@ -134,7 +134,7 @@ public class TaskConfigurationServiceTest {
                 "securityClassification", "PUBLIC",
                 "autoAssigned", true,
                 "taskSystem", "SELF",
-                "taskType", "aTaskId",
+                "taskType", "reviewTheAppeal",
                 "name", TASK_NAME
             );
 
@@ -163,7 +163,7 @@ public class TaskConfigurationServiceTest {
                 "autoAssigned", true,
                 "taskSystem", "SELF",
                 "name", TASK_NAME,
-                "taskType", "aTaskId"
+                "taskType", "reviewTheAppeal"
             );
 
         verify(testTask, times(1)).setAssignee(assignee);
