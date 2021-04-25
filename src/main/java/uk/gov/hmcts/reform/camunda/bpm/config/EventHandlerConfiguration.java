@@ -31,15 +31,15 @@ class EventHandlerConfiguration {
     @EventListener
     public void onTaskCreatedEvent(DelegateTask delegateTask) {
 
-        if (autoConfigureTaskEnabled) {
-            // Avoid the first 2 demo tasks that get created for testing purposes on application startup
-            if (!TEST_PURPOSES_ASSIGNEE_ID.equals(delegateTask.getAssignee())
-                && CREATE_EVENT.equals(delegateTask.getEventName())) {
+        if (CREATE_EVENT.equals(delegateTask.getEventName())) {
+            if (autoConfigureTaskEnabled) {
+                // Avoid the first 2 demo tasks that get created for testing purposes on application startup
+                if (!TEST_PURPOSES_ASSIGNEE_ID.equals(delegateTask.getAssignee())) {
 
-                LOG.info(
-                    "Create event received, attempting to configure task with id: {}",
-                    delegateTask.getId()
-                );
+                    LOG.info(
+                        "Create event received, attempting to configure task with id: {}",
+                        delegateTask.getId()
+                    );
 
                 /*
                  Uses DelegateTask as it is a mutable object
@@ -48,9 +48,13 @@ class EventHandlerConfiguration {
                  when this event is triggered
                  */
 
-                taskConfigurationService.configureTask(delegateTask);
+                    taskConfigurationService.configureTask(delegateTask);
+                }
+            } else {
+                LOG.info(
+                    "Create event received. Event processed but not handled. auto configuration flag was disabled"
+                );
             }
         }
     }
-
 }
