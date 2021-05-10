@@ -65,18 +65,6 @@ variable "vmDataDiskCount" {
   default     = "1"
 }
 
-variable "esAdditionalYaml" {
-  description = "Additional configuration for Elasticsearch yaml configuration file. Each line must be separated by a \n"
-  type        = "string"
-  default     = "action.auto_create_index: .security*,.monitoring*,.watches,.triggered_watches,.watcher-history*,.logstash_dead_letter,.ml*\nxpack.monitoring.collection.enabled: true\nscript.allowed_types: inline\nscript.allowed_contexts: template, ingest\n"
-}
-
-variable "kibanaAdditionalYaml" {
-  description = "Additional configuration for Kibana yaml configuration file. Each line must be separated by a \n"
-  type        = "string"
-  default     = "console.enabled: false\n"
-}
-
 variable "dynatrace_instance" {}
 
 variable "dynatrace_hostgroup" {}

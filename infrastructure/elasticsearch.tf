@@ -23,8 +23,6 @@ module "elastic" {
   vmSizeAllNodes                = "${var.vmSizeAllNodes}"
   storageAccountType            = "${var.storageAccountType}"
   vmDataDiskCount               = "${var.vmDataDiskCount}"
-  kibanaAdditionalYaml          = "${var.kibanaAdditionalYaml}"
-  esAdditionalYaml              = "${var.esAdditionalYaml}"
   ssh_elastic_search_public_key = "${data.azurerm_key_vault_secret.camunda_elastic_search_public_key.value}"
   providers = {
     azurerm           = "azurerm"
@@ -36,6 +34,8 @@ module "elastic" {
   dynatrace_instance  = "${var.dynatrace_instance}"
   dynatrace_hostgroup = "${var.dynatrace_hostgroup}"
   dynatrace_token     = "${data.azurerm_key_vault_secret.dynatrace_token.value}"
+  enable_logstash     = "No"
+  enable_kibana     = "No"
 }
 
 locals {
