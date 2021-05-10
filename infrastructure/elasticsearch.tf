@@ -12,7 +12,7 @@ provider "azurerm" {
 }
 
 module "elastic" {
-  source                        = "git@github.com:hmcts/cnp-module-elk.git?ref=master"
+  source                        = "git@github.com:hmcts/cnp-module-elk.git?ref=7.11.1"
   product                       = "${var.raw_product}"
   location                      = "${var.location}"
   env                           = "${var.env}"
