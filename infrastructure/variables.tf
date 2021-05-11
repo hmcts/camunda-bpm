@@ -32,9 +32,7 @@ variable "jenkins_AAD_objectId" {
 
 variable "aks_infra_subscription_id" {}
 
-variable "mgmt_subscription_id" {
-  default = "8999dec3-0104-4a27-94ee-6588559729d1"
-}
+variable "mgmt_subscription_id" {}
 
 variable "dataNodesAreMasterEligible" {
   type    = "string"
