@@ -35,7 +35,8 @@ module "elastic" {
   dynatrace_hostgroup = "${var.dynatrace_hostgroup}"
   dynatrace_token     = "${data.azurerm_key_vault_secret.dynatrace_token.value}"
   enable_logstash     = "No"
-  enable_kibana     = "No"
+  enable_kibana       = "No"
+  alerts_email        = "${data.azurerm_key_vault_secret.alerts_email.value}"
 }
 
 locals {
@@ -70,3 +71,7 @@ resource "azurerm_key_vault_secret" "elastic_search_pwd_key_setting" {
   key_vault_id = "${module.vault.key_vault_id}"
 }
 
+data "azurerm_key_vault_secret" "alerts_email" {
+  name         = "alerts-email"
+  key_vault_id = "${module.vault.key_vault_id}"
+}
