@@ -1,11 +1,6 @@
 variable "common_tags" {
   type = map
 }
-
-variable "raw_product" {
-  default = "camunda"
-}
-
 variable "product" {}
 
 variable "component" {}

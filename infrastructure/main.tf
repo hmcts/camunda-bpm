@@ -38,8 +38,8 @@ resource "azurerm_key_vault_secret" "camunda-admin-password" {
 }
 
 data "azurerm_key_vault" "key_vault" {
-  name                = "${var.raw_product}-${var.env}"
-  resource_group_name = "${var.raw_product}-${var.env}"
+  name                = "${var.product}-${var.env}"
+  resource_group_name = "${var.product}-${var.env}"
 }
 
 data "azurerm_key_vault" "s2s_key_vault" {

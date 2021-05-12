@@ -13,7 +13,7 @@ provider "azurerm" {
 
 module "elastic" {
   source                        = "git@github.com:hmcts/cnp-module-elk.git?ref=7.11.1"
-  product                       = var.raw_product
+  product                       = var.product
   location                      = var.location
   env                           = var.env
   subscription                  = var.subscription
@@ -41,7 +41,7 @@ module "elastic" {
 
 locals {
   // Vault name
-  vaultName = "${var.raw_product}-${var.env}"
+  vaultName = "${var.product}-${var.env}"
 }
 
 data "azurerm_log_analytics_workspace" "log_analytics" {
@@ -50,7 +50,7 @@ data "azurerm_log_analytics_workspace" "log_analytics" {
 }
 
 data "azurerm_key_vault_secret" "camunda_elastic_search_public_key" {
-  name         = "${var.raw_product}-ELASTIC-SEARCH-PUB-KEY"
+  name         = "${var.product}-ELASTIC-SEARCH-PUB-KEY"
   key_vault_id = module.vault.key_vault_id
 }
 
@@ -60,13 +60,13 @@ data "azurerm_key_vault_secret" "dynatrace_token" {
 }
 
 resource "azurerm_key_vault_secret" "elastic_search_url_key_setting" {
-  name         = "${var.raw_product}-ELASTIC-SEARCH-URL"
+  name         = "${var.product}-ELASTIC-SEARCH-URL"
   value        = module.elastic.loadbalancerManual
   key_vault_id = module.vault.key_vault_id
 }
 
 resource "azurerm_key_vault_secret" "elastic_search_pwd_key_setting" {
-  name         = "${var.raw_product}-ELASTIC-SEARCH-PASSWORD"
+  name         = "${var.product}-ELASTIC-SEARCH-PASSWORD"
   value        = module.elastic.elasticsearch_admin_password
   key_vault_id = module.vault.key_vault_id
 }
