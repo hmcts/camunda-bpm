@@ -34,8 +34,8 @@ module "elastic" {
   dynatrace_instance  = var.dynatrace_instance
   dynatrace_hostgroup = var.dynatrace_hostgroup
   dynatrace_token     = data.azurerm_key_vault_secret.dynatrace_token.value
-  enable_logstash     = "No"
-  enable_kibana       = "No"
+  enable_logstash     = false
+  enable_kibana       = false
   alerts_email        = data.azurerm_key_vault_secret.alerts_email.value
 }
 
