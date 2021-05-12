@@ -36,8 +36,8 @@ variable "dataNodesAreMasterEligible" {
 
 variable "vmDataNodeCount" {
   description = "number of data nodes"
-  type        = string
-  default     = "1"
+  type        = int
+  default     = 1
 }
 
 variable "vmSizeAllNodes" {
@@ -54,8 +54,8 @@ variable "storageAccountType" {
 
 variable "vmDataDiskCount" {
   description = "number of data node's disks"
-  type        = string
-  default     = "1"
+  type        = int
+  default     = 1
 }
 
 variable "dynatrace_instance" {}
