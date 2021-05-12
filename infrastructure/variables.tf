@@ -25,7 +25,7 @@ variable "jenkins_AAD_objectId" {
   description = "This is the ID of the Application you wish to give access to the Key Vault via the access policy"
 }
 
-variable "aks_infra_subscription_id" {}
+variable "aks_subscription_id" {}
 
 variable "mgmt_subscription_id" {}
 
