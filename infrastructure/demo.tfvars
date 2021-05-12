@@ -1,6 +1,5 @@
 dataNodesAreMasterEligible = "Yes"
 vmDataNodeCount            = 2
-vmSizeAllNodes             = "Standard_D1_v2"
 storageAccountType         = "Default"
 vmDataDiskCount            = 2
 
