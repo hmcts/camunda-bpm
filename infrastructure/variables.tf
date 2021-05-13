@@ -41,12 +41,6 @@ variable "storageAccountType" {
   default     = "Standard"
 }
 
-variable "vmDataDiskCount" {
-  description = "number of data node's disks"
-  type        = number
-  default     = 1
-}
-
 variable "dynatrace_instance" {}
 
 variable "dynatrace_hostgroup" {}

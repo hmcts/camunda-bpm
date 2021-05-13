@@ -19,7 +19,7 @@ module "elastic" {
   subscription                  = var.subscription
   common_tags                   = var.common_tags
   dataNodesAreMasterEligible    = true
-  vmDataNodeCount               = var.vmDataNodeCount
+  vmDataNodeCount               = 1
   vmSizeAllNodes                = var.vmSizeAllNodes
   storageAccountType            = var.storageAccountType
   vmDataDiskCount               = var.vmDataDiskCount
