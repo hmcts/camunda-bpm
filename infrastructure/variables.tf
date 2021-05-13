@@ -25,11 +25,6 @@ variable "aks_subscription_id" {}
 
 variable "mgmt_subscription_id" {}
 
-variable "dataNodesAreMasterEligible" {
-  type    = string
-  default = "Yes"
-}
-
 variable "vmDataNodeCount" {
   description = "number of data nodes"
   type        = number

@@ -18,7 +18,7 @@ module "elastic" {
   env                           = var.env
   subscription                  = var.subscription
   common_tags                   = var.common_tags
-  dataNodesAreMasterEligible    = var.dataNodesAreMasterEligible
+  dataNodesAreMasterEligible    = true
   vmDataNodeCount               = var.vmDataNodeCount
   vmSizeAllNodes                = var.vmSizeAllNodes
   storageAccountType            = var.storageAccountType
