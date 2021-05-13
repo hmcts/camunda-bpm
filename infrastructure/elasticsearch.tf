@@ -19,10 +19,10 @@ module "elastic" {
   subscription                  = var.subscription
   common_tags                   = var.common_tags
   dataNodesAreMasterEligible    = true
-  vmDataNodeCount               = 1
+  vmDataNodeCount               = var.vmDataNodeCount
   vmSizeAllNodes                = var.vmSizeAllNodes
   storageAccountType            = var.storageAccountType
-  vmDataDiskCount               = var.vmDataDiskCount
+  vmDataDiskCount               = 1
   ssh_elastic_search_public_key = data.azurerm_key_vault_secret.camunda_elastic_search_public_key.value
   providers = {
     azurerm           = azurerm
