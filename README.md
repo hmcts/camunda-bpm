@@ -29,3 +29,10 @@ a custom `IdentityProvider` needs to be implemented as well.
  
 Another example of how to use external authentication can be found in the [Camunda SSO JBoss Project](https://github.com/camunda/camunda-sso-jboss).
  
+### Optimize setup
+
+- Docker image is imported to hmctsprivate from `registry.camunda.cloud` ( credentials in `rpe-prod` keyvault)
+- Elastic search is added in [camunda-shared-infrastructure](https://github.com/hmcts/camunda-shared-infrastructure)
+- Installed to AKS using [cnp-flux-config](https://github.com/hmcts/cnp-flux-config/blob/master/k8s/namespaces/camunda/camunda-optimize/)
+- It currently doesn't support Azure AD auth, admin password is in `camunda-{env}`
+- It currently doesn't pick license on start up, we need to add it one-off per environment (license in `rpe-prod` keyvault) 
