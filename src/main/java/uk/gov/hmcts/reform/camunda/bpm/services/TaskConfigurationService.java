@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.camunda.bpm.services;
 
 import feign.FeignException;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,13 @@ import uk.gov.hmcts.reform.camunda.bpm.exception.ServerErrorException;
 
 import java.util.Map;
 
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
 public class TaskConfigurationService {
+    private static final Logger LOG = getLogger(TaskConfigurationService.class);
 
     private final TaskConfigurationServiceApi taskConfigurationServiceApi;
     private final AuthTokenGenerator authTokenGenerator;
@@ -45,7 +49,13 @@ public class TaskConfigurationService {
         // If the call resulted in a non-retryable exception update task state to unconfigured only.
         if (response == null) {
             task.setVariableLocal("taskState", "unconfigured");
+            LOG.error(
+                "Task could not be configured. Task state was set to 'unconfigured' for task id: {}",
+                task.getId()
+            );
         } else {
+
+
             // If response contained an assignee also update mutable object's assignee
             if (response.getAssignee() != null) {
                 task.setAssignee(response.getAssignee());
@@ -66,7 +76,7 @@ public class TaskConfigurationService {
             );
         } catch (FeignException ex) {
             throw new ServerErrorException(
-                String.format(
+                format(
                     "There was a problem configuring the task with id: %s",
                     taskId
                 ), ex);
