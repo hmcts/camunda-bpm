@@ -54,8 +54,6 @@ public class TaskConfigurationService {
                 task.getId()
             );
         } else {
-
-
             // If response contained an assignee also update mutable object's assignee
             if (response.getAssignee() != null) {
                 task.setAssignee(response.getAssignee());
