@@ -49,7 +49,7 @@ public class TaskConfigurationService {
         // If the call resulted in a non-retryable exception update task state to unconfigured only.
         if (response == null) {
             task.setVariableLocal("taskState", "unconfigured");
-            LOG.error(
+            LOG.warn(
                 "Task could not be configured. Task state was set to 'unconfigured' for task id: {}",
                 task.getId()
             );
