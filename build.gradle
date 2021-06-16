@@ -4,7 +4,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'com.github.ben-manes.versions' version '0.38.0'
-    id 'org.springframework.boot' version '2.4.5'
+    id 'org.springframework.boot' version '2.4.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.flywaydb.flyway' version '6.5.7'
     id 'org.owasp.dependencycheck' version '6.1.6'
