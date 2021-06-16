@@ -10,6 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableProcessApplication
 @EnableFeignClients(basePackages =
     {
         "uk.gov.hmcts.reform.authorisation",
