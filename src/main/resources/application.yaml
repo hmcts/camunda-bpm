@@ -118,7 +118,7 @@ task-configuration-api:
 
 configuration:
   maxRetries: ${MAX_TASK_CONFIGURATION_RETRIES:3}
-  autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:false}
+  autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:true}
 
 ---
 spring:
