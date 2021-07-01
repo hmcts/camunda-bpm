@@ -14,6 +14,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 class EventHandlerConfiguration {
 
     private static final Logger LOG = getLogger(EventHandlerConfiguration.class);
+    private static final String EVENT_RECEIVED_LOGGER_MESSAGE = "{} event received for task with id: {}";
     private final TaskConfigurationService taskConfigurationService;
     @Value("${configuration.autoConfigureTasks}")
     private boolean autoConfigureTaskEnabled;
@@ -25,10 +26,7 @@ class EventHandlerConfiguration {
     @EventListener(condition = "#delegateTask.eventName=='create'")
     public void onTaskCreatedEvent(DelegateTask delegateTask) {
         if (autoConfigureTaskEnabled) {
-            LOG.info(
-                "Create event received, attempting to configure task with id: {}",
-                delegateTask.getId()
-            );
+            LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "CREATE", delegateTask.getId());
             /*
             Uses DelegateTask as it is a mutable object
             Call wa-task-configuration to retrieve configuration for a tasks.
@@ -39,20 +37,20 @@ class EventHandlerConfiguration {
             taskConfigurationService.configureTask(delegateTask);
         } else {
             LOG.info(
-                "Create event received. Event processed but not handled. auto configuration flag was disabled"
+                "CREATE event received. Event processed but not handled. auto configuration flag was disabled"
             );
         }
     }
 
     @EventListener(condition = "#delegateTask.eventName=='complete'")
     public void onTaskCompletedEvent(DelegateTask delegateTask) {
-        LOG.info("Complete event received for task with id: {}", delegateTask.getId());
+        LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "COMPLETE", delegateTask.getId());
         delegateTask.setVariableLocal("cftTaskState", "pendingTermination");
     }
 
     @EventListener(condition = "#delegateTask.eventName=='delete'")
     public void onTaskDeletedEvent(DelegateTask delegateTask) {
-        LOG.info("Delete event received for task with id: {}", delegateTask.getId());
+        LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "DELETE", delegateTask.getId());
         delegateTask.setVariableLocal("cftTaskState", "pendingTermination");
     }
 

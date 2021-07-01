@@ -40,6 +40,7 @@ public class TaskConfigurationService {
 
     public void configureTask(DelegateTask task) {
         requireNonNull(task.getId(), "taskId cannot be null");
+        LOG.info("Attempting to configure task with id: {}", task.getId());
         Map<String, Object> variables = task.getVariables();
 
         ConfigureTaskResponse response = withFeignRetryPolicy.run(
