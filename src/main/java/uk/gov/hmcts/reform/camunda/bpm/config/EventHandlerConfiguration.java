@@ -37,8 +37,12 @@ class EventHandlerConfiguration {
             taskConfigurationService.configureTask(delegateTask);
         } else {
             LOG.info(
-                "CREATE event received. Event processed but not handled. auto configuration flag was disabled"
+                EVENT_RECEIVED_LOGGER_MESSAGE +
+                " Event processed but not handled. Auto-configuration flag was disabled",
+                "CREATE",
+                delegateTask.getId()
             );
+
         }
     }
 
