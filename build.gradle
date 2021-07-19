@@ -206,7 +206,7 @@ dependencies {
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
     testImplementation 'org.testcontainers:postgresql:1.15.3'
 
-    testCompile "com.github.tomakehurst:wiremock-jre8:2.27.2"
+    testCompile "com.github.tomakehurst:wiremock-jre8:2.29.1"
     testCompile "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     testImplementation libraries.junit5
