@@ -15,6 +15,7 @@ class EventHandlerConfiguration {
 
     private static final Logger LOG = getLogger(EventHandlerConfiguration.class);
     private static final String EVENT_RECEIVED_LOGGER_MESSAGE = "{} event received for task with id: {}";
+    private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
     private final TaskConfigurationService taskConfigurationService;
     @Value("${configuration.autoConfigureTasks}")
     private boolean autoConfigureTaskEnabled;
@@ -35,6 +36,7 @@ class EventHandlerConfiguration {
             */
 
             taskConfigurationService.configureTask(delegateTask);
+            delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
         } else {
             LOG.info(
                 EVENT_RECEIVED_LOGGER_MESSAGE
@@ -49,13 +51,13 @@ class EventHandlerConfiguration {
     @EventListener(condition = "#delegateTask.eventName=='complete'")
     public void onTaskCompletedEvent(DelegateTask delegateTask) {
         LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "COMPLETE", delegateTask.getId());
-        delegateTask.setVariableLocal("cftTaskState", "pendingTermination");
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 
     @EventListener(condition = "#delegateTask.eventName=='delete'")
     public void onTaskDeletedEvent(DelegateTask delegateTask) {
         LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "DELETE", delegateTask.getId());
-        delegateTask.setVariableLocal("cftTaskState", "pendingTermination");
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 
 }
