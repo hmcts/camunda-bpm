@@ -177,6 +177,9 @@ dependencyManagement {
         dependencySet(group: 'com.google.guava', version: '30.1.1-jre') {
             entry 'guava'
         }
+
+        // CVE-2021-35515, CVE-2021-35516, CVE-2021-35517, CVE-2021-36090
+        dependency group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
     }
 }
 
