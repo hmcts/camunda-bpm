@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +39,7 @@ public class EventHandlerConfigurationTest {
     @Test
     public void onTaskCreatedEvent_should_not_call_task_configuration_service_when_flag_is_disabled() {
 
-        TaskEntity delegateTask = mock(TaskEntity.class);
+        DelegateTask delegateTask = mock(DelegateTask.class);
         ReflectionTestUtils.setField(eventHandlerConfiguration, "autoConfigureTaskEnabled", false);
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
         verify(taskConfigurationService, times(0)).configureTask(delegateTask);
