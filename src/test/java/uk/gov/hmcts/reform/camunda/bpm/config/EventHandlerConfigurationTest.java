@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
