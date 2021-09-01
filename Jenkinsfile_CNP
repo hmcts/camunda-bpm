@@ -43,7 +43,7 @@ withPipeline(type, product, app) {
   }
 
     env.S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
-    env.TASK_CONFIGURATION_URL = "http://wa-task-configuration-api-aat.service.core-compute-aat.internal"
+    env.TASK_CONFIGURATION_URL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
 
     enableDbMigration("camunda")
     def branchesToSync = ['demo', 'perftest', 'ithc']

@@ -111,7 +111,7 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
 
 
     private void stubTaskConfigurationServiceApiResponse(String response) {
-        String url = "/task/" + taskId + "/configuration";
+        String url = "/task-configuration/" + taskId + "/configuration";
         wireMockServer.stubFor(
             post(urlEqualTo(url))
                 .willReturn(

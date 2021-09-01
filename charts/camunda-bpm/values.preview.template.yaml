@@ -13,6 +13,6 @@ java:
     SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
     CAMUNDA_DB_CONN_OPTIONS: ""
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    TASK_CONFIGURATION_URL: "http://wa-task-configuration-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    TASK_CONFIGURATION_URL: "http://wa-task-management-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
   postgresql:
     enabled: true
