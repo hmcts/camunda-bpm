@@ -47,6 +47,7 @@ def versions = [
         junitPlatform   : '1.7.1',
 
 ]
+ext['spring-security.version'] = '5.4.7'
 
 checkstyle {
     maxWarnings = 0
