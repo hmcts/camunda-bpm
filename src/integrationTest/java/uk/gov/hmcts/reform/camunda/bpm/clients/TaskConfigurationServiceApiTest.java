@@ -70,9 +70,10 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
         );
 
         ConfigureTaskResponse response = taskConfigurationServiceApi.configureTask(
-            SERVICE_TOKEN,
-            taskId,
-            new ConfigureTaskRequest(getRequiredVariables())
+                SERVICE_TOKEN,
+                "task-configuration",
+                taskId,
+                new ConfigureTaskRequest(getRequiredVariables())
         );
 
         Map<String, Object> expectedConfigurationVariables = getDefaultExpectedVariables();
@@ -94,9 +95,10 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
         );
 
         ConfigureTaskResponse response = taskConfigurationServiceApi.configureTask(
-            SERVICE_TOKEN,
-            taskId,
-            new ConfigureTaskRequest(getRequiredVariables())
+                SERVICE_TOKEN,
+                "task-configuration",
+                taskId,
+                new ConfigureTaskRequest(getRequiredVariables())
         );
 
         Map<String, Object> expectedConfigurationVariables = getDefaultExpectedVariables();
@@ -125,7 +127,7 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
 
     private String loadJsonResponseFromFile(String fileName) throws IOException {
         String response = FileUtils.readFileToString(
-                ResourceUtils.getFile("classpath:responses/" + fileName), StandardCharsets.UTF_8);
+            ResourceUtils.getFile("classpath:responses/" + fileName), StandardCharsets.UTF_8);
 
         response = response.replace("{TASK_ID}", taskId)
             .replace("{CASE_ID}", CASE_ID)

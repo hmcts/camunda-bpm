@@ -21,10 +21,11 @@ import static uk.gov.hmcts.reform.camunda.bpm.config.ServiceTokenGeneratorConfig
 public interface TaskConfigurationServiceApi {
 
     @PostMapping(
-        value = "/task-configuration/{task-id}/configuration",
+        value = "/{url-path}/{task-id}/configuration",
         consumes = APPLICATION_JSON_VALUE
     )
     ConfigureTaskResponse configureTask(@RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthToken,
+                                        @PathVariable("url-path") String urlPath,
                                         @PathVariable("task-id") String taskId,
                                         @RequestBody ConfigureTaskRequest body);
 }
