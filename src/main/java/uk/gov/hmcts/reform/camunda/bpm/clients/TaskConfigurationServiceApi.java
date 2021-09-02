@@ -13,8 +13,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static uk.gov.hmcts.reform.camunda.bpm.config.ServiceTokenGeneratorConfiguration.SERVICE_AUTHORIZATION;
 
 @FeignClient(
-    name = "task-configuration-api",
-    url = "${task-configuration-api.url}",
+    name = "task-management-api",
+    url = "${task-management-api.url}",
     configuration = FeignClientSnakeCaseConfiguration.class
 )
 @SuppressWarnings("checkstyle:LineLength")

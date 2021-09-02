@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.camunda.bpm.domain.request.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -124,7 +125,7 @@ class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
 
     private String loadJsonResponseFromFile(String fileName) throws IOException {
         String response = FileUtils.readFileToString(
-            ResourceUtils.getFile("classpath:responses/" + fileName));
+                ResourceUtils.getFile("classpath:responses/" + fileName), StandardCharsets.UTF_8);
 
         response = response.replace("{TASK_ID}", taskId)
             .replace("{CASE_ID}", CASE_ID)
