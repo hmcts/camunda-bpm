@@ -32,7 +32,7 @@ public class TaskConfigurationService {
         @Value("${configuration.maxRetries}") int maxRetries,
         AuthTokenGenerator authTokenGenerator,
         TaskConfigurationServiceApi taskConfigurationServiceApi,
-        @Value("configuration.urlPath") String urlPath
+        @Value("${configuration.urlPath}") String urlPath
     ) {
         this.authTokenGenerator = authTokenGenerator;
         this.taskConfigurationServiceApi = taskConfigurationServiceApi;

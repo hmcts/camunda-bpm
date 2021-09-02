@@ -57,5 +57,6 @@ idam:
     secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
 
 configuration:
+  urlPath: ${TASK_CONFIGURATION_URL_PATH:task-configuration}
   maxRetries: ${MAX_TASK_CONFIGURATION_RETRIES:3}
   autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:false}
