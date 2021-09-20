@@ -12,7 +12,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("integration")
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest(classes = CamundaApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    properties = {"task-management-api.url=http://localhost:8880"},
+    classes = CamundaApplication.class,
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SpringBootIntegrationBaseTest {
 
     @LocalServerPort

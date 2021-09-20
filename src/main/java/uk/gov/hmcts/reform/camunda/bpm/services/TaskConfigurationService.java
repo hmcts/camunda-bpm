@@ -25,17 +25,19 @@ public class TaskConfigurationService {
     private final TaskConfigurationServiceApi taskConfigurationServiceApi;
     private final AuthTokenGenerator authTokenGenerator;
     private final FeignRetryPolicy<ConfigureTaskResponse> withFeignRetryPolicy;
-
+    private final String urlPath;
 
     @Autowired
     public TaskConfigurationService(
         @Value("${configuration.maxRetries}") int maxRetries,
         AuthTokenGenerator authTokenGenerator,
-        TaskConfigurationServiceApi taskConfigurationServiceApi
+        TaskConfigurationServiceApi taskConfigurationServiceApi,
+        @Value("${configuration.urlPath}") String urlPath
     ) {
         this.authTokenGenerator = authTokenGenerator;
         this.taskConfigurationServiceApi = taskConfigurationServiceApi;
         withFeignRetryPolicy = new FeignRetryPolicy<>(maxRetries);
+        this.urlPath = urlPath;
     }
 
     public void configureTask(DelegateTask task) {
@@ -66,10 +68,12 @@ public class TaskConfigurationService {
     }
 
 
-    private ConfigureTaskResponse performConfigureTaskAction(String taskId, ConfigureTaskRequest configureTaskRequest) {
+    private ConfigureTaskResponse performConfigureTaskAction(String taskId,
+                                                             ConfigureTaskRequest configureTaskRequest) {
         try {
             return taskConfigurationServiceApi.configureTask(
                 authTokenGenerator.generate(),
+                urlPath,
                 taskId,
                 configureTaskRequest
             );

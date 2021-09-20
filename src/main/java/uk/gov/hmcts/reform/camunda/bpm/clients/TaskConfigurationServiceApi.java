@@ -13,18 +13,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static uk.gov.hmcts.reform.camunda.bpm.config.ServiceTokenGeneratorConfiguration.SERVICE_AUTHORIZATION;
 
 @FeignClient(
-    name = "task-configuration-api",
-    url = "${task-configuration-api.url}",
+    name = "task-management-api",
+    url = "${task-management-api.url}",
     configuration = FeignClientSnakeCaseConfiguration.class
 )
 @SuppressWarnings("checkstyle:LineLength")
 public interface TaskConfigurationServiceApi {
 
     @PostMapping(
-        value = "/task/{task-id}/configuration",
+        value = "/{url-path}/{task-id}/configuration",
         consumes = APPLICATION_JSON_VALUE
     )
     ConfigureTaskResponse configureTask(@RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthToken,
+                                        @PathVariable("url-path") String urlPath,
                                         @PathVariable("task-id") String taskId,
                                         @RequestBody ConfigureTaskRequest body);
 }

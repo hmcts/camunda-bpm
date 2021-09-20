@@ -47,7 +47,8 @@ public class TaskConfigurationServiceTest {
         taskConfigurationService = new TaskConfigurationService(
             MAX_RETRIES,
             authTokenGenerator,
-            taskConfigurationServiceApi
+            taskConfigurationServiceApi,
+            "task-configuration"
         );
 
         taskId = UUID.randomUUID().toString();
@@ -87,6 +88,7 @@ public class TaskConfigurationServiceTest {
 
         when(taskConfigurationServiceApi.configureTask(
             eq(SERVICE_TOKEN),
+            eq("task-configuration"),
             eq(taskId),
             any(ConfigureTaskRequest.class)
         )).thenReturn(
@@ -139,9 +141,10 @@ public class TaskConfigurationServiceTest {
             );
 
         when(taskConfigurationServiceApi.configureTask(
-            eq(SERVICE_TOKEN),
-            eq(taskId),
-            any(ConfigureTaskRequest.class)
+                eq(SERVICE_TOKEN),
+                eq("task-configuration"),
+                eq(taskId),
+                any(ConfigureTaskRequest.class)
         )).thenReturn(
             new ConfigureTaskResponse(
                 taskId,
@@ -175,11 +178,11 @@ public class TaskConfigurationServiceTest {
 
     @Test
     public void should_set_task_state_to_unconfigured_when_task_configuration_feign_exception() {
-
         when(taskConfigurationServiceApi.configureTask(
-            eq(SERVICE_TOKEN),
-            eq(taskId),
-            any(ConfigureTaskRequest.class)
+                eq(SERVICE_TOKEN),
+                eq("task-configuration"),
+                eq(taskId),
+                any(ConfigureTaskRequest.class)
         )).thenThrow(FeignException.FeignServerException.class);
 
         taskConfigurationService.configureTask(testTask);
