@@ -114,4 +114,10 @@
    ]]></notes>
     <cve>CVE-2021-22044</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+     Suppressing as netty http version needs to be updated
+   ]]></notes>
+    <cve>CVE-2021-43797</cve>
+  </suppress>
 </suppressions>
