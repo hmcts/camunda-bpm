@@ -13,8 +13,8 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
     maven { url 'https://jitpack.io' }
     maven {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
