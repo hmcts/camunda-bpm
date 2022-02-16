@@ -4,7 +4,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'com.github.ben-manes.versions' version '0.38.0'
-    id 'org.springframework.boot' version '2.4.6'
+    id 'org.springframework.boot' version '2.4.13'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.flywaydb.flyway' version '6.5.7'
     id 'org.owasp.dependencycheck' version '6.5.3'
@@ -13,6 +13,7 @@ plugins {
 }
 
 repositories {
+    mavenCentral()
     mavenLocal()
     maven { url 'https://jitpack.io' }
     maven {
@@ -22,8 +23,6 @@ repositories {
             password "$CAMUNDA_NEXUS_PASSWORD"
         }
     }
-
-    mavenCentral()
 }
 
 // before committing a change, make sure task still works
@@ -39,9 +38,9 @@ dependencyUpdates {
 }
 
 def versions = [
-        logging: '5.1.9',
+        reformLogging: '5.1.9',
         junit: '5.7.1',
-        junitPlatform   : '1.7.1',
+        junitPlatform   : '1.8.2',
 
 ]
 ext['spring-security.version'] = '5.4.7'
@@ -205,7 +204,7 @@ dependencies {
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '4.0.0'
+    implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '4.0.3'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
@@ -213,7 +212,7 @@ dependencies {
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
     testImplementation 'org.testcontainers:postgresql:1.15.3'
 
-    testCompile "com.github.tomakehurst:wiremock-jre8:2.27.2"
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.32.0'
     testCompile "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     testImplementation libraries.junit5
@@ -284,10 +283,10 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
-                details.useVersion '2.12.1'
+                details.useVersion '2.13.1'
             }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.50'
+                details.useVersion '9.0.58'
             }
             // Rest Assured 4.3.0 uses groovy 3
             if (details.requested.group in ['org.codehaus.groovy']) {
