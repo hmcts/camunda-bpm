@@ -283,10 +283,10 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
-                details.useVersion '2.17.1'
+                details.useVersion '2.13.1'
             }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.58'
+                details.useVersion '10.0.16'
             }
             // Rest Assured 4.3.0 uses groovy 3
             if (details.requested.group in ['org.codehaus.groovy']) {
