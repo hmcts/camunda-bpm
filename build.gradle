@@ -19,8 +19,8 @@ repositories {
     maven {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
         credentials {
-            username "$System.env.CAMUNDA_NEXUS_USER"
-            password "$System.env.CAMUNDA_NEXUS_PASSWORD"
+            username "$CAMUNDA_NEXUS_USER"
+            password "$CAMUNDA_NEXUS_PASSWORD"
         }
     }
 }
