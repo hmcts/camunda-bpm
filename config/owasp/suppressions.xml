@@ -120,4 +120,7 @@
    ]]></notes>
     <cve>CVE-2021-43797</cve>
   </suppress>
+  <suppress>
+    <cve>CVE-2020-15522</cve>
+  </suppress>
 </suppressions>
