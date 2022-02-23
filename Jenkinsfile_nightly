@@ -18,6 +18,15 @@ def secrets = [
     secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
 ]
 
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
 withNightlyPipeline(type, product, component) {
   after('checkout') {
     withAzureKeyvault(azureKeyVaultSecrets: secrets,
