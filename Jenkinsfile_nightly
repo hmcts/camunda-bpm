@@ -1,0 +1,43 @@
+#!groovy
+
+properties([
+  // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
+  pipelineTriggers([cron('H 03 * * *')])
+])
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "camunda"
+def component = "bpm"
+
+def channel = '#platops-build-notices'
+
+def secrets = [
+    secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
+    secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
+withNightlyPipeline(type, product, component) {
+  after('checkout') {
+    withAzureKeyvault(azureKeyVaultSecrets: secrets,
+                       keyVaultURLOverride: 'https://rpe-prod.vault.azure.net') {
+        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
+        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
+     }
+  }
+  
+ env.S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+ env.TASK_MANAGEMENT_API_URL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
+
+  enableSlackNotifications(channel)
+}
