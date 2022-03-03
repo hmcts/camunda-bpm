@@ -2,14 +2,14 @@ import org.flywaydb.gradle.task.FlywayMigrateTask
 
 plugins {
     id 'application'
-    id 'checkstyle'
-    id 'com.github.ben-manes.versions' version '0.38.0'
-    id 'org.springframework.boot' version '2.4.13'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.flywaydb.flyway' version '6.5.7'
-    id 'org.owasp.dependencycheck' version '6.5.3'
-    id 'org.sonarqube' version '3.0'
     id 'jacoco'
+    id 'checkstyle'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.github.ben-manes.versions' version '0.38.0'
+    id 'org.springframework.boot' version '2.6.4'
+    id 'org.flywaydb.flyway' version '8.5.1'
+    id 'org.owasp.dependencycheck' version '6.5.3'
+    id 'org.sonarqube' version '3.2.0'
 }
 
 repositories {
@@ -19,8 +19,8 @@ repositories {
     maven {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
         credentials {
-            username "$CAMUNDA_NEXUS_USER"
-            password "$CAMUNDA_NEXUS_PASSWORD"
+            username "$System.env.CAMUNDA_NEXUS_USER"
+            password "$System.env.CAMUNDA_NEXUS_PASSWORD"
         }
     }
 }
@@ -39,11 +39,11 @@ dependencyUpdates {
 
 def versions = [
         reformLogging: '5.1.9',
-        junit: '5.7.1',
-        junitPlatform   : '1.7.1',
+        junit: '5.8.2',
+        junitPlatform   : '1.8.2',
 
 ]
-ext['spring-security.version'] = '5.4.7'
+ext['spring-security.version'] = '5.6.2'
 
 checkstyle {
     maxWarnings = 0
@@ -58,10 +58,7 @@ dependencyCheck {
     // range of 0-10 fails the build, anything greater and it doesn't fail the build
     failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
     suppressionFile = 'config/owasp/suppressions.xml'
-    analyzers {
-        // Disable scanning of .NET related binaries
-        assemblyEnabled = false
-    }
+    analyzers.assemblyEnabled = false
 }
 
 sourceSets {
@@ -124,12 +121,11 @@ task integration(type: Test) {
     failFast = true
 }
 
-
 jacocoTestReport {
     executionData(test, integration)
     reports {
-        xml.enabled = true
-        csv.enabled = false
+        xml.required = true
+        csv.required = false
         xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
@@ -177,12 +173,26 @@ dependencyManagement {
 
         // CVE-2021-35515, CVE-2021-35516, CVE-2021-35517, CVE-2021-36090
         dependency group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+        dependency group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
 
         //CVE-2021-42550
         dependencySet(group: 'ch.qos.logback', version: '1.2.10') {
             entry 'logback-classic'
             entry 'logback-core'
         }
+
+        dependencySet(group: 'org.seleniumhq.selenium', version: '4.1.2'){
+            entry 'selenium-java'
+            entry 'selenium-remote-driver'
+            entry 'selenium-firefox-driver'
+            entry 'selenium-chrome-driver'
+            entry 'selenium-safari-driver'
+            entry 'selenium-edge-driver'
+            entry 'selenium-api'
+            entry 'selenium-support'
+        }
+
+        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.2'
     }
 }
 
@@ -194,26 +204,26 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.1.RELEASE'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.15.0'
-    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.11.0'
+    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.13.0'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.postgresql:postgresql:42.2.16'
-    implementation 'org.flywaydb:flyway-core:6.5.7'
+    implementation 'org.postgresql:postgresql:42.3.2'
+    implementation 'org.flywaydb:flyway-core:8.5.1'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.4'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '4.0.3'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
-    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
-    testImplementation 'org.slf4j:jul-to-slf4j:1.7.30'
-    testImplementation 'org.testcontainers:postgresql:1.15.3'
-
+    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
+    testImplementation 'org.slf4j:jul-to-slf4j:1.7.36'
+    testImplementation 'org.testcontainers:postgresql:1.16.3'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.32.0'
-    testCompile "org.junit.vintage:junit-vintage-engine:${versions.junit}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     testImplementation libraries.junit5
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
@@ -260,6 +270,10 @@ flyway {
     password = System.getenv('FLYWAY_PASSWORD')
     baselineOnMigrate = true
     baselineVersion = '000'
+}
+
+tasks.withType(Copy) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 task migratePostgresDatabase(type: FlywayMigrateTask) {
