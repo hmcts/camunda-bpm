@@ -210,7 +210,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.3.3'
     implementation 'org.flywaydb:flyway-core:8.5.1'
     // JAX-B dependencies for JDK 9+
-    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.4'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.0.2'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
