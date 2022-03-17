@@ -6,3 +6,5 @@ build
 out/
 .secrets
 gradle.properties
+lib/applicationinsights-agent-*.jar
+lib/applicationinsights.log
