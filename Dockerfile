@@ -1,5 +1,5 @@
 ARG APP_INSIGHTS_AGENT_VERSION=3.2.8
-FROM hmctspublic.azurecr.io/base/java:openjdk-17-distroless-1.5.2
+FROM hmctspublic.azurecr.io/base/java:17-distroless
 
 COPY lib/applicationinsights.json /opt/app/
 COPY build/libs/camunda-bpm.jar /opt/app/
