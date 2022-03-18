@@ -46,7 +46,6 @@ module "key-vault" {
   resource_group_name = azurerm_resource_group.rg.name
   product_group_name  = "DTS Platform Operations"
   common_tags         = var.common_tags
-  managed_identity_object_ids = data.azurerm_user_assigned_identity.rpe-shared-identity.principal_id
 }
 
 resource "azurerm_key_vault_secret" "camunda-admin-password" {
