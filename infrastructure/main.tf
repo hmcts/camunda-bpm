@@ -37,17 +37,6 @@ resource "random_string" "password" {
   number  = true
 }
 
-module "key-vault" {
-  source              = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
-  product             = var.product
-  env                 = var.env
-  tenant_id           = var.tenant_id
-  object_id           = var.jenkins_AAD_objectId
-  resource_group_name = azurerm_resource_group.rg.name
-  product_group_name  = "DTS Platform Operations"
-  common_tags         = var.common_tags
-}
-
 resource "azurerm_key_vault_secret" "camunda-admin-password" {
   name         = "camunda-admin-password"
   value        = random_string.password.result
