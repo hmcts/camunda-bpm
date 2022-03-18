@@ -1,0 +1,6 @@
+{
+    "connectionString": "${file:/mnt/secrets/camunda/app-insights-connection-string}",
+    "role": {
+        "name": "Camunda bpm"
+    }
+}
