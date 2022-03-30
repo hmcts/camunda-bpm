@@ -157,7 +157,7 @@ dependencyManagement {
         mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
     }
     imports {
-        mavenBom 'org.camunda.bpm:camunda-bom:7.15.0-ee'
+        mavenBom 'org.camunda.bpm:camunda-bom:7.16.7-ee'
     }
     dependencies {
         // CVE-2020-26945 - Mishandles deserialization of object streams.
