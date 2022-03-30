@@ -8,7 +8,7 @@ module "database" {
   postgresql_version = "11"
   sku_name           = "GP_Gen5_4"
   sku_tier           = "GeneralPurpose"
-  storage_mb         = "172000"
+  storage_mb         = "179200"
   common_tags        = var.common_tags
   subscription       = var.subscription
   sku_capacity       = 4
