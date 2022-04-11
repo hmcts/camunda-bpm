@@ -222,7 +222,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.36'
     testImplementation 'org.testcontainers:postgresql:1.16.3'
-    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.32.0'
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.33.1'
     testImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     testImplementation libraries.junit5
