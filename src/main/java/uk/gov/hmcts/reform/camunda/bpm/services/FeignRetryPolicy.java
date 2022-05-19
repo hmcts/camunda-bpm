@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.camunda.bpm.services;
 
 import feign.FeignException;
 import org.slf4j.Logger;
+import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
 
 import java.util.function.Supplier;
 
@@ -25,10 +26,22 @@ public class FeignRetryPolicy<T> {
             if (isRetryableException(ex)) {
                 return retry(function);
             } else {
-                LOG.error("Non retryable exception was received, call will be aborted.");
-                return null;
+                logForUnconfiguredTasks(function);
+                LOG.error("Non retryable exception was received, call will be aborted. Exception message was: {}", ex.getMessage());
+                return null;// maybe return exception details
             }
         }
+    }
+
+
+    public void logForUnconfiguredTasks (Supplier<T> function){
+        if (function instanceof ConfigureTaskResponse){
+
+            LOG.error("Task with ID: '{}' could not be configured. Related Case ID: {} Full Variable list: {}", ((ConfigureTaskResponse) function).getTaskId(),
+                    ((ConfigureTaskResponse) function).getCaseId(),
+                    ((ConfigureTaskResponse) function).getConfigurationVariables().toString());
+        }
+
     }
 
     public int getRetryCount() {
