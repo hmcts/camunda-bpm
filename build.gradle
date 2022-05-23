@@ -6,7 +6,7 @@ plugins {
     id 'checkstyle'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'org.springframework.boot' version '2.6.7'
+    id 'org.springframework.boot' version '2.7.0'
     id 'org.flywaydb.flyway' version '8.5.5'
     id 'org.owasp.dependencycheck' version '7.1.0.1'
     id 'org.sonarqube' version '3.3'
@@ -19,8 +19,8 @@ repositories {
     maven {
         url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
         credentials {
-            username "$CAMUNDA_NEXUS_USER"
-            password "$CAMUNDA_NEXUS_PASSWORD"
+            username 'ministry_of_justice_uk'
+            password 'Bq?49xrwGENwLgC!'
         }
     }
 }
@@ -43,7 +43,7 @@ def versions = [
         junitPlatform   : '1.8.2',
 
 ]
-ext['spring-security.version'] = '5.6.2'
+ext['spring-security.version'] = '5.7.1'
 
 checkstyle {
     maxWarnings = 0
@@ -213,7 +213,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.3.3'
     implementation 'org.flywaydb:flyway-core:8.5.5'
     // JAX-B dependencies for JDK 9+
-    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.0.2'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.1.0-M1'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
@@ -226,12 +226,10 @@ dependencies {
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.36'
     testImplementation 'org.testcontainers:postgresql:1.16.3'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.32.0'
-    testImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     testImplementation libraries.junit5
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
     testUtilsImplementation sourceSets.main.runtimeClasspath
