@@ -18,6 +18,7 @@ import java.util.function.Supplier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -71,7 +72,7 @@ public class FeignRetryPolicyTest {
 
         List<ILoggingEvent> logsList = listAppender.list;
         assertEquals(
-            "Non retryable exception was received, call will be aborted.",
+            "Non retryable exception was received, call will be aborted. Exception message was: another exception",
             logsList.get(0).getFormattedMessage());
         assertEquals(Level.ERROR, logsList.get(0).getLevel());
 
@@ -153,10 +154,10 @@ public class FeignRetryPolicyTest {
         assertEquals(0, withFeignRetryPolicy.getRetryCount());
 
         List<ILoggingEvent> logsList = listAppender.list;
-        assertEquals(
-            "Non retryable exception was received, call will be aborted.",
-            logsList.get(0).getFormattedMessage()
+        assertTrue(logsList.get(0).getFormattedMessage()
+                .contains("Non retryable exception was received, call will be aborted. Exception message was:")
         );
+
         assertEquals(Level.ERROR, logsList.get(0).getLevel());
 
     }

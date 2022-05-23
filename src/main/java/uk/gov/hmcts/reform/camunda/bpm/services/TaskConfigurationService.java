@@ -56,7 +56,8 @@ public class TaskConfigurationService {
 
             task.setVariableLocal("taskState", "unconfigured");
             LOG.warn(
-                "Task could not be configured. Task state was set to 'unconfigured' for task id: {} and task Variables: {}",
+                "Task could not be configured. Task state was set to 'unconfigured' for task id: {}"
+                       + " and task Variables: {}",
                 task.getId(), task.getVariables()
             );
         } else {

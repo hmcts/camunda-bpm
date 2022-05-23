@@ -6,9 +6,9 @@ plugins {
     id 'checkstyle'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'org.springframework.boot' version '2.6.5'
+    id 'org.springframework.boot' version '2.6.7'
     id 'org.flywaydb.flyway' version '8.5.5'
-    id 'org.owasp.dependencycheck' version '6.5.3'
+    id 'org.owasp.dependencycheck' version '7.1.0.1'
     id 'org.sonarqube' version '3.3'
 }
 
@@ -59,6 +59,9 @@ dependencyCheck {
     failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
     suppressionFile = 'config/owasp/suppressions.xml'
     analyzers.assemblyEnabled = false
+
+    //CVE Scanning only relevant to production code that is published, not test or other implementations
+    scanConfigurations += 'releaseCompileClasspath'
 }
 
 sourceSets {
@@ -192,7 +195,7 @@ dependencyManagement {
             entry 'selenium-support'
         }
 
-        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.2'
+        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.1'
     }
 }
 
