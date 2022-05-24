@@ -205,9 +205,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.1.RELEASE'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.16.0'
-    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.14.0'
+    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.16.0'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.postgresql:postgresql:42.3.3'
@@ -225,7 +225,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.36'
     testImplementation 'org.testcontainers:postgresql:1.16.3'
-    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.32.0'
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.33.2'
 
     testImplementation libraries.junit5
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
@@ -297,9 +297,6 @@ bootJar {
 configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
-            if (details.requested.name == 'jackson-databind') {
-                details.useVersion '2.13.2.2'
-            }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
                 details.useVersion '9.0.63'
             }
