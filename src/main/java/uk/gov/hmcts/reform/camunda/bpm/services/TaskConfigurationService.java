@@ -49,7 +49,7 @@ public class TaskConfigurationService {
             () -> performConfigureTaskAction(task.getId(), new ConfigureTaskRequest(variables)
             ));
 
-        //for non retryable, get the root cause excetipn message
+        //for non retryable, get the root cause exception message
 
         // If the call resulted in a non-retryable exception update task state to unconfigured only.
         if (response == null) {
