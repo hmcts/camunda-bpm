@@ -155,7 +155,8 @@ public class FeignRetryPolicyTest {
 
         List<ILoggingEvent> logsList = listAppender.list;
         assertTrue(logsList.get(0).getFormattedMessage()
-                .contains("Non retryable exception was received, call will be aborted. Exception message was:")
+                .contains("Non retryable exception was received, call will be aborted."
+                        + " Exception message was: Mock for FeignException, hashCode:")
         );
 
         assertEquals(Level.ERROR, logsList.get(0).getLevel());
