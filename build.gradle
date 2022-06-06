@@ -6,9 +6,9 @@ plugins {
     id 'checkstyle'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'org.springframework.boot' version '2.6.5'
+    id 'org.springframework.boot' version '2.7.0'
     id 'org.flywaydb.flyway' version '8.5.5'
-    id 'org.owasp.dependencycheck' version '6.5.3'
+    id 'org.owasp.dependencycheck' version '7.1.0.1'
     id 'org.sonarqube' version '3.3'
 }
 
@@ -43,7 +43,7 @@ def versions = [
         junitPlatform   : '1.8.2',
 
 ]
-ext['spring-security.version'] = '5.6.2'
+ext['spring-security.version'] = '5.7.1'
 
 checkstyle {
     maxWarnings = 0
@@ -59,6 +59,9 @@ dependencyCheck {
     failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
     suppressionFile = 'config/owasp/suppressions.xml'
     analyzers.assemblyEnabled = false
+
+    //CVE Scanning only relevant to production code that is published, not test or other implementations
+    scanConfigurations += 'releaseCompileClasspath'
 }
 
 sourceSets {
@@ -192,7 +195,7 @@ dependencyManagement {
             entry 'selenium-support'
         }
 
-        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.2'
+        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.1'
     }
 }
 
@@ -202,9 +205,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.1.RELEASE'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.16.0'
-    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.14.0'
+    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.16.0'
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.postgresql:postgresql:42.3.3'
@@ -222,7 +225,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
     testImplementation 'org.slf4j:jul-to-slf4j:1.7.36'
     testImplementation 'org.testcontainers:postgresql:1.16.3'
-    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.32.0'
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.33.2'
     testImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
     testImplementation libraries.junit5
@@ -296,17 +299,20 @@ bootJar {
 configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
-            if (details.requested.name == 'jackson-databind') {
-                details.useVersion '2.13.2.2'
-            }
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.58'
+                details.useVersion '9.0.63'
             }
             // Rest Assured 4.3.0 uses groovy 3
             if (details.requested.group in ['org.codehaus.groovy']) {
                 details.useVersion '3.0.5'
             }
         }
+    }
+}
+
+test {
+    reports {
+        junitXml.required = true
     }
 }
 

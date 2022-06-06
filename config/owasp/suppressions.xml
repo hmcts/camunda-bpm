@@ -96,5 +96,10 @@
    <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson\-databind@.*$</packageUrl>
    <cpe>cpe:/a:fasterxml:jackson-databind</cpe>
 </suppress>
-
+  <suppress>
+    <notes>Doesn't apply to this project. Reference:
+      https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#remoting-httpinvoker
+    </notes>
+    <cve>CVE-2016-1000027</cve>
+  </suppress>
 </suppressions>
