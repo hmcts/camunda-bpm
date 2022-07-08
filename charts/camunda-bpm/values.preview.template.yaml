@@ -5,9 +5,9 @@ java:
   disableKeyVaults: true
   environment:
     CAMUNDA_DB_HOST: "{{ .Release.Name }}-postgresql"
-    CAMUNDA_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
-    CAMUNDA_DB_USER_NAME: "{{ .Values.postgresql.postgresqlUsername}}"
-    CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    CAMUNDA_DB_NAME: "{{ .Values.postgresql.auth.database}}"
+    CAMUNDA_DB_USER_NAME: "{{ .Values.postgresql.auth.username}}"
+    CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.auth.password}}"
     CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
     SPRING_FLYWAY_ENABLED: false
     SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false

@@ -25,7 +25,8 @@ public class FeignRetryPolicy<T> {
             if (isRetryableException(ex)) {
                 return retry(function);
             } else {
-                LOG.error("Non retryable exception was received, call will be aborted.");
+                LOG.error("Non retryable exception was received, call will be aborted. Exception message was: {}",
+                        ex.getMessage());
                 return null;
             }
         }

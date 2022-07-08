@@ -49,12 +49,16 @@ public class TaskConfigurationService {
             () -> performConfigureTaskAction(task.getId(), new ConfigureTaskRequest(variables)
             ));
 
+        //for non retryable, get the root cause exception message
+
         // If the call resulted in a non-retryable exception update task state to unconfigured only.
         if (response == null) {
+
             task.setVariableLocal("taskState", "unconfigured");
             LOG.warn(
-                "Task could not be configured. Task state was set to 'unconfigured' for task id: {}",
-                task.getId()
+                "Task could not be configured. Task state was set to 'unconfigured' for task id: {}"
+                       + " and task Variables: {}",
+                task.getId(), task.getVariables()
             );
         } else {
             // If response contained an assignee also update mutable object's assignee
