@@ -6,9 +6,9 @@ plugins {
     id 'checkstyle'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'org.springframework.boot' version '2.7.0'
-    id 'org.flywaydb.flyway' version '8.5.5'
-    id 'org.owasp.dependencycheck' version '7.1.0.1'
+    id 'org.springframework.boot' version '2.7.1'
+    id 'org.flywaydb.flyway' version '8.5.13'
+    id 'org.owasp.dependencycheck' version '7.1.1'
     id 'org.sonarqube' version '3.3'
 }
 
@@ -43,7 +43,7 @@ def versions = [
         junitPlatform   : '1.8.2',
 
 ]
-ext['spring-security.version'] = '5.7.1'
+ext['spring-security.version'] = '5.7.2'
 
 checkstyle {
     maxWarnings = 0
@@ -184,7 +184,7 @@ dependencyManagement {
             entry 'logback-core'
         }
 
-        dependencySet(group: 'org.seleniumhq.selenium', version: '4.1.3'){
+        dependencySet(group: 'org.seleniumhq.selenium', version: '4.2.1'){
             entry 'selenium-java'
             entry 'selenium-remote-driver'
             entry 'selenium-firefox-driver'
@@ -195,7 +195,7 @@ dependencyManagement {
             entry 'selenium-support'
         }
 
-        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.1'
+        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.2'
     }
 }
 
@@ -211,14 +211,14 @@ dependencies {
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.postgresql:postgresql:42.3.3'
-    implementation 'org.flywaydb:flyway-core:8.5.5'
+    implementation 'org.flywaydb:flyway-core:8.5.13'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.0.2'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '4.0.3'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.1'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.3'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
@@ -243,7 +243,11 @@ dependencies {
 
     smokeTestImplementation sourceSets.main.runtimeClasspath
     smokeTestImplementation sourceSets.test.runtimeClasspath
+    functionalTestImplementation sourceSets.main.runtimeClasspath
+    functionalTestImplementation sourceSets.test.runtimeClasspath
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured'
+    functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
+
 
 }
 
@@ -300,7 +304,7 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.63'
+                details.useVersion '9.0.64'
             }
             // Rest Assured 4.3.0 uses groovy 3
             if (details.requested.group in ['org.codehaus.groovy']) {
