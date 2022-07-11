@@ -243,6 +243,8 @@ dependencies {
 
     smokeTestImplementation sourceSets.main.runtimeClasspath
     smokeTestImplementation sourceSets.test.runtimeClasspath
+    functionalTestImplementation sourceSets.main.runtimeClasspath
+    functionalTestImplementation sourceSets.test.runtimeClasspath
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured'
     functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
 
