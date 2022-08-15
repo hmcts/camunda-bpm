@@ -39,7 +39,7 @@ dependencyUpdates {
 
 def versions = [
         reformLogging: '5.1.9',
-        junit: '5.8.2',
+        junit: '5.9.0',
         junitPlatform   : '1.8.2',
 
 ]
