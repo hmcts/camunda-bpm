@@ -8,8 +8,8 @@ java:
     CAMUNDA_DB_NAME: "{{ .Values.postgresql.auth.database}}"
     CAMUNDA_DB_USER_NAME: "{{ .Values.postgresql.auth.username}}"
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.auth.password}}"
-    CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
-    SPRING_FLYWAY_ENABLED: false
+    CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: false
+    SPRING_FLYWAY_ENABLED: true
     SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
     CAMUNDA_DB_CONN_OPTIONS: ""
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
