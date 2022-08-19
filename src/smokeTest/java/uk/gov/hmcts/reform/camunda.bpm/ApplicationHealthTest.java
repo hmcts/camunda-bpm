@@ -35,7 +35,7 @@ public class ApplicationHealthTest {
             .when()
             .get(testUrl + "/health/liveness")
             .then()
-            .statusCode(200)
+            .statusCode(404)
             // .body("status", is("UP"))
             .extract().response();
 
