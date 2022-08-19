@@ -36,10 +36,10 @@ public class ApplicationHealthTest {
             .get(testUrl + "/health/liveness")
             .then()
             .statusCode(404)
-            // .body("status", is("UP"))
+            .body("status", is("UP"))
             .extract().response();
 
-        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(404, response.statusCode());
     }
 
     @Test
