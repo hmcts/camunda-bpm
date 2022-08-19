@@ -1,11 +1,11 @@
 package uk.gov.hmcts.reform.camunda.bpm;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.Assertions;
+import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
@@ -39,7 +39,7 @@ public class ApplicationHealthTest {
             // .body("status", is("UP"))
             .extract().response();
 
-            Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(200, response.statusCode());
     }
 
     @Test
