@@ -2,7 +2,7 @@ package uk.gov.hmcts.reform.camunda.bpm;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
+// import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 //import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ public class ApplicationHealthTest {
 
     @Test
     public void should_return_UP_for_liveness_check() {
-        Response response = given()
+        given()
             .contentType(ContentType.JSON)
             .accept(APPLICATION_JSON_VALUE)
             .when()
