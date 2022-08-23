@@ -4,7 +4,7 @@
 
 def type = "java"
 def product = "camunda"
-def app = "bpm"
+def component = "bpm"
 
 
 def secrets = [
@@ -30,7 +30,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 
-withPipeline(type, product, app) {
+withPipeline(type, product, component) {
 
     loadVaultSecrets(vaultSecrets)
 
