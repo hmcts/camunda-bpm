@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "camunda-bpm"
+  annotations:
+    # This must match folder-name/job-name in Jenkins.
+    jenkins.io/job-full-name: cft:HMCTS_a_to_c/camunda-bpm
+    github.com/project-slug: hmcts/camunda-bpm
+  tags:
+    - java
+  links:
+    - url: https://hmcts-reform.slack.com/app_redirect?channel=platops-help
+      title: "#platops-help on Slack"
+      icon: chat
+spec:
+  type: service
+  lifecycle: production
+  owner: dts_platform_operations
