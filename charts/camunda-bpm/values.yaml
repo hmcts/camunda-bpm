@@ -13,6 +13,8 @@ java:
           alias: S2S_SECRET_CAMUNDA_BPM
         - name: AppInsightsInstrumentationKey
           alias: azure.application-insights.instrumentation-key
+        - name: app-insights-connection-string
+          alias: app-insights-connection-string
   environment:
     CAMUNDA_DB_HOST: "hmcts-camunda-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
