@@ -254,8 +254,12 @@ dependencies {
 group = 'uk.gov.hmcts.reform'
 version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
-sourceCompatibility = '11'
-targetCompatibility = '11'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
 
 mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
 
