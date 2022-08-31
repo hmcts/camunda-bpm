@@ -41,3 +41,9 @@ variable "sku_capacity" {
   description = "SKU for Postgresql DB"
   default = "4"
 }
+
+variable "sku_name" {
+  type        = "string"
+  description = "SKU Name for Postgresql DB"
+  default = "GP_Gen5_4"
+}
