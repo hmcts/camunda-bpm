@@ -1,1 +1,2 @@
-storage_mb = "197632"
+storage_mb = "512000"
+sku_capacity = 8

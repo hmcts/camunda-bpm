@@ -35,3 +35,9 @@ variable "storage_mb" {
   description = "Storage MB for Postgresql DB"
   default = "179200"
 }
+
+variable "sku_capacity" {
+  type        = "string"
+  description = "SKU for Postgresql DB"
+  default = "4"
+}

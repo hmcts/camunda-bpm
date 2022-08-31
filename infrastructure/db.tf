@@ -11,7 +11,7 @@ module "database" {
   storage_mb         = var.storage_mb
   common_tags        = var.common_tags
   subscription       = var.subscription
-  sku_capacity       = 4
+  sku_capacity       = var.sku_capacity
 }
 
 resource "azurerm_key_vault_secret" "postgres-user" {
