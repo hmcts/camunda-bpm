@@ -1,0 +1,6 @@
+*
+
+!acb.yaml
+!Dockerfile
+!build/libs/camunda-bpm*.jar
+!lib
