@@ -17,7 +17,7 @@ repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
     maven {
-        url = 'https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee'
+        url = 'https://artifacts.camunda.com/artifactory/camunda-bpm-ee/'
         credentials {
             username "$CAMUNDA_NEXUS_USER"
             password "$CAMUNDA_NEXUS_PASSWORD"
