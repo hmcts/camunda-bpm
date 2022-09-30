@@ -36,7 +36,6 @@ class EventHandlerConfiguration {
             */
 
             taskConfigurationService.configureTask(delegateTask);
-            delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
         } else {
             LOG.info(
                 EVENT_RECEIVED_LOGGER_MESSAGE
@@ -46,6 +45,10 @@ class EventHandlerConfiguration {
             );
 
         }
+        LOG.info("Setting {} state to unconfigured for Task id: {}",
+            CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
+            delegateTask.getId());
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
     }
 
     @EventListener(condition = "#delegateTask.eventName=='complete'")

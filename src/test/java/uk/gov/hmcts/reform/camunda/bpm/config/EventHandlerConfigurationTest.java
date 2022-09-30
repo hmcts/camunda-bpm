@@ -17,6 +17,7 @@ import static org.mockito.Mockito.verify;
 public class EventHandlerConfigurationTest {
 
     private EventHandlerConfiguration eventHandlerConfiguration;
+    private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
     @Mock
     private TaskConfigurationService taskConfigurationService;
@@ -34,6 +35,7 @@ public class EventHandlerConfigurationTest {
         ReflectionTestUtils.setField(eventHandlerConfiguration, "autoConfigureTaskEnabled", true);
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
         verify(taskConfigurationService, times(1)).configureTask(delegateTask);
+        verify(delegateTask, times(1)).setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
     }
 
     @Test
@@ -43,5 +45,6 @@ public class EventHandlerConfigurationTest {
         ReflectionTestUtils.setField(eventHandlerConfiguration, "autoConfigureTaskEnabled", false);
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
         verify(taskConfigurationService, times(0)).configureTask(delegateTask);
+        verify(delegateTask, times(1)).setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
     }
 }
