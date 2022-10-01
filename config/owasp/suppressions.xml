@@ -143,4 +143,10 @@
     <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
     <cve>CVE-2022-38750</cve>
   </suppress>
+  <suppress until="2023-01-01">
+    <notes><![CDATA[
+   Using snakeYAML to parse untrusted YAML files may be vulnerable to Denial of Service attacks (DOS).
+   ]]></notes>
+    <cve>CVE-2022-38752</cve>
+  </suppress>
 </suppressions>
