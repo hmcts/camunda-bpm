@@ -16,6 +16,9 @@ class EventHandlerConfiguration {
 
     @EventListener(condition = "#delegateTask.eventName=='create'")
     public void onTaskCreatedEvent(DelegateTask delegateTask) {
+        LOG.info("Setting {} state to unconfigured for Task id: {}",
+                 CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
+                 delegateTask.getId());
         delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
     }
 
