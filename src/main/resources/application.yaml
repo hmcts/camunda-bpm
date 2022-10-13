@@ -90,7 +90,18 @@ camundaGroups:
     groupId: civil
     accessControl: user
     s2sServiceNames:
-      - civil-service
+      - civil-service 
+  Privatelaw:
+    adGroupId: 907beb31-53ee-4d77-9132-282afcf36cdb
+    tenantId: prl
+    groupId: prl
+    accessControl: user
+    s2sServiceNames:
+      - wa_task_management_api
+      - wa_task_configuration_api
+      - wa_workflow_api
+      - wa_case_event_handler
+      - wa_task_monitor
 
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
