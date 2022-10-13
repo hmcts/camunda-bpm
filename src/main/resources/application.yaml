@@ -91,7 +91,7 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - civil-service 
-  Privatelaw:
+  prl:
     adGroupId: 907beb31-53ee-4d77-9132-282afcf36cdb
     tenantId: prl
     groupId: prl
