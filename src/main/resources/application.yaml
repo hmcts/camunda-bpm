@@ -92,17 +92,12 @@ camundaGroups:
     s2sServiceNames:
       - civil-service 
   prl:
-    adGroupId: 907beb31-53ee-4d77-9132-282afcf36cdb
+    adGroupId: 882d8512-688b-48b1-8ce2-05fd49d90478
     tenantId: prl
     groupId: prl
     accessControl: user
     s2sServiceNames:
-      - wa_task_management_api
-      - wa_task_configuration_api
-      - wa_workflow_api
-      - wa_case_event_handler
-      - wa_task_monitor
-
+      - prl_cos_api
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
