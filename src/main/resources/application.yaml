@@ -90,8 +90,14 @@ camundaGroups:
     groupId: civil
     accessControl: user
     s2sServiceNames:
-      - civil-service
-
+      - civil-service 
+  prl:
+    adGroupId: 882d8512-688b-48b1-8ce2-05fd49d90478
+    tenantId: prl
+    groupId: prl
+    accessControl: user
+    s2sServiceNames:
+      - prl_cos_api
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
