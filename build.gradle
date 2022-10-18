@@ -196,7 +196,7 @@ dependencyManagement {
             entry 'selenium-support'
         }
 
-        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.2'
+        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.4'
     }
 }
 
