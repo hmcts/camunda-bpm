@@ -98,6 +98,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - prl_cos_api
+  et:
+    adGroupId: 9e5f2197-c008-4c95-add2-d4548b55e99b
+    tenantId: et
+    groupId: et
+    accessControl: user
+    s2sServiceNames:
+      - et-cos
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
