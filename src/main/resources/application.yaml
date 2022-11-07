@@ -100,8 +100,8 @@ camundaGroups:
       - prl_cos_api
   et:
     adGroupId: 9e5f2197-c008-4c95-add2-d4548b55e99b
-    tenantId: et
-    groupId: et
+    tenantId: EMPLOYMENT
+    groupId: EMPLOYMENT
     accessControl: user
     s2sServiceNames:
       - et-cos
