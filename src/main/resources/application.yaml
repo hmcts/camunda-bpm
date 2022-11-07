@@ -93,8 +93,8 @@ camundaGroups:
       - civil-service 
   prl:
     adGroupId: 882d8512-688b-48b1-8ce2-05fd49d90478
-    tenantId: prl
-    groupId: prl
+    tenantId: privatelaw
+    groupId: privatelaw
     accessControl: user
     s2sServiceNames:
       - prl_cos_api
