@@ -161,7 +161,7 @@
    ]]></notes>
     <cve>CVE-2022-42004</cve>
   </suppress>
-  <suppress until="2023-01-01">
+  <suppress until="2023-04-04">
     <notes> <![CDATA[
    In tomcat-embed-websocket-9.0.64.jar , resource exhaustion can occur because of a lack of a check in BeanDeserializer._deserializeFromArray to prevent use of deeply nested arrays. An application is vulnerable only with certain customized choices for deserialization.
    ]]></notes>
