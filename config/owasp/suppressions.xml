@@ -88,6 +88,12 @@
    ]]></notes>
     <cve>CVE-2020-13943</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+     We are neither using PreparedStatemet.setBytea or PreparedStatemet.setText
+   ]]></notes>
+    <cve>CVE-2022-41946</cve>
+  </suppress>
   <suppress until="2030-01-01">
     <notes><![CDATA[
                  https://nvd.nist.gov/vuln/detail/CVE-2021-28170
@@ -128,6 +134,9 @@
    ]]></notes>
     <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
     <cve>CVE-2022-38749</cve>
+    <cve>CVE-2022-41854</cve>
+    <cve>CVE-2022-1471</cve>
+    <cve>CVE-2022-38752</cve>
   </suppress>
   <suppress>
     <notes><![CDATA[
