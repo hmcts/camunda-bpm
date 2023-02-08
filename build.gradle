@@ -169,7 +169,7 @@ dependencyManagement {
         // CVE-2020-29242, CVE-2020-29243, CVE-2020-29244, CVE-2020-29245 - check spring-boot-starter-oauth2-client for lang-tag update
         dependency group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
         // CVE-2020-13956 - misinterpret malformed authority component in request URIs - check for update available to com.warrenstrange:googleauth in service-auth-provider-client
-        dependency group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+        dependency group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
         // CVE-2020-8908 - Temp directory creation vulnerability
         dependencySet(group: 'com.google.guava', version: '31.1-jre') {
             entry 'guava'
