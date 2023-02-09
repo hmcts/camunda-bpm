@@ -40,7 +40,7 @@ dependencyUpdates {
 def versions = [
         reformLogging: '5.1.9',
         junit: '5.9.2',
-        junitPlatform   : '1.9.0',
+        junitPlatform   : '1.9.2',
 
 ]
 ext['spring-security.version'] = '5.7.2'
