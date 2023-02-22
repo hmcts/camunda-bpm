@@ -105,6 +105,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - et-cos
+  fpl:
+    adGroupId: 24bf2d89-09a4-450f-8c3f-52eeda3fcaea
+    tenantId: publiclaw
+    groupId: publiclaw
+    accessControl: user
+    s2sServiceNames:
+      - fpl-case-service
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
