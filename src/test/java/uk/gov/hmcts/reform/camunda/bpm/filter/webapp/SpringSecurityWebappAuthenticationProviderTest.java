@@ -199,8 +199,6 @@ public class SpringSecurityWebappAuthenticationProviderTest {
     private Authentication getAuthenticationContextWithoutPrincipalName(List<String> groups, String name) {
         Map<String, Object> attributes = ImmutableMap.of(
             "groups", groups,
-            SpringSecurityWebappAuthenticationProvider.GIVEN_NAME,name,
-            SpringSecurityWebappAuthenticationProvider.FAMILY_NAME,name,
             SpringSecurityWebappAuthenticationProvider.UNIQUE_NAME,name
 
         );

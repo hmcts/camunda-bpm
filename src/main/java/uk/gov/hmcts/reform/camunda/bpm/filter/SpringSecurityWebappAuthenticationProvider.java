@@ -26,8 +26,6 @@ import static java.util.Objects.requireNonNull;
 @SuppressWarnings("unused")
 public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
 
-    public static final String GIVEN_NAME = "given_name";
-    public static final String FAMILY_NAME = "family_name";
     public static final String UNIQUE_NAME = "unique_name";
     public static final String GROUPS_ATTRIBUTE = "groups";
     public static final String DEFAULT_GROUP_NAME = "All users";
@@ -96,8 +94,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                             IdentityService identityService) {
 
         User user = identityService.newUser(id);
-        user.setFirstName(requireNonNull(attributes.get(GIVEN_NAME)).toString());
-        user.setLastName(requireNonNull(attributes.get(FAMILY_NAME)).toString());
         user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
 
         identityService.deleteUser(id);
