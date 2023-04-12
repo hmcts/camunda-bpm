@@ -1,0 +1,10 @@
+#!groovy
+
+@Library("Infrastructure") _
+
+def type = "java"
+def product = "camunda"
+def component = "bpm"
+
+withParameterizedPipeline(type, product, component, "sandbox", "sandbox") {
+}
