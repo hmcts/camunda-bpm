@@ -56,6 +56,9 @@ idam:
     name: ${S2S_NAME_CAMUNDA_BPM:camunda_bpm}
     secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
 
+task-management-api:
+  url: http://localhost:8087
+
 configuration:
   urlPath: ${TASK_CONFIGURATION_URL_PATH:task-configuration}
   maxRetries: ${MAX_TASK_CONFIGURATION_RETRIES:3}

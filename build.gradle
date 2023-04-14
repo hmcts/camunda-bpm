@@ -4,12 +4,12 @@ plugins {
     id 'application'
     id 'jacoco'
     id 'checkstyle'
-    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-    id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'org.springframework.boot' version '2.7.2'
-    id 'org.flywaydb.flyway' version '9.14.1'
-    id 'org.owasp.dependencycheck' version '8.0.2'
-    id 'org.sonarqube' version '3.4.0.2513'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.github.ben-manes.versions' version '0.46.0'
+    id 'org.springframework.boot' version '2.7.10'
+    id 'org.flywaydb.flyway' version '9.16.3'
+    id 'org.owasp.dependencycheck' version '8.2.1'
+    id 'org.sonarqube' version '4.0.0.2929'
 }
 
 repositories {
@@ -36,14 +36,6 @@ dependencyUpdates {
     return isNonStable(selection.candidate.version) && !isNonStable(selection.currentVersion)
   }
 }
-
-def versions = [
-        reformLogging: '5.1.9',
-        junit: '5.9.2',
-        junitPlatform   : '1.9.0',
-
-]
-ext['spring-security.version'] = '5.7.2'
 
 checkstyle {
     maxWarnings = 0
@@ -129,7 +121,6 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
-        xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
@@ -139,96 +130,51 @@ sonarqube {
     properties {
         property "sonar.projectName", "Reform :: camunda-bpm"
         property "sonar.projectKey", "uk.gov.hmcts.reform:camunda-bpm"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
         property "sonar.coverage.exclusions", "**/config/**"
     }
 }
 
-ext.libraries = [
-    "rest-assured": { version = '4.3.1' },
-    junit5: [
-        "org.junit.jupiter:junit-jupiter-api:${versions.junit}",
-        "org.junit.jupiter:junit-jupiter-engine:${versions.junit}",
-        "org.junit.jupiter:junit-jupiter-params:${versions.junit}",
-        "org.junit.platform:junit-platform-commons:${versions.junitPlatform}",
-        "org.junit.platform:junit-platform-engine:${versions.junitPlatform}"
-    ]
-]
-
 dependencyManagement {
     imports {
-        mavenBom 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-bom:2.2.0'
-    }
-    imports {
         // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
-        mavenBom 'org.camunda.bpm:camunda-bom:7.17.0-ee'
-    }
-    dependencies {
-        // CVE-2020-26945 - Mishandles deserialization of object streams.
-        dependency group: 'org.mybatis', name: 'mybatis', version: '3.5.10'
-        // CVE-2020-29242, CVE-2020-29243, CVE-2020-29244, CVE-2020-29245 - check spring-boot-starter-oauth2-client for lang-tag update
-        dependency group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
-        // CVE-2020-13956 - misinterpret malformed authority component in request URIs - check for update available to com.warrenstrange:googleauth in service-auth-provider-client
-        dependency group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
-        // CVE-2020-8908 - Temp directory creation vulnerability
-        dependencySet(group: 'com.google.guava', version: '31.1-jre') {
-            entry 'guava'
-        }
-
-        // CVE-2021-35515, CVE-2021-35516, CVE-2021-35517, CVE-2021-36090
-        dependency group: 'org.apache.commons', name: 'commons-compress', version: '1.22'
-        dependency group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-
-        //CVE-2021-42550
-        dependencySet(group: 'ch.qos.logback', version: '1.2.11') {
-            entry 'logback-classic'
-            entry 'logback-core'
-        }
-
-        dependencySet(group: 'org.seleniumhq.selenium', version: '4.8.0'){
-            entry 'selenium-java'
-            entry 'selenium-remote-driver'
-            entry 'selenium-firefox-driver'
-            entry 'selenium-chrome-driver'
-            entry 'selenium-safari-driver'
-            entry 'selenium-edge-driver'
-            entry 'selenium-api'
-            entry 'selenium-support'
-        }
-
-        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.2'
+        mavenBom 'org.camunda.bpm:camunda-bom:7.19.0-ee'
     }
 }
 
 dependencies {
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee:7.15.4-ee'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest'
+
+    implementation 'org.camunda.spin:camunda-spin-dataformat-all'
+
+    implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
+
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE'
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.17.0'
-    implementation 'org.camunda.spin:camunda-spin-dataformat-all:1.18.0'
-    implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.postgresql:postgresql:42.5.3'
-    implementation 'org.flywaydb:flyway-core:9.14.1'
-    // JAX-B dependencies for JDK 9+
-    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.0'
 
-    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
+    implementation 'org.postgresql:postgresql:42.6.0'
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    // JAX-B dependencies for JDK 9+
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.2'
+
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '5.1.9'
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '4.0.3'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.3'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
-    testImplementation 'org.slf4j:jul-to-slf4j:2.0.6'
-    testImplementation 'org.testcontainers:postgresql:1.17.3'
-    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.35.0'
-    testImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
 
-    testImplementation libraries.junit5
+    testImplementation 'org.slf4j:jul-to-slf4j:2.0.7'
+    testImplementation 'org.testcontainers:postgresql:1.18.0'
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.35.0'
+    testImplementation "org.junit.vintage:junit-vintage-engine"
+
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -239,7 +185,7 @@ dependencies {
 
     integrationTestImplementation sourceSets.main.runtimeClasspath
     integrationTestImplementation sourceSets.test.runtimeClasspath
-    integrationTestImplementation "org.junit.vintage:junit-vintage-engine:${versions.junit}"
+    integrationTestImplementation "org.junit.vintage:junit-vintage-engine"
 
     smokeTestImplementation sourceSets.main.runtimeClasspath
     smokeTestImplementation sourceSets.test.runtimeClasspath
@@ -301,20 +247,6 @@ bootJar {
     manifest {
         attributes 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
-    }
-}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.69'
-            }
-            // Rest Assured 4.3.0 uses groovy 3
-            if (details.requested.group in ['org.codehaus.groovy']) {
-                details.useVersion '3.0.5'
-            }
-        }
     }
 }
 
