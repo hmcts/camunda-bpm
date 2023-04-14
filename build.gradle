@@ -158,41 +158,6 @@ dependencyManagement {
         // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
         mavenBom 'org.camunda.bpm:camunda-bom:7.19.0-ee'
     }
-    dependencies {
-        // CVE-2020-26945 - Mishandles deserialization of object streams.
-        dependency group: 'org.mybatis', name: 'mybatis', version: '3.5.10'
-        // CVE-2020-29242, CVE-2020-29243, CVE-2020-29244, CVE-2020-29245 - check spring-boot-starter-oauth2-client for lang-tag update
-        dependency group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
-        // CVE-2020-13956 - misinterpret malformed authority component in request URIs - check for update available to com.warrenstrange:googleauth in service-auth-provider-client
-        dependency group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
-        // CVE-2020-8908 - Temp directory creation vulnerability
-        dependencySet(group: 'com.google.guava', version: '31.1-jre') {
-            entry 'guava'
-        }
-
-        // CVE-2021-35515, CVE-2021-35516, CVE-2021-35517, CVE-2021-36090
-        dependency group: 'org.apache.commons', name: 'commons-compress', version: '1.22'
-        dependency group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-
-        //CVE-2021-42550
-        dependencySet(group: 'ch.qos.logback', version: '1.2.11') {
-            entry 'logback-classic'
-            entry 'logback-core'
-        }
-
-        dependencySet(group: 'org.seleniumhq.selenium', version: '4.8.0'){
-            entry 'selenium-java'
-            entry 'selenium-remote-driver'
-            entry 'selenium-firefox-driver'
-            entry 'selenium-chrome-driver'
-            entry 'selenium-safari-driver'
-            entry 'selenium-edge-driver'
-            entry 'selenium-api'
-            entry 'selenium-support'
-        }
-
-        dependency group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.2'
-    }
 }
 
 dependencies {
@@ -302,20 +267,6 @@ bootJar {
     manifest {
         attributes 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
-    }
-}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.69'
-            }
-            // Rest Assured 4.3.0 uses groovy 3
-            if (details.requested.group in ['org.codehaus.groovy']) {
-                details.useVersion '3.0.5'
-            }
-        }
     }
 }
 
