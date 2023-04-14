@@ -134,7 +134,7 @@ idam:
     secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
 
 task-management-api:
-  url: ${TASK_MANAGEMENT_API_URL:http://localhost:8087}
+  url: http://localhost:8087
 
 configuration:
   urlPath: ${TASK_CONFIGURATION_URL_PATH:task-configuration}
