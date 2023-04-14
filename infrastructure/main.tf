@@ -14,7 +14,7 @@ terraform {
 }
 
 provider "azurerm" {
-  version = "=2.50"
+  version = "=3.52.0"
   features {}
 }
 
@@ -34,7 +34,7 @@ resource "random_string" "password" {
   special = true
   upper   = true
   lower   = true
-  number  = true
+  numeric  = true
 }
 
 resource "azurerm_key_vault_secret" "camunda-admin-password" {
