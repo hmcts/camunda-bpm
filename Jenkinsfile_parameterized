@@ -6,5 +6,36 @@ def type = "java"
 def product = "camunda"
 def component = "bpm"
 
+def secrets = [
+        secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
+        secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+]
+
+def vaultSecrets = [
+        's2s-${env}': [
+                secret('microservicekey-camunda-bpm', 'S2S_SECRET_CAMUNDA_BPM'),
+        ]
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+    [
+            secretType: 'Secret',
+            name: secretName,
+            version: '',
+            envVariable: envVar
+    ]
+}
+
+
 withParameterizedPipeline(type, product, component, "sandbox", "sandbox") {
+    loadVaultSecrets(vaultSecrets)
+
+    afterSuccess('checkout') {
+        withAzureKeyvault( azureKeyVaultSecrets: secrets,
+                keyVaultURLOverride: 'https://rpe-prod.vault.azure.net') {
+            env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
+            env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
+        }
+    }
+
 }
