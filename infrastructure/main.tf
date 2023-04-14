@@ -1,23 +1,3 @@
-terraform {
-  backend "azurerm" {}
-
-  required_providers {
-    random = {
-      source = "hashicorp/random"
-    }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "1.6.0"
-    }
-  }
-
-}
-
-provider "azurerm" {
-  version = "=3.52.0"
-  features {}
-}
-
 locals {
   vault_name = "${var.product}-${var.env}"
 }
