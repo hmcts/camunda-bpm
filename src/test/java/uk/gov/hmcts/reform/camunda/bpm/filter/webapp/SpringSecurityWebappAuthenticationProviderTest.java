@@ -33,7 +33,6 @@ import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthentication
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.singletonList;
