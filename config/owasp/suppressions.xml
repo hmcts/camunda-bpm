@@ -36,6 +36,16 @@
     <cve>CVE-2019-12086</cve>
     <cve>CVE-2019-12384</cve>
     <cve>CVE-2019-12814</cve>
+    <cve>CVE-2020-36518</cve>
+    <cve>CVE-2022-42003</cve>
+    <cve>CVE-2022-42004</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   coming from camunda
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/commons\-fileupload/commons\-fileupload@.*$</packageUrl>
+    <cve>CVE-2023-24998</cve>
   </suppress>
   <suppress>
     <notes><![CDATA[
