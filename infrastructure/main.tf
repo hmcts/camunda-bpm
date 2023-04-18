@@ -1,23 +1,3 @@
-terraform {
-  backend "azurerm" {}
-
-  required_providers {
-    random = {
-      source = "hashicorp/random"
-    }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "1.6.0"
-    }
-  }
-
-}
-
-provider "azurerm" {
-  version = "=2.50"
-  features {}
-}
-
 locals {
   vault_name = "${var.product}-${var.env}"
 }
@@ -34,18 +14,13 @@ resource "random_string" "password" {
   special = true
   upper   = true
   lower   = true
-  number  = true
+  numeric  = true
 }
 
 resource "azurerm_key_vault_secret" "camunda-admin-password" {
   name         = "camunda-admin-password"
   value        = random_string.password.result
   key_vault_id = module.vault.key_vault_id
-}
-
-data "azurerm_key_vault" "key_vault" {
-  name                = "${var.raw_product}-${var.env}"
-  resource_group_name = "${var.raw_product}-${var.env}"
 }
 
 data "azurerm_key_vault" "s2s_key_vault" {
@@ -63,7 +38,7 @@ data "azurerm_key_vault_secret" "s2s_secret" {
 resource "azurerm_key_vault_secret" "camunda_bpm_s2s_secret" {
   name         = "s2s-secret-camunda-bpm"
   value        = data.azurerm_key_vault_secret.s2s_secret.value
-  key_vault_id = data.azurerm_key_vault.key_vault.id
+  key_vault_id = module.vault.key_vault_id
 }
 
 
@@ -84,12 +59,9 @@ resource "azurerm_application_insights" "appinsights" {
     ]
   }
 }
-output "appInsightsInstrumentationKey" {
-  value = azurerm_application_insights.appinsights.instrumentation_key
-}
 
 resource "azurerm_key_vault_secret" "app_insights_key" {
   name         = "AppInsightsInstrumentationKey"
   value        = azurerm_application_insights.appinsights.instrumentation_key
-  key_vault_id = data.azurerm_key_vault.key_vault.id
+  key_vault_id = module.vault.key_vault_id
 }

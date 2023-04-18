@@ -1,5 +1,5 @@
 variable "common_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "raw_product" {
@@ -12,38 +12,31 @@ variable "component" {}
 
 variable "subscription" {}
 
-variable "env" {
-  type = "string"
-}
+variable "env" {}
 
 variable "location" {
   default = "UK South"
 }
 
 variable "tenant_id" {
-  type        = "string"
   description = "The Tenant ID of the Azure Active Directory"
 }
 
 variable "jenkins_AAD_objectId" {
-  type        = "string"
   description = "This is the ID of the Application you wish to give access to the Key Vault via the access policy"
 }
 
 variable "storage_mb" {
-  type        = "string"
   description = "Storage MB for Postgresql DB"
   default = "179200"
 }
 
 variable "sku_capacity" {
-  type        = "string"
   description = "SKU for Postgresql DB"
   default = "4"
 }
 
 variable "sku_name" {
-  type        = "string"
   description = "SKU Name for Postgresql DB"
   default = "GP_Gen5_4"
 }
