@@ -9,11 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableProcessApplication
-@EnableFeignClients(basePackages =
-    {
-        "uk.gov.hmcts.reform.authorisation",
-        "uk.gov.hmcts.reform.camunda.bpm",
-    })
+@EnableFeignClients(basePackages = {"uk.gov.hmcts.reform.authorisation", "uk.gov.hmcts.reform.camunda.bpm"})
 public class CamundaApplication {
 
     @Autowired
