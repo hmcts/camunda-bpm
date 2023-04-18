@@ -25,6 +25,8 @@ services:
   camunda-bpm-database:
     build:
       context: docker/database
+    environment:
+      - POSTGRES_PASSWORD=postgres
     ports:
       - 5898:5432
     volumes:
