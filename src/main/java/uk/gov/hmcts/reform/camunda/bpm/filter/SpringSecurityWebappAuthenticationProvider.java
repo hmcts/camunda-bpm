@@ -96,12 +96,39 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                             IdentityService identityService) {
 
         User user = identityService.newUser(id);
-        user.setFirstName(requireNonNull(attributes.get(GIVEN_NAME)).toString());
-        user.setLastName(requireNonNull(attributes.get(FAMILY_NAME)).toString());
+        String name = (String) attributes.get("name");
+        user.setFirstName(getFirstName(attributes, name));
+        user.setLastName(getLastName(attributes, name));
         user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
 
         identityService.deleteUser(id);
         identityService.saveUser(user);
+    }
+
+    private static String getFirstName(Map<String, Object> attributes, String name) {
+        String firstName = (String) attributes.get(GIVEN_NAME);
+        if (firstName == null) {
+            // assumes that if a name has a comma in it is in the format "LastName, FirstName"
+            if (name.contains(",")) {
+                firstName = name.split(",")[1].trim();
+            } else {
+                firstName = name.split(" ")[0].trim();
+            }
+        }
+        return firstName;
+    }
+
+    private static String getLastName(Map<String, Object> attributes, String name) {
+        String lastName = (String) attributes.get(FAMILY_NAME);
+        if (lastName == null) {
+            // assumes that if a name has a comma in it is in the format "LastName, FirstName"
+            if (name.contains(",")) {
+                lastName = name.split(",")[0].trim();
+            } else {
+                lastName = name.split(" ")[1].trim();
+            }
+        }
+        return lastName;
     }
 
 
