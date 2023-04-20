@@ -1,9 +1,11 @@
 package uk.gov.hmcts.reform.camunda.bpm.filter.webapp;
 
 import org.camunda.bpm.engine.AuthorizationService;
+import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.authorization.Resources;
+import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -69,6 +71,9 @@ public class SpringSecurityWebappAuthenticationProviderTest {
 
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private IdentityService identityService;
 
     @MockBean
     private ServiceAuthorisationApi serviceAuthorisationApi;
@@ -195,6 +200,36 @@ public class SpringSecurityWebappAuthenticationProviderTest {
             Permissions.ALL,  Resources.DEPLOYMENT, "*")).isFalse();
     }
 
+    @Test
+    public void should_work_without_first_and_last_name_comma_format() {
+        getAuthenticationContextWithOutFirstAndLastName(
+                singletonList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"cmcadmin", "Lastname, Firstname"
+        );
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
+                new MockHttpServletRequest(), processEngine);
+
+        User cmcAdmin = identityService.createUserQuery().userId("cmcadmin").singleResult();
+        assertThat(cmcAdmin.getFirstName()).isEqualTo("Firstname");
+        assertThat(cmcAdmin.getLastName()).isEqualTo("Lastname");
+
+        assertThat(result.isAuthenticated()).isTrue();
+    }
+
+    @Test
+    public void should_work_without_first_and_last_name_space_format() {
+        getAuthenticationContextWithOutFirstAndLastName(
+                singletonList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"cmcadmin", "Firstname Lastname"
+        );
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
+                new MockHttpServletRequest(), processEngine);
+        
+        User cmcAdmin = identityService.createUserQuery().userId("cmcadmin").singleResult();
+        assertThat(cmcAdmin.getFirstName()).isEqualTo("Firstname");
+        assertThat(cmcAdmin.getLastName()).isEqualTo("Lastname");
+
+        assertThat(result.isAuthenticated()).isTrue();
+    }
+
     private Authentication getAuthenticationContextWithoutPrincipalName(List<String> groups, String name) {
         Map<String, Object> attributes = ImmutableMap.of(
             "groups", groups,
@@ -211,9 +246,32 @@ public class SpringSecurityWebappAuthenticationProviderTest {
 
     }
 
+    private Authentication getAuthenticationContextWithoutFirstAndLastName(
+            List<String> groups,
+            String id,
+            String displayName
+    ) {
+        Map<String, Object> attributes = ImmutableMap.of(
+                "groups", groups,
+                SpringSecurityWebappAuthenticationProvider.NAME, displayName,
+                SpringSecurityWebappAuthenticationProvider.UNIQUE_NAME, id
+
+        );
+
+        Authentication authentication = new OAuth2AuthenticationToken(mock(DefaultOidcUser.class),
+                singletonList(new OAuth2UserAuthority(attributes)), "testId");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return authentication;
+
+    }
+
     private void getAuthenticationContext(List<String> groups, String name) {
         Authentication  authentication = getAuthenticationContextWithoutPrincipalName(groups, name);
         when(authentication.getName()).thenReturn(name);
+    }
 
+    private void getAuthenticationContextWithOutFirstAndLastName(List<String> groups, String id, String displayName) {
+        Authentication  authentication = getAuthenticationContextWithoutFirstAndLastName(groups, id, displayName);
+        when(authentication.getName()).thenReturn(id);
     }
 }

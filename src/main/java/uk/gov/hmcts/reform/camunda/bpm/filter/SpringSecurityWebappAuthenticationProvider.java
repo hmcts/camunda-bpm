@@ -28,6 +28,8 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
+
+    public static final String NAME = "name";
     public static final String UNIQUE_NAME = "unique_name";
     public static final String GROUPS_ATTRIBUTE = "groups";
     public static final String DEFAULT_GROUP_NAME = "All users";
@@ -96,7 +98,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                             IdentityService identityService) {
 
         User user = identityService.newUser(id);
-        String name = (String) attributes.get("name");
+        String name = (String) attributes.get(NAME);
         user.setFirstName(getFirstName(attributes, name));
         user.setLastName(getLastName(attributes, name));
         user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
