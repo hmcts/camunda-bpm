@@ -49,13 +49,13 @@ module "postgresql_flexible" {
     azurerm.postgres_network = azurerm.postgres_network
   }
 
-  source        = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
-  env           = var.env
-  product       = var.product
-  name          = "hmcts-${var.product}-v14-flexible"
-  component     = var.component
-  business_area = "CFT"
-  location      = var.location
+  source               = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
+  env                  = var.env
+  product              = var.product
+  name                 = "hmcts-${var.product}-v14-flexible"
+  component            = var.component
+  business_area        = "CFT"
+  location             = var.location
   pgsql_admin_username = "camundaadmin"
 
   common_tags          = var.common_tags
