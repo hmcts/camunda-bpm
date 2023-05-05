@@ -12,6 +12,8 @@ variable "component" {}
 
 variable "subscription" {}
 
+variable "aks_subscription_id" {}
+
 variable "env" {}
 
 variable "location" {
