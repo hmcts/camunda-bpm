@@ -12,6 +12,8 @@ variable "component" {}
 
 variable "subscription" {}
 
+variable "aks_subscription_id" {}
+
 variable "env" {}
 
 variable "location" {
@@ -28,15 +30,15 @@ variable "jenkins_AAD_objectId" {
 
 variable "storage_mb" {
   description = "Storage MB for Postgresql DB"
-  default = "179200"
+  default     = "179200"
 }
 
 variable "sku_capacity" {
   description = "SKU for Postgresql DB"
-  default = "4"
+  default     = "4"
 }
 
 variable "sku_name" {
   description = "SKU Name for Postgresql DB"
-  default = "GP_Gen5_4"
+  default     = "GP_Gen5_4"
 }

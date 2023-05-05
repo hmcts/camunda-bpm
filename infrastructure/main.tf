@@ -14,7 +14,7 @@ resource "random_string" "password" {
   special = true
   upper   = true
   lower   = true
-  numeric  = true
+  numeric = true
 }
 
 resource "azurerm_key_vault_secret" "camunda-admin-password" {
@@ -31,7 +31,7 @@ data "azurerm_key_vault" "s2s_key_vault" {
 
 data "azurerm_key_vault_secret" "s2s_secret" {
   key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
-  name      = "microservicekey-camunda-bpm"
+  name         = "microservicekey-camunda-bpm"
 }
 
 # Copy camunda-bpm s2s secret from s2s key vault to camunda key vault
