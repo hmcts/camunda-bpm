@@ -65,13 +65,7 @@ module "postgresql_flexible" {
       name : "camunda"
     }
   ]
-  pgsql_firewall_rules = [
-    {
-      name : "AzureAccess"
-      start_ip_address : "0.0.0.0"
-      end_ip_address : "0.0.0.0"
-    }
-  ]
+  pgsql_firewall_rules = []
   pgsql_version = "14"
 }
 
