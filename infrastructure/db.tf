@@ -57,6 +57,7 @@ module "postgresql_flexible" {
   business_area        = "CFT"
   location             = var.location
   pgsql_admin_username = "camundaadmin"
+  pgsql_storage_mb      = var.pgsql_storage_mb
 
   common_tags          = var.common_tags
   admin_user_object_id = var.jenkins_AAD_objectId
