@@ -5,7 +5,7 @@ java:
   keyVaults:
     camunda:
       secrets:
-        - name: bpm-POSTGRES-PASS
+        - name: bpm-v14-POSTGRES-PASS
           alias: spring.datasource.password
         - name: camunda-admin-password
           alias: CAMUNDA_ADMIN_PASSWORD
@@ -14,9 +14,9 @@ java:
         - name: app-insights-connection-string
           alias: app-insights-connection-string
   environment:
-    CAMUNDA_DB_HOST: "hmcts-camunda-{{ .Values.global.environment }}.postgres.database.azure.com"
+    CAMUNDA_DB_HOST: "hmcts-camunda-v14-flexible-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
-    CAMUNDA_DB_USER_NAME: "camundaadmin@hmcts-camunda-{{ .Values.global.environment }}"
+    CAMUNDA_DB_USER_NAME: "camundaadmin"
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.auth.password}}"
     CAMUNDA_DB_CONN_OPTIONS: ?sslmode=require&gssEncMode=disable
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
