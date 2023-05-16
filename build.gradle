@@ -157,7 +157,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     implementation 'org.postgresql:postgresql:42.6.0'
-    implementation 'org.flywaydb:flyway-core:9.17.0'
+    implementation 'org.flywaydb:flyway-core:9.18.0'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.2'
 
