@@ -43,9 +43,10 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
         historyCleanupStrategy: endTimeBased
-        historyCleanupBatchWindowStartTime: "03:00"
-        historyCleanupBatchWindowEndTime: "06:00"
+        historyCleanupBatchWindowStartTime: "18:00"
+        historyCleanupBatchWindowEndTime: "19:30"
         historyCleanupBatchSize: 300
+        batchOperationHistoryTimeToLive: "P5D"
     database:
 #    We manage database versioning through flyway. Using this can cause the schema to go out of sync.
       schema-update: false
