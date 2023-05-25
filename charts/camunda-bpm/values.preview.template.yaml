@@ -14,5 +14,6 @@ java:
     CAMUNDA_DB_CONN_OPTIONS: ""
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     TASK_MANAGEMENT_API_URL: "http://wa-task-management-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    CAMUNDA_BATCH_HISTORY_TTL: "P30D"
   postgresql:
     enabled: true
