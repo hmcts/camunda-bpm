@@ -46,7 +46,7 @@ camunda:
         historyCleanupBatchWindowStartTime: ${CAMUNDA_HISTORY_CLEANUP_START_TIME:18:00+0100}
         historyCleanupBatchWindowEndTime: ${CAMUNDA_HISTORY_CLEANUP_END_TIME:19:30+0100}
         historyCleanupBatchSize: 300
-        historyCleanupJobLogTimeToLive: ${CAMUNDA_HISTORY_JOBLOG_TTL:P30D}
+        historyCleanupJobLogTimeToLive: ${CAMUNDA_HISTORY_JOBLOG_TTL:P5D}
         historyCleanupDegreeOfParallelism: ${CAMUNDA_BATCH_HISTORY_TTL:4}
         batchOperationHistoryTimeToLive: ${CAMUNDA_BATCH_HISTORY_TTL:P5D}
     database:
