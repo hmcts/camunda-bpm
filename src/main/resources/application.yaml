@@ -43,9 +43,12 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
         historyCleanupStrategy: ${CAMUNDA_HISTORY_CLEANUP_STRATEGY:endTimeBased}
-        historyCleanupBatchWindowStartTime: ${CAMUNDA_HISTORY_CLEANUP_START_TIME:18:00}
-        historyCleanupBatchWindowEndTime: ${CAMUNDA_HISTORY_CLEANUP_END_TIME:19:30}
+        historyCleanupBatchWindowStartTime: ${CAMUNDA_HISTORY_CLEANUP_START_TIME:18:00+0100}
+        historyCleanupBatchWindowEndTime: ${CAMUNDA_HISTORY_CLEANUP_END_TIME:19:30+0100}
         historyCleanupBatchSize: 300
+        historyCleanupJobLogTimeToLive: ${CAMUNDA_HISTORY_JOBLOG_TTL:P30D}
+        historyCleanupDegreeOfParallelism: ${CAMUNDA_BATCH_HISTORY_TTL:4}
+        batchOperationsForHistoryCleanup: ${CAMUNDA_BATCH_OPERATIONS:P5D}
         batchOperationHistoryTimeToLive: ${CAMUNDA_BATCH_HISTORY_TTL:P5D}
     database:
 #    We manage database versioning through flyway. Using this can cause the schema to go out of sync.
