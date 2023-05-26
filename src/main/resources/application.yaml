@@ -47,7 +47,7 @@ camunda:
         historyCleanupBatchWindowEndTime: ${CAMUNDA_HISTORY_CLEANUP_END_TIME:19:30+0100}
         historyCleanupBatchSize: 300
         historyCleanupJobLogTimeToLive: ${CAMUNDA_HISTORY_JOBLOG_TTL:P5D}
-        historyCleanupDegreeOfParallelism: ${CAMUNDA_BATCH_HISTORY_TTL:4}
+        historyCleanupDegreeOfParallelism: ${CAMUNDA_PARALLELISM:4}
         batchOperationHistoryTimeToLive: ${CAMUNDA_BATCH_HISTORY_TTL:P5D}
     database:
 #    We manage database versioning through flyway. Using this can cause the schema to go out of sync.
