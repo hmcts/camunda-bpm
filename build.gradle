@@ -6,8 +6,8 @@ plugins {
     id 'checkstyle'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.github.ben-manes.versions' version '0.46.0'
-    id 'org.springframework.boot' version '2.7.11'
-    id 'org.flywaydb.flyway' version '9.17.0'
+    id 'org.springframework.boot' version '2.7.12'
+    id 'org.flywaydb.flyway' version '9.19.1'
     id 'org.owasp.dependencycheck' version '8.2.1'
     id 'org.sonarqube' version '4.0.0.2929'
 }
@@ -157,7 +157,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     implementation 'org.postgresql:postgresql:42.6.0'
-    implementation 'org.flywaydb:flyway-core:9.17.0'
+    implementation 'org.flywaydb:flyway-core:9.19.1'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.2'
 
