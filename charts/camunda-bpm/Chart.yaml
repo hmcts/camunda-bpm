@@ -1,11 +1,11 @@
 name: camunda-bpm
 home: https://github.com/hmcts/camunda-bpm
-version: 0.0.34
+version: 0.0.35
 description: Camunda bpm
 maintainers:
   - name: HMCTS Platform Operations team
 apiVersion: v2
 dependencies:
   - name: java
-    version: 4.1.1
+    version: 4.1.2
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/' 
