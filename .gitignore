@@ -10,3 +10,4 @@ lib/applicationinsights-agent-*.jar
 lib/applicationinsights.log
 
 .terraform
+.terraform.lock.hcl
