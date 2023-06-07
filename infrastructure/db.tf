@@ -52,3 +52,33 @@ resource "azurerm_key_vault_secret" "postgres-database-v14" {
   value        = "camunda"
   key_vault_id = module.vault.key_vault_id
 }
+
+resource "azurerm_key_vault_secret" "postgres-user" {
+  name         = "bpm-POSTGRES-USER"
+  value        = module.postgresql_flexible.username
+  key_vault_id = module.vault.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "postgres-password" {
+  name         = "bpm-POSTGRES-PASS"
+  value        = module.postgresql_flexible.password
+  key_vault_id = module.vault.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "postgres-host" {
+  name         = "bpm-POSTGRES-HOST"
+  value        = module.postgresql_flexible.fqdn
+  key_vault_id = module.vault.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "postgres-port" {
+  name         = "bpm-POSTGRES-PORT"
+  value        = "5432"
+  key_vault_id = module.vault.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "postgres-database" {
+  name         = "bpm-POSTGRES-DATABASE"
+  value        = "camunda"
+  key_vault_id = module.vault.key_vault_id
+}
