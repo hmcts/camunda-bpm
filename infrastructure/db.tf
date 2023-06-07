@@ -47,8 +47,8 @@ resource "azurerm_key_vault_secret" "postgres-port-v14" {
   key_vault_id = module.vault.key_vault_id
 }
 
-resource "azurerm_key_vault_secret" "postgres-database" {
-  name         = "bpm-POSTGRES-DATABASE"
+resource "azurerm_key_vault_secret" "postgres-database-v14" {
+  name         = "bpm-v14-POSTGRES-DATABASE"
   value        = "camunda"
   key_vault_id = module.vault.key_vault_id
 }
