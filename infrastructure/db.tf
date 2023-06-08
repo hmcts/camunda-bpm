@@ -23,35 +23,6 @@ module "postgresql_flexible" {
   pgsql_firewall_rules = []
   pgsql_version = "14"
 }
-resource "azurerm_key_vault_secret" "postgres-user-v14" {
-  name         = "bpm-v14-POSTGRES-USER"
-  value        = module.postgresql_flexible.username
-  key_vault_id = module.vault.key_vault_id
-}
-
-resource "azurerm_key_vault_secret" "postgres-password-v14" {
-  name         = "bpm-v14-POSTGRES-PASS"
-  value        = module.postgresql_flexible.password
-  key_vault_id = module.vault.key_vault_id
-}
-
-resource "azurerm_key_vault_secret" "postgres-host-v14" {
-  name         = "bpm-v14-POSTGRES-HOST"
-  value        = module.postgresql_flexible.fqdn
-  key_vault_id = module.vault.key_vault_id
-}
-
-resource "azurerm_key_vault_secret" "postgres-port-v14" {
-  name         = "bpm-v14-POSTGRES-PORT"
-  value        = "5432"
-  key_vault_id = module.vault.key_vault_id
-}
-
-resource "azurerm_key_vault_secret" "postgres-database-v14" {
-  name         = "bpm-v14-POSTGRES-DATABASE"
-  value        = "camunda"
-  key_vault_id = module.vault.key_vault_id
-}
 
 resource "azurerm_key_vault_secret" "postgres-user" {
   name         = "bpm-POSTGRES-USER"
