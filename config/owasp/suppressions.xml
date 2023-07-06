@@ -170,7 +170,7 @@
   </suppress>
   <suppress until="2023-08-04">
     <notes><![CDATA[
-   In FasterXML jackson-databind before 2.14.0-rc1, resource exhaustion can occur because of a lack of a check in primitive value deserializers to avoid deep wrapper array nesting, when the UNWRAP_SINGLE_VALUE_ARRAYS feature is enabled.
+   ** DISPUTED ** An issue was discovered jackson-databind thru 2.15.2 allows attackers to cause a denial of service or other unspecified impacts via crafted object that uses cyclic dependencies. NOTE: the vendor's perspective is that the product is not intended for use with untrusted input. 
    ]]></notes>
     <cve>CVE-2023-35116</cve>
   </suppress>
