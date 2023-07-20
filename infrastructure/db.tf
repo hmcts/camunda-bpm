@@ -63,6 +63,14 @@ module "postgresql_flexible" {
       value = "4096"
     },
     {
+      name  = "effective_io_concurrency"
+      value = "200"
+    },
+    {
+      name  = "backslash_quote"
+      value = "on"
+    },
+    {
       name  = "azure.extensions"
       value = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PLPGSQL"
     }
