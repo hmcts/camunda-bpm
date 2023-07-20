@@ -28,22 +28,6 @@ variable "jenkins_AAD_objectId" {
   description = "This is the ID of the Application you wish to give access to the Key Vault via the access policy"
 }
 
-variable "storage_mb" {
-  description = "Storage MB for Postgresql DB"
-  default     = "179200"
-}
-
 variable "pgsql_storage_mb" {
   description = "Storage MB for Postgresql DB"
   default     = "65536"
-}
-
-variable "sku_capacity" {
-  description = "SKU for Postgresql DB"
-  default     = "4"
-}
-
-variable "sku_name" {
-  description = "SKU Name for Postgresql DB"
-  default     = "GP_Gen5_4"
-}
