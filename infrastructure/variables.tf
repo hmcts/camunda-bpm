@@ -31,3 +31,4 @@ variable "jenkins_AAD_objectId" {
 variable "pgsql_storage_mb" {
   description = "Storage MB for Postgresql DB"
   default     = "65536"
+}
