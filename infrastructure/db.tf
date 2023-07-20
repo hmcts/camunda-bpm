@@ -20,6 +20,53 @@ module "postgresql_flexible" {
       name : "camunda"
     }
   ]
+  // server_configuration values set based on SKU (CPU/RAM) and Max Connections
+  pgsql_server_configuration = [
+    {
+      name  = "shared_buffers"
+      value = "2097152"
+    },
+    {
+      name  = "work_mem"
+      value = "7489"
+    },
+    {
+      name  = "maintenance_work_mem"
+      value = "512000"
+    },
+    {
+      name  = "effective_cache_size"
+      value = "3932160"
+    },
+    {
+      name  = "max_parallel_workers"
+      value = "0"
+    },
+    {
+      name  = "max_parallel_workers_per_gather"
+      value = "0"
+    },
+    {
+      name  = "random_page_cost"
+      value = "1.1"
+    },
+    {
+      name  = "wal_buffers"
+      value = "16384"
+    },
+    {
+      name  = "min_wal_size"
+      value = "1024"
+    },
+    {
+      name  = "max_wal_size"
+      value = "4096"
+    },
+    {
+      name  = "azure.extensions"
+      value = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PLPGSQL"
+    }
+  ]
   pgsql_firewall_rules = []
   pgsql_version = "14"
 }
