@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure") _
+@Library("Infrastructure@DTSPO-14461-java-logging-nagger") _
 
 def type = "java"
 def product = "camunda"
