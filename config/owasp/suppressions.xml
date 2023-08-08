@@ -139,6 +139,10 @@
     <cve>CVE-2022-25857</cve>
   </suppress>
   <suppress>
+    <notes>False Positive, noted as not a CVE in https://github.com/FasterXML/jackson-databind/issues/3972 discussion </notes>
+    <cve>CVE-2023-35116</cve>
+  </suppress>
+  <suppress>
     <notes><![CDATA[
    file name: snakeyaml-1.30.jar
    ]]></notes>
