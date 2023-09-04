@@ -9,7 +9,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.15'
     id 'org.flywaydb.flyway' version '9.22.0'
     id 'org.owasp.dependencycheck' version '8.3.1'
-    id 'org.sonarqube' version '4.3.0.3225'
+    id 'org.sonarqube' version '4.3.1.3277'
 }
 
 repositories {
