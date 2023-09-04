@@ -137,7 +137,7 @@ sonarqube {
 dependencyManagement {
     imports {
         // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
-        mavenBom 'org.camunda.bpm:camunda-bom:7.19.3-ee'
+        mavenBom 'org.camunda.bpm:camunda-bom:7.18.0-ee'
     }
 }
 
