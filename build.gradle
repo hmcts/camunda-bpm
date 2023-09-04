@@ -9,7 +9,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.15'
     id 'org.flywaydb.flyway' version '9.22.0'
     id 'org.owasp.dependencycheck' version '8.3.1'
-    id 'org.sonarqube' version '4.3.0.3225'
+    id 'org.sonarqube' version '4.3.1.3277'
 }
 
 repositories {
@@ -170,7 +170,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
 
-    testImplementation 'org.slf4j:jul-to-slf4j:2.0.7'
+    testImplementation 'org.slf4j:jul-to-slf4j:2.0.9'
     testImplementation 'org.testcontainers:postgresql:1.19.0'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.35.0'
     testImplementation "org.junit.vintage:junit-vintage-engine"
