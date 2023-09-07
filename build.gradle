@@ -172,7 +172,7 @@ dependencies {
 
     testImplementation 'org.slf4j:jul-to-slf4j:2.0.9'
     testImplementation 'org.testcontainers:postgresql:1.19.0'
-    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.35.0'
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock-jre8', version: '2.35.1'
     testImplementation "org.junit.vintage:junit-vintage-engine"
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
