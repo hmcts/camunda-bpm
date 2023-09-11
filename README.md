@@ -12,7 +12,6 @@ The main idea is to offload authentication to Spring Security which then makes i
 - One off configuration is needed by teams to add tenant to Camunda. See [example PR](https://github.com/hmcts/camunda-bpm/pull/403)
 - A member of chosen Azure AD Group chosen above should login into Camunda UI on that environment for the new tenant to show up.
 
-
 ### Optimize setup
 
 - Docker image is imported to hmctsprivate from `registry.camunda.cloud` ( credentials in `rpe-prod` keyvault)
