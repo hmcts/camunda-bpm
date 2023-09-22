@@ -16,6 +16,7 @@ import java.util.List;
 public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuthenticationProvider {
 
     public static final String DEFAULT_GROUP_NAME = "All users";
+    private static final String CAMUNDA_ADMIN_GROUP = "camunda-admin";
     private static final String DEFAULT_GROUP = "default";
     protected ConfigProperties configProperties;
 
@@ -92,6 +93,11 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
                 }
                 identityService.createMembership(id, groupConfig.getGroupId());
                 camundaGroups.add(groupConfig.getGroupId());
+
+                if (groupConfig.getAdGroupId().equals(configProperties.getCamundaAdminGroupId())){
+                    identityService.createMembership(id, CAMUNDA_ADMIN_GROUP);
+                    camundaGroups.add(CAMUNDA_ADMIN_GROUP);
+                }
             }
         );
 
@@ -100,7 +106,7 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
             group.setName(DEFAULT_GROUP_NAME);
             identityService.saveGroup(group);
         }
-
+        identityService.createMembership(id, DEFAULT_GROUP);
         camundaGroups.add(DEFAULT_GROUP);
 
         return camundaGroups;
