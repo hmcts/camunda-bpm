@@ -94,7 +94,7 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
                 identityService.createMembership(id, groupConfig.getGroupId());
                 camundaGroups.add(groupConfig.getGroupId());
 
-                if (groupConfig.getAdGroupId().equals(configProperties.getCamundaAdminGroupId())){
+                if (groupConfig.getAdGroupId().equals(configProperties.getCamundaAdminGroupId())) {
                     identityService.createMembership(id, CAMUNDA_ADMIN_GROUP);
                     camundaGroups.add(CAMUNDA_ADMIN_GROUP);
                 }
