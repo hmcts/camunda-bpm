@@ -33,7 +33,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
     public static final String UNIQUE_NAME = "unique_name";
     public static final String GROUPS_ATTRIBUTE = "groups";
     public static final String DEFAULT_GROUP_NAME = "All users";
-    private static final String CAMUNDA_ADMIN_GROUP = "camunda-admin";
     private static final String DEFAULT_GROUP = "default";
 
 
@@ -75,9 +74,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         authenticationResult.setTenants(getTenantsAndProvision(id, applicableGroups, identityService));
         List<String> camundaGroups = getCamundaGroupsAndProvision(id, applicableGroups, identityService);
 
-        if (adGroups.contains(configProperties.getCamundaAdminGroupId())) {
-            camundaGroups.add(CAMUNDA_ADMIN_GROUP);
-        }
         authenticationResult.setGroups(camundaGroups);
         AuthorizationService authorizationService = engine.getAuthorizationService();
         authorizationService

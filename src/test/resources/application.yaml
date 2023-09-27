@@ -17,6 +17,11 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
 camundaGroups:
+  platops:
+    adGroupId: 44886fcb-4564-4bf9-98a5-4f7629078223
+    tenantId: platops
+    groupId: platops
+    accessControl: admin
   cmcadmin:
     adGroupId: d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b
     tenantId: cmc
