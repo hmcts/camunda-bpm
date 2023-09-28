@@ -17,7 +17,6 @@ java:
     CAMUNDA_DB_HOST: "hmcts-camunda-v14-flexible-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
     CAMUNDA_DB_USER_NAME: "camundaadmin"
-    CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.auth.password}}"
     CAMUNDA_DB_CONN_OPTIONS: ?sslmode=require&gssEncMode=disable
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     TASK_MANAGEMENT_API_URL: "http://wa-task-management-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
