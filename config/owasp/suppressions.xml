@@ -168,13 +168,13 @@
    ]]></notes>
     <cve>CVE-2022-38752</cve>
   </suppress>
-  <suppress until="2023-10-04">
+  <suppress until="2023-11-04">
     <notes><![CDATA[
    ** DISPUTED ** An issue was discovered jackson-databind thru 2.15.2 allows attackers to cause a denial of service or other unspecified impacts via crafted object that uses cyclic dependencies. NOTE: the vendor's perspective is that the product is not intended for use with untrusted input. 
    ]]></notes>
     <cve>CVE-2023-35116</cve>
   </suppress>
-  <suppress until="2023-11-04">
+  <suppress until="2023-10-04">
     <notes> <![CDATA[
    In tomcat-embed-websocket-9.0.64.jar , resource exhaustion can occur because of a lack of a check in BeanDeserializer._deserializeFromArray to prevent use of deeply nested arrays. An application is vulnerable only with certain customized choices for deserialization.
    ]]></notes>
