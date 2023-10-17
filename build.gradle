@@ -135,10 +135,19 @@ sonarqube {
 }
 
 dependencyManagement {
+  dependencies {
+    // CVE-2023-28709
+    // CVE-2023-42794, CVE-2023-42795, CVE-2023-45648
+    dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.82') {
+      entry 'tomcat-embed-core'
+      entry 'tomcat-embed-el'
+      entry 'tomcat-embed-websocket'
+    }
     imports {
         // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
         mavenBom 'org.camunda.bpm:camunda-bom:7.19.6-ee'
     }
+  }
 }
 
 dependencies {
@@ -193,7 +202,6 @@ dependencies {
     functionalTestImplementation sourceSets.test.runtimeClasspath
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured'
     functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
-
 
 }
 
