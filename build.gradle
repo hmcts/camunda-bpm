@@ -165,7 +165,7 @@ dependencies {
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    implementation 'org.postgresql:postgresql:42.6.0'
+    implementation 'org.postgresql:postgresql:42.7.0'
     implementation 'org.flywaydb:flyway-core:10.1.0'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.4'
