@@ -167,7 +167,7 @@ dependencies {
 
     implementation 'org.postgresql:postgresql:42.7.0'
     implementation 'org.flywaydb:flyway-core:10.1.0'
-    implementation "org.flywaydb:flyway-database-postgresql"
+    implementation 'org.flywaydb:flyway-database-postgresql:10.1.0'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.4'
 
