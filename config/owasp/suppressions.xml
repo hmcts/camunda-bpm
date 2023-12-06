@@ -6,6 +6,10 @@
     <packageUrl regex="true">^pkg:maven/jakarta.*$</packageUrl>
     <cve>CVE-2022-31569</cve>
   </suppress>
+  <suppress until="2034-10-01>
+    <notes><![CDATA[Ignored temporarily]></notes>
+    <cve>CVE-2023-33202</cve>
+  </suppress>
   <suppress>
     <notes><![CDATA[
    file name: checkstyle-8.21.jar
