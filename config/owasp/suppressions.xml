@@ -7,7 +7,7 @@
     <cve>CVE-2022-31569</cve>
   </suppress>
   <suppress until="2024-10-01">
-    <notes><![CDATA[Ignored temporarily to upgrade dependencies]></notes>
+    <notes><![CDATA[Ignored temporarily to upgrade dependencies]]></notes>
     <cve>CVE-2023-33202</cve>
   </suppress>
   <suppress>
