@@ -4,12 +4,18 @@ logging:
 management:
   endpoint:
     health:
+      probes:
+        enabled: true
       show-details: "always"
   security:
     enabled: false
   endpoints:
     web:
       base-path: /
+      exposure:
+        include: health
+  server:
+    port: 8999
 spring:
   main:
     allow-bean-definition-overriding: true

@@ -6,13 +6,16 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Collections;
 
@@ -20,7 +23,13 @@ import java.util.Collections;
 @ConditionalOnProperty(prefix = "camunda.ui.auth", name = "enabled", matchIfMissing = false)
 @EnableWebSecurity
 @Order(100)
-public class WebSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityWebAppConfig {
+
+    @Scope("prototype")
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
 
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
@@ -31,18 +40,18 @@ public class WebSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    @SuppressWarnings("java:S4502")
+    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/health", "/health/liveness").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .oauth2Login()
-            .clientRegistrationRepository(this.clientRegistrationRepository)
-            .authorizedClientRepository(this.authorizedClientRepository)
-            .authorizedClientService(this.authorizedClientService);
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(requests ->
+                        requests.requestMatchers(mvc.pattern("/health"), mvc.pattern("/health/liveness"))
+                                .permitAll().anyRequest().authenticated())
+                .oauth2Login(oauth2 -> oauth2.clientRegistrationRepository(this.clientRegistrationRepository)
+                        .authorizedClientRepository(this.authorizedClientRepository)
+                        .authorizedClientService(this.authorizedClientService));
+        return http.build();
     }
 
     @Bean
@@ -51,7 +60,7 @@ public class WebSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
         FilterRegistrationBean<ContainerBasedAuthenticationFilter> filterRegistration = new FilterRegistrationBean<>();
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
-            "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
+                "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
         filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/app/*");
         return filterRegistration;

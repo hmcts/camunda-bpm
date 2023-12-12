@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.filter;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -17,7 +18,6 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;

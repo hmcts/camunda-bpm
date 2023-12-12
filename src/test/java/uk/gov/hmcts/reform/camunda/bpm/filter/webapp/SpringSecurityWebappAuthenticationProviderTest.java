@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.filter.webapp;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -35,7 +36,6 @@ import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthentication
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
