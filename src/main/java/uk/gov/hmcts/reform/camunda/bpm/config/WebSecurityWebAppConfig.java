@@ -45,9 +45,7 @@ public class WebSecurityWebAppConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests ->
-                        requests.requestMatchers(mvc.pattern("/health"), mvc.pattern("/health/liveness"))
-                                .permitAll().anyRequest().authenticated())
+                .authorizeRequests( requests -> requests.anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2.clientRegistrationRepository(this.clientRegistrationRepository)
                         .authorizedClientRepository(this.authorizedClientRepository)
                         .authorizedClientService(this.authorizedClientService));
