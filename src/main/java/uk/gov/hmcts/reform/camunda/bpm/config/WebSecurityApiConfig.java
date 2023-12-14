@@ -22,7 +22,8 @@ public class WebSecurityApiConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeRequests().anyRequest().anonymous().and().httpBasic(httpBasic -> httpBasic.disable());
+                .authorizeRequests(requests -> requests.anyRequest().anonymous())
+                .httpBasic(httpBasic -> httpBasic.disable());
         return http.build();
     }
 
