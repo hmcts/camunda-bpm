@@ -59,7 +59,7 @@ public class WebSecurityWebAppConfig {
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
                 "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
-        filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
+        filterRegistration.setOrder(102); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/app/*");
         return filterRegistration;
     }
