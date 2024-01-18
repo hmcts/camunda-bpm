@@ -1,5 +1,5 @@
 ## Integrating Spring Security with Camunda
- 
+
 ### Overview
 
 This project adds the integration of [Spring Security](https://projects.spring.io/spring-security/) with Camunda, so one can create a 
