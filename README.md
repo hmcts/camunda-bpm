@@ -1,4 +1,4 @@
-## Integrating Spring Security with Camunda
+## Integrating Spring Security with Camunda 
 
 ### Overview
 
