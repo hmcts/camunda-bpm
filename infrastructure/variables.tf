@@ -35,5 +35,5 @@ variable "pgsql_storage_mb" {
 
 variable "pgsql_sku" {
   description = "SKU for Postgresql DB. Optional. Default exists in terraform-module-postgresql-flexible module if undeclared"
-  default = "Standard_D2s_v3"
+  default     = "Standard_D2s_v3"
 }
