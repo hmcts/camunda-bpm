@@ -12,7 +12,7 @@ module "postgresql_flexible" {
   location             = var.location
   pgsql_admin_username = "camundaadmin"
   pgsql_storage_mb     = var.pgsql_storage_mb
-  pgsql_sku            = var.pgsql_sku != null ? var.pgsql_sku : null
+  pgsql_sku            = var.pgsql_sku
 
   common_tags          = var.common_tags
   admin_user_object_id = var.jenkins_AAD_objectId
