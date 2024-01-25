@@ -35,5 +35,5 @@ variable "pgsql_storage_mb" {
 
 variable "pgsql_sku" {
   description = "SKU for Postgresql DB"
-  default     = "Standard_D2s_v3"
+  default     = "GP_Standard_D2s_v3"
 }
