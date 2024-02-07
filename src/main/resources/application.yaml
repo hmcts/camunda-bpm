@@ -21,6 +21,8 @@ spring:
     url: jdbc:postgresql://${CAMUNDA_DB_HOST:localhost}:${CAMUNDA_DB_PORT:5432}/${CAMUNDA_DB_NAME:camunda}${CAMUNDA_DB_CONN_OPTIONS:}
     username: ${CAMUNDA_DB_USER_NAME:camunda}
     password: ${CAMUNDA_DB_PASSWORD:}
+    hikari:
+      keepaliveTime: 300000
   config:
     import: "optional:configtree:/mnt/secrets/camunda/"
 camunda:
