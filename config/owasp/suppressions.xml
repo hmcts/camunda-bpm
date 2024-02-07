@@ -175,7 +175,7 @@
   </suppress>
   <suppress>
     <notes><![CDATA[
-   ** DISPUTED ** An issue was discovered jackson-databind thru 2.15.2 allows attackers to cause a denial of service or other unspecified impacts via crafted object that uses cyclic dependencies. NOTE: the vendor's perspective is that the product is not intended for use with untrusted input. 
+   This is a junk CVE, see https://github.com/FasterXML/jackson-databind/issues/3972#issuecomment-1813589383
    ]]></notes>
     <cve>CVE-2023-35116</cve>
   </suppress>
