@@ -31,7 +31,8 @@ public class WebSecurityApiConfig {
     public FilterRegistrationBean<ProcessEngineAuthenticationFilter> authenticationFilter() {
         FilterRegistrationBean<ProcessEngineAuthenticationFilter> filterRegistration = new FilterRegistrationBean<>();
         filterRegistration.setFilter(new ProcessEngineAuthenticationFilter());
-        filterRegistration.addInitParameter("authentication-provider","uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityApiAuthenticationProvider");
+        filterRegistration.addInitParameter("authentication-provider",
+            "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityApiAuthenticationProvider");
         filterRegistration.setOrder(102); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/engine-rest/*");
         return filterRegistration;
