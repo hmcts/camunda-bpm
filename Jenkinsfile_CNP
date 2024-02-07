@@ -46,6 +46,6 @@ withPipeline(type, product, component) {
     env.TASK_MANAGEMENT_API_URL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
 
     enableDbMigration("camunda")
-    def branchesToSync = ['demo', 'perftest', 'ithc']
+    def branchesToSync = ['demo', 'ithc']
     syncBranchesWithMaster(branchesToSync)
 }
