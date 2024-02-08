@@ -57,11 +57,15 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         }
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
+        
         Map<String, Object> attributes = new HashMap<>();
-        if (!authorities.isEmpty() && authorities.iterator().next() instanceof OAuth2UserAuthority) {
-            OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority) authorities.iterator().next();
-            attributes = oauth2UserAuthority.getAttributes();
+        if (authorities != null && !authorities.isEmpty()) {
+            for (GrantedAuthority authority : authorities) {
+                if (authority instanceof OAuth2UserAuthority) {
+                    OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority) authority;
+                    attributes.putAll(oauth2UserAuthority.getAttributes());
+                }
+            }
         }
 
         AuthenticationResult authenticationResult = new AuthenticationResult(
