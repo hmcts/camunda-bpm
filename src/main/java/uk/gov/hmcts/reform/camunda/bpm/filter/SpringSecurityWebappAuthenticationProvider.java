@@ -53,9 +53,16 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             return AuthenticationResult.unsuccessful();
         }
 
-        List<OAuth2UserAuthority> authorities = (List<OAuth2UserAuthority>) authentication.getAuthorities();
+        // List<OAuth2UserAuthority> authorities = (List<OAuth2UserAuthority>) authentication.getAuthorities();
 
-        Map<String, Object> attributes = authorities.get(0).getAttributes();
+        // Map<String, Object> attributes = authorities.get(0).getAttributes();
+        List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
+        List<OAuth2UserAuthority> oauth2UserAuthorities = authorities.stream()
+            .filter(OAuth2UserAuthority.class::isInstance)
+            .map(OAuth2UserAuthority.class::cast)
+            .collect(Collectors.toList());
+
+        Map<String, Object> attributes = oauth2UserAuthorities.get(0).getAttributes();
 
         AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
