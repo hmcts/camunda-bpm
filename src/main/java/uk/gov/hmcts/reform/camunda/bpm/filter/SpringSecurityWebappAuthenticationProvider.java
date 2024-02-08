@@ -8,6 +8,7 @@ import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
@@ -18,6 +19,7 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
