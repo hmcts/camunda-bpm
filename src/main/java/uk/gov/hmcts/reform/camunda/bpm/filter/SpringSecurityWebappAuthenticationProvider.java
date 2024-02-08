@@ -17,9 +17,10 @@ import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
@@ -55,22 +56,18 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             return AuthenticationResult.unsuccessful();
         }
 
-        // List<OAuth2UserAuthority> authorities = (List<OAuth2UserAuthority>) authentication.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        // Map<String, Object> attributes = authorities.get(0).getAttributes();
-        List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
-        List<OAuth2UserAuthority> oauth2UserAuthorities = authorities.stream()
-            .filter(OAuth2UserAuthority.class::isInstance)
-            .map(OAuth2UserAuthority.class::cast)
-            .collect(Collectors.toList());
-
-        Map<String, Object> attributes = oauth2UserAuthorities.get(0).getAttributes();
+        Map<String, Object> attributes = new HashMap<>();
+        if (!authorities.isEmpty() && authorities.iterator().next() instanceof OAuth2UserAuthority) {
+            OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority) authorities.iterator().next();
+            attributes = oauth2UserAuthority.getAttributes();
+        }
 
         AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
             true
         );
-
 
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);
