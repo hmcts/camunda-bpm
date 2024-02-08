@@ -22,7 +22,8 @@ spring:
     username: ${CAMUNDA_DB_USER_NAME:camunda}
     password: ${CAMUNDA_DB_PASSWORD:}
     hikari:
-      keepaliveTime: 300000
+      keepaliveTime: 60000
+      idleTimeout: 300000
   config:
     import: "optional:configtree:/mnt/secrets/camunda/"
 camunda:
