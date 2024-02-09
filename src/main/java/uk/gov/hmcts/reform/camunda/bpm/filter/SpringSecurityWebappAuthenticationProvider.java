@@ -7,6 +7,8 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,8 +17,6 @@ import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
 import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
