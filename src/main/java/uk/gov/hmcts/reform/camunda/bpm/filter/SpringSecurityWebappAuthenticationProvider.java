@@ -15,12 +15,15 @@ import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
 import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
@@ -28,6 +31,8 @@ import static java.util.Objects.requireNonNull;
 
 @SuppressWarnings("unused")
 public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SpringSecurityWebappAuthenticationProvider.class);
 
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
@@ -56,22 +61,35 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             return AuthenticationResult.unsuccessful();
         }
 
+
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        
+
+
+        String authoritiesAsString = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" | "));
+
+        LOG.info("The value of authorities is: {}", authoritiesAsString);
+
+
         Map<String, Object> attributes = new HashMap<>();
-        if (authorities != null && !authorities.isEmpty()) {
+        if (!authorities.isEmpty()) {
             for (GrantedAuthority authority : authorities) {
-                if (authority instanceof OAuth2UserAuthority) {
-                    OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority) authority;
+                if (authority instanceof OAuth2UserAuthority oauth2UserAuthority) {
                     attributes.putAll(oauth2UserAuthority.getAttributes());
                 }
             }
         }
 
+        LOG.info("The value of attributes is: {}", attributes);
+        LOG.info("The value of attributes NAME is: {}", attributes.get(NAME));
+
         AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
             true
         );
+
+        LOG.info("The value of authenticationResult is: {}", authenticationResult);
 
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);
