@@ -1,6 +1,8 @@
 logging:
   level:
-    root: DEBUG
+    root: INFO
+    org.springframework.security: TRACE
+
 management:
   endpoint:
     health:
@@ -155,6 +157,11 @@ configuration:
   autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:true}
 
 ---
+logging:
+  level:
+    root: INFO
+    org.springframework.security: TRACE
+
 spring:
   config:
     activate:

@@ -61,16 +61,13 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             return AuthenticationResult.unsuccessful();
         }
 
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
 
         String authoritiesAsString = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" | "));
 
         LOG.info("The value of authorities is: {}", authoritiesAsString);
-
 
         Map<String, Object> attributes = new HashMap<>();
         if (!authorities.isEmpty()) {

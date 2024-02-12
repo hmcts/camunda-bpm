@@ -44,11 +44,17 @@ public class WebSecurityWebAppConfig {
     @SuppressWarnings("java:S4502")
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
-                .oauth2Login(oauth2 -> oauth2.clientRegistrationRepository(this.clientRegistrationRepository)
-                        .authorizedClientRepository(this.authorizedClientRepository)
-                        .authorizedClientService(this.authorizedClientService));
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(requests -> requests
+                .requestMatchers("/health").permitAll()
+                .requestMatchers("/health/liveness").permitAll()
+                .anyRequest().authenticated()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .clientRegistrationRepository(this.clientRegistrationRepository)
+                .authorizedClientRepository(this.authorizedClientRepository)
+                .authorizedClientService(this.authorizedClientService)
+            );
         return http.build();
     }
 
