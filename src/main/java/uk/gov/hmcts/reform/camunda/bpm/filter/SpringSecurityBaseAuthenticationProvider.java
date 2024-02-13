@@ -52,7 +52,7 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
     }
     
     protected List<String> getTenantsAndProvision(String id, List<GroupConfig> applicableGroups,
-                                                  IdentityService identityService) {
+                                                IdentityService identityService) {
         List<String> camundaTenants = new ArrayList<>();
         applicableGroups.forEach(groupConfig -> {
                 camundaTenants.add(groupConfig.getTenantId());

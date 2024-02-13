@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true, havingValue = "false")
 @EnableWebSecurity
-@Order(102)
+@Order(104)
 public class WebSecurityApiAnonymousConfig {
 
     @Bean

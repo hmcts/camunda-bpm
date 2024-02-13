@@ -16,7 +16,7 @@ import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true)
 @EnableWebSecurity
-@Order(101)
+@Order(102)
 public class WebSecurityApiConfig {
 
     @Bean
@@ -33,7 +33,7 @@ public class WebSecurityApiConfig {
         filterRegistration.setFilter(new ProcessEngineAuthenticationFilter());
         filterRegistration.addInitParameter("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityApiAuthenticationProvider");
-        filterRegistration.setOrder(102); // make sure the filter is registered after the Spring Security Filter Chain
+        filterRegistration.setOrder(103); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/engine-rest/*");
         return filterRegistration;
     }
