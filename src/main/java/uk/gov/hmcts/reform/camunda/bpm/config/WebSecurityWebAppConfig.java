@@ -46,9 +46,10 @@ public class WebSecurityWebAppConfig {
     @SuppressWarnings("java:S4502")
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
-            .securityMatcher(new NegatedRequestMatcher(new AntPathRequestMatcher("/health/**")))
+            // .securityMatcher(new NegatedRequestMatcher(new AntPathRequestMatcher("/health/**")))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
+                .requestMatchers(PathRequest.to("/health/**"), PathRequest.to("/favicon.ico")).permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2
