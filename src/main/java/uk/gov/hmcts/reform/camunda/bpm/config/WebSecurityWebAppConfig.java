@@ -44,7 +44,7 @@ public class WebSecurityWebAppConfig {
     @SuppressWarnings("java:S4502")
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
-            .securityMatcher("/health", "/health/**")
+            .securityMatcher(new NegatedRequestMatcher(new AntPathRequestMatcher("/health/**")))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
                 .anyRequest().authenticated()
