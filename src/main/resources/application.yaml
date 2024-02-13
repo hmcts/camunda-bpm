@@ -1,7 +1,6 @@
 logging:
   level:
-    root: DEBUG
-    org.springframework.security: TRACE
+    root: INFO
 
 management:
   endpoint:
@@ -160,7 +159,6 @@ configuration:
 logging:
   level:
     root: INFO
-    org.springframework.security: TRACE
 
 spring:
   config:
