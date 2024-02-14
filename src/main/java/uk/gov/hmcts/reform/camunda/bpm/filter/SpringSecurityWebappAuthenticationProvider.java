@@ -51,23 +51,17 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
         configProperties = SpringContext.getAppContext().getBean(ConfigProperties.class);
 
-        if (authentication == null) {
-            return AuthenticationResult.unsuccessful();
-        }
-
-        String id = authentication.getName();
-        if (id == null || id.isEmpty()) {
-            return AuthenticationResult.unsuccessful();
-        }
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    
+        
+        String id = authentication.getName();
 
         // Check if the authorities contain ROLE_ANONYMOUS
         boolean hasAnonymousRole = authorities.stream()
             .map(GrantedAuthority::getAuthority)
             .anyMatch(role -> role.equals("ROLE_ANONYMOUS"));
 
-        if (hasAnonymousRole) {
+        if (authentication == null || id == null || id.isEmpty() || hasAnonymousRole) {
             return AuthenticationResult.unsuccessful();
         }
         
