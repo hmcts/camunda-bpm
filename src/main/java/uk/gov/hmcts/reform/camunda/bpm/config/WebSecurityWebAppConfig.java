@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+// import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Collections;
@@ -25,11 +25,11 @@ import java.util.Collections;
 @Order(100)
 public class WebSecurityWebAppConfig {
 
-    @Scope("prototype")
-    @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector);
-    }
+    // @Scope("prototype")
+    // @Bean
+    // MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+    //     return new MvcRequestMatcher.Builder(introspector);
+    // }
     
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
@@ -42,12 +42,12 @@ public class WebSecurityWebAppConfig {
 
     @Bean
     @SuppressWarnings("java:S4502")
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher(mvc.pattern("/**").build())
+            .securityMatcher("/**")
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers(mvc.pattern("/health/**").build()).permitAll()
+                .requestMatchers("/health/**").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2
