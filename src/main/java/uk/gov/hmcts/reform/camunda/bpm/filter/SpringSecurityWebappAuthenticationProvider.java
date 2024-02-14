@@ -63,12 +63,15 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        String authoritiesAsString = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(" | "));
+        // Check if the authorities contain ROLE_ANONYMOUS
+        boolean hasAnonymousRole = authorities.stream()
+            .map(GrantedAuthority::getAuthority)
+            .anyMatch(role -> role.equals("ROLE_ANONYMOUS"));
 
-        LOG.info("The value of authorities is: {}", authoritiesAsString);
-
+        if (hasAnonymousRole) {
+            return AuthenticationResult.unsuccessful();
+        }
+        
         Map<String, Object> attributes = new HashMap<>();
         if (!authorities.isEmpty()) {
             for (GrantedAuthority authority : authorities) {
@@ -78,15 +81,10 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             }
         }
 
-        LOG.info("The value of attributes is: {}", attributes);
-        LOG.info("The value of attributes NAME is: {}", attributes.get(NAME));
-
         AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
             true
         );
-
-        LOG.info("The value of authenticationResult is: {}", authenticationResult);
 
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);

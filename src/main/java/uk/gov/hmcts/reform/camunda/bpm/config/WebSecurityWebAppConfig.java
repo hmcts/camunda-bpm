@@ -47,7 +47,7 @@ public class WebSecurityWebAppConfig {
             .securityMatcher("/**")
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/health/**").permitAll()
+                .requestMatchers("/health/**", "/error").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2
@@ -56,6 +56,7 @@ public class WebSecurityWebAppConfig {
                 .authorizedClientService(this.authorizedClientService)
             );
         return http.build();
+
     }
 
     @Bean
@@ -66,7 +67,7 @@ public class WebSecurityWebAppConfig {
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
         filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
-        filterRegistration.addUrlPatterns("/app/*");
+        filterRegistration.addUrlPatterns("/*");
         return filterRegistration;
     }
 }
