@@ -44,7 +44,6 @@ public class WebSecurityWebAppConfig {
     @SuppressWarnings("java:S4502")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/**")
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/health/**", "/error").permitAll()
@@ -67,7 +66,7 @@ public class WebSecurityWebAppConfig {
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
         filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
-        filterRegistration.addUrlPatterns("/*");
+        filterRegistration.addUrlPatterns("/app/*");
         return filterRegistration;
     }
 }
