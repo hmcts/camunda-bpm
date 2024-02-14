@@ -159,6 +159,7 @@ configuration:
 logging:
   level:
     root: INFO
+    org.springframework.security: TRACE
 
 spring:
   config:
