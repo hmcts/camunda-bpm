@@ -46,7 +46,7 @@ public class WebSecurityWebAppConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/health/**", "/error").permitAll()
+                .requestMatchers("/health/**").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2
