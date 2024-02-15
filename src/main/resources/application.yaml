@@ -1,6 +1,6 @@
 logging:
   level:
-    root: INFO
+    root: DEBUG
 
 management:
   endpoint:
@@ -156,10 +156,6 @@ configuration:
   autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:true}
 
 ---
-logging:
-  level:
-    root: INFO
-    org.springframework.security: TRACE
 
 spring:
   config:
