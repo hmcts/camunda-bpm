@@ -1,7 +1,11 @@
 logging:
   level:
-    root: DEBUG
-
+    root: INFO
+    org:
+      springframework:
+        security:
+          web:
+            FilterChainProxy: DEBUG
 management:
   endpoint:
     health:
@@ -156,7 +160,14 @@ configuration:
   autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:true}
 
 ---
-
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security:
+          web:
+            FilterChainProxy: DEBUG
 spring:
   config:
     activate:
