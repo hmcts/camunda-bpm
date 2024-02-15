@@ -19,8 +19,6 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Collections;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.ui.auth", name = "enabled", matchIfMissing = false)
 @EnableWebSecurity
