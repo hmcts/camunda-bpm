@@ -150,6 +150,7 @@ dependencyManagement {
 }
 
 dependencies {
+
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest'
 
@@ -212,9 +213,9 @@ version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
 
 java {
-  toolchain {
-    languageVersion = JavaLanguageVersion.of(17)
-  }
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
