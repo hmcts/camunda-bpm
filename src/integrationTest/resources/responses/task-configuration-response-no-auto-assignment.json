@@ -1,0 +1,21 @@
+{
+  "task_id": "{TASK_ID}",
+  "case_id": "{CASE_ID}",
+  "configuration_variables": {
+    "tribunal-caseworker": "Read,Refer,Own,Manage,Cancel",
+    "caseTypeId": "Asylum",
+    "locationName": "Taylor House",
+    "executionType": "Case Management Task",
+    "securityClassification": "PUBLIC",
+    "autoAssigned": false,
+    "taskSystem": "SELF",
+    "title": "{TASK_NAME}",
+    "taskState": "unassigned",
+    "appealType": "protection",
+    "caseId": "{CASE_ID}",
+    "caseName": "Bob Smith",
+    "location": "765324",
+    "region": "1",
+    "senior-tribunal-caseworker": "Read,Refer,Own,Manage,Cancel"
+  }
+}
