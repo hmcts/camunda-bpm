@@ -12,3 +12,5 @@ lib/applicationinsights.log
 
 .terraform
 .terraform.lock.hcl
+
+.env
