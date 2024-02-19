@@ -149,6 +149,8 @@ dependencyManagement {
     }
 }
 
+ext['spring-security.version'] = '6.2.2'
+
 dependencies {
 
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
