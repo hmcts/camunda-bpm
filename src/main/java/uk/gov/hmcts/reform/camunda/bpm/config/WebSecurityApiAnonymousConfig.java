@@ -18,7 +18,7 @@ public class WebSecurityApiAnonymousConfig {
     @SuppressWarnings("java:S4502")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests -> requests.anyRequest().anonymous())
+                .authorizeRequests(requests -> requests.anyRequest().anonymous())
                 .httpBasic(httpBasic -> httpBasic.disable());
         return http.build();
     }
