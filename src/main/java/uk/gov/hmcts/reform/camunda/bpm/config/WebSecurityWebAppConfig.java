@@ -45,7 +45,7 @@ public class WebSecurityWebAppConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .authorizeRequests((requests) -> requests
+            .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/health/**").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2 -> oauth2
