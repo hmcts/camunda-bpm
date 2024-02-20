@@ -163,21 +163,36 @@ spring:
     activate:
       on-profile: springauth
     import: "optional:configtree:/mnt/secrets/camunda/"
-  security:
-    enabled: true
-    oauth2:
-      client:
-        registration:
+#  security:
+#   enabled: true
+#   oauth2:
+#     client:
+#       registration:
+#         azure:
+#           provider: azure
+#           client-id: ${CLIENT_ID:}
+#           client-secret: ${CLIENT_SECRET:}
+#           authorization-grant-type: authorization_code
+#           scope:
+#             - openid
+#       provider:
+#         azure:
+#           issuer-uri: ${ISSUER_URI:https://sts.windows.net/531ff96d-0ae9-462a-8d2d-bec7c0b42082/}
+  cloud:
+    azure:
+      active-directory:
+        application-type: web_application
+        authorization-clients:
           azure:
-            provider: azure
-            client-id: ${CLIENT_ID:}
-            client-secret: ${CLIENT_SECRET:}
             authorization-grant-type: authorization_code
-            scope:
-              - openid
-        provider:
-          azure:
-            issuer-uri: ${ISSUER_URI:https://sts.windows.net/531ff96d-0ae9-462a-8d2d-bec7c0b42082/}
+        enabled: true
+        profile:
+          tenant-id: 531ff96d-0ae9-462a-8d2d-bec7c0b42082
+          environment:
+            active-directory-endpoint: https://login.microsoftonline.com/
+        credential:
+          client-id: ${CLIENT_ID:}
+          client-secret: ${CLIENT_SECRET:}
 camunda:
   ui:
     auth:

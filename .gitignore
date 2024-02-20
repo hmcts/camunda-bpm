@@ -5,6 +5,7 @@ target/
 build
 out/
 .secrets
+.env
 gradle.properties
 init.gradle
 lib/applicationinsights-agent-*.jar

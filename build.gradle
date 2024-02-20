@@ -162,6 +162,8 @@ dependencies {
     implementation group: 'org.camunda.bpm', name: 'camunda-engine-spring-6'
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation group: 'com.azure.spring', name: 'spring-cloud-azure-starter-active-directory', version: '5.9.1'
+    
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
