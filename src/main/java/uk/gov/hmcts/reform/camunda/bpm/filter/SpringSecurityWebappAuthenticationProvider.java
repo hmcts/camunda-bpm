@@ -37,9 +37,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
-
-    private static final String principalID = "sub";
-
+    private static final String PRINCIPAL_ID = "sub";
     public static final String NAME = "name";
     public static final String PREFERRED_USERNAME = "preferred_username";
     public static final String GROUPS_ATTRIBUTE = "groups";
@@ -72,21 +70,21 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                 if (authority instanceof OAuth2UserAuthority oauth2UserAuthority) {
                     attributes.putAll(oauth2UserAuthority.getAttributes());
                     id = authentication.getName();
+                    LOG.warn("Nope");
                 }
             }
         }
 
         if (attributes.isEmpty()) {
             Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
+            if (principal instanceof UserDetails userDetails) {
                 attributes.put("userDetails", userDetails);
-            } else if (principal instanceof DefaultOidcUser) {
-                DefaultOidcUser defaultOidcUser = (DefaultOidcUser) principal;
+            } else if (principal instanceof DefaultOidcUser defaultOidcUser) {
                 Map<String, Object> oidcAttributes = defaultOidcUser.getAttributes();
                 attributes.putAll(oidcAttributes);
+                LOG.warn("Made it this far");
             }
-            id = attributes.get(principalID).toString();
+            id = attributes.get(PRINCIPAL_ID).toString();
         }
 
         // Check if Id is set
@@ -104,9 +102,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
         @SuppressWarnings("unchecked")
         List<String> adGroups = (List<String>) attributes.getOrDefault(GROUPS_ATTRIBUTE, emptyList());
-        if (adGroups == null) {
-            adGroups = new ArrayList<>();
-        }
 
         List<GroupConfig> applicableGroups = getCamundaGroupsList(adGroups);
 

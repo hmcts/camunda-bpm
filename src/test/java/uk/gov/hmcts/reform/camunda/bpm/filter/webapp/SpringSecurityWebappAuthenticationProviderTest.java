@@ -16,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -23,6 +25,8 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,9 +37,9 @@ import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.camunda.bpm.CamundaApplication;
 import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
+import java.util.UUID;
+import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -230,6 +234,23 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         assertThat(result.isAuthenticated()).isTrue();
     }
 
+    @Test
+    public void should_work_without_oauth_authority_type() {
+        String id = UUID.randomUUID().toString();
+        getAuthenticationContextWithoutOAuth2UserAuthority(
+                singletonList("d6eb4b7b-d156-4cc4-918c-5de9d8e7ad5b"),"Lastname", "Firstname","admin@admin", id);
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
+                new MockHttpServletRequest(), processEngine);
+
+        User cmcAdmin = identityService.createUserQuery().userId(id).singleResult();
+        assertThat(cmcAdmin.getFirstName()).isEqualTo("Firstname");
+        assertThat(cmcAdmin.getLastName()).isEqualTo("Lastname");
+
+        assertThat(result.isAuthenticated()).isTrue();
+        assertThat(result.getGroups()).contains("default","cmc-admin");
+    }
+
+
     private Authentication getAuthenticationContextWithoutPrincipalName(List<String> groups, String name) {
         Map<String, Object> attributes = ImmutableMap.of(
             "groups", groups,
@@ -244,6 +265,30 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authentication;
 
+    }
+
+
+    private Authentication getAuthenticationContextWithoutOAuth2UserAuthority(List<String> groups, String lastName, String firstName, String email, String id) {
+        Map<String, Object> attributes = ImmutableMap.of(
+            "groups", groups,
+            SpringSecurityWebappAuthenticationProvider.GIVEN_NAME, firstName,
+            SpringSecurityWebappAuthenticationProvider.FAMILY_NAME, lastName,
+            SpringSecurityWebappAuthenticationProvider.PREFERRED_USERNAME, email,
+            "sub", id
+        );
+        // Create authorities
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        OidcIdToken idToken = new OidcIdToken("tokenValue", Instant.now(), Instant.now().plusSeconds(60), attributes);
+        OidcUserInfo userInfo = new OidcUserInfo(attributes);
+
+        // Create DefaultOidcUser
+        DefaultOidcUser defaultOidcUser = new DefaultOidcUser(authorities, idToken, userInfo);
+
+        // Create a list of SimpleGrantedAuthority
+        Authentication authentication = new OAuth2AuthenticationToken(defaultOidcUser,
+                authorities, "testId");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return authentication;
     }
 
     private Authentication getAuthenticationContextWithoutFirstAndLastName(
@@ -274,4 +319,5 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         Authentication  authentication = getAuthenticationContextWithoutFirstAndLastName(groups, id, displayName);
         when(authentication.getName()).thenReturn(id);
     }
+
 }
