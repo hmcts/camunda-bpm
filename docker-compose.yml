@@ -18,8 +18,10 @@ services:
       - SPRING_FLYWAY_ENABLED=false
       - CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE=true
       - SPRING_PROFILES_ACTIVE=default
+      - JAVA_TOOL_OPTIONS=-XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=65.0 -XX:MinRAMPercentage=30.0  -javaagent:/opt/app/applicationinsights-agent-3.4.18.jar -Dfile.encoding=UTF-8 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     ports:
-      - 8999:8999
+      - "8999:8999"
+      - "5005:5005"
     depends_on:
       - camunda-bpm-database
   camunda-bpm-database:

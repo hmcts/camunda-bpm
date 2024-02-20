@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,9 +14,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Collections;
 
@@ -26,12 +23,6 @@ import java.util.Collections;
 @EnableWebSecurity
 @Order(100)
 public class WebSecurityWebAppConfig {
-
-    @Scope("prototype")
-    @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector);
-    }
 
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
@@ -44,7 +35,7 @@ public class WebSecurityWebAppConfig {
 
     @Configuration
     @WebListener
-    public class MyRequestContextListener extends RequestContextListener {
+    public static class MyRequestContextListener extends RequestContextListener {
     }
 
     @Bean
@@ -52,14 +43,13 @@ public class WebSecurityWebAppConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .authorizeRequests((requests) -> requests
+            .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/health/**").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2 -> oauth2
                 .clientRegistrationRepository(this.clientRegistrationRepository)
                 .authorizedClientRepository(this.authorizedClientRepository)
-                .authorizedClientService(this.authorizedClientService))
-            .anonymous(anonymous -> anonymous.disable());
+                .authorizedClientService(this.authorizedClientService));
         return http.build();
     }
 

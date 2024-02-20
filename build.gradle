@@ -25,8 +25,8 @@ repositories {
     maven {
         url = 'https://artifacts.camunda.com/artifactory/camunda-bpm-ee/'
         credentials {
-            username "$CAMUNDA_NEXUS_USER"
-            password "$CAMUNDA_NEXUS_PASSWORD"
+            username "${System.getenv('CAMUNDA_NEXUS_USER')}"
+            password "${System.getenv('CAMUNDA_NEXUS_PASSWORD')}"
         }
     }
 }
@@ -148,8 +148,6 @@ dependencyManagement {
         }
     }
 }
-
-ext['spring-security.version'] = '6.2.2'
 
 dependencies {
 

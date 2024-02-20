@@ -52,7 +52,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         configProperties = SpringContext.getAppContext().getBean(ConfigProperties.class);
-    
 
         // Check that authentication has been set
         if (authentication == null) {
@@ -70,7 +69,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                 if (authority instanceof OAuth2UserAuthority oauth2UserAuthority) {
                     attributes.putAll(oauth2UserAuthority.getAttributes());
                     id = authentication.getName();
-                    LOG.warn("Nope");
                 }
             }
         }
@@ -82,7 +80,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             } else if (principal instanceof DefaultOidcUser defaultOidcUser) {
                 Map<String, Object> oidcAttributes = defaultOidcUser.getAttributes();
                 attributes.putAll(oidcAttributes);
-                LOG.warn("Made it this far");
             }
             id = attributes.get(PRINCIPAL_ID).toString();
         }
