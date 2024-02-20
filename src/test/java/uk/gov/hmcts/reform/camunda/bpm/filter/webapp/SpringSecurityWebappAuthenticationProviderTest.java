@@ -23,10 +23,10 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -38,8 +38,11 @@ import uk.gov.hmcts.reform.camunda.bpm.CamundaApplication;
 import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -268,7 +271,8 @@ public class SpringSecurityWebappAuthenticationProviderTest {
     }
 
 
-    private Authentication getAuthenticationContextWithoutOAuth2UserAuthority(List<String> groups, String lastName, String firstName, String email, String id) {
+    private Authentication getAuthenticationContextWithoutOAuth2UserAuthority(
+            List<String> groups, String lastName, String firstName, String email, String id) {
         Map<String, Object> attributes = ImmutableMap.of(
             "groups", groups,
             SpringSecurityWebappAuthenticationProvider.GIVEN_NAME, firstName,
