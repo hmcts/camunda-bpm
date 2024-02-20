@@ -202,4 +202,18 @@
    <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-classic@.*$</packageUrl>
    <cve>CVE-2023-6481</cve>
 </suppress>
+<suppress base="true">
+  <notes><![CDATA[
+  FP per issue #6100
+  ]]></notes>
+  <packageUrl regex="true">^pkg:maven/com\.azure/azure-core@.*$</packageUrl>
+  <cpe>cpe:/a:microsoft:azure_sdk_for_java</cpe>
+</suppress>
+<suppress base="true">
+  <notes><![CDATA[
+  FP per issue #5992
+  ]]></notes>
+  <packageUrl regex="true">^pkg:maven/com\.azure/azure-identity@.*$</packageUrl>
+  <cpe>cpe:/a:microsoft:azure_identity_sdk</cpe>
+</suppress>
 </suppressions>

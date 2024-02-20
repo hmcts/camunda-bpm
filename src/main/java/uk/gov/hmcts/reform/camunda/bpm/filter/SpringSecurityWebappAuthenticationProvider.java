@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
 import uk.gov.hmcts.reform.camunda.bpm.config.ConfigProperties;
@@ -23,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
@@ -35,9 +38,9 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
-
+    private static final String ID = "sub";
     public static final String NAME = "name";
-    public static final String UNIQUE_NAME = "unique_name";
+    public static final String PREFERRED_USERNAME = "preferred_username";
     public static final String GROUPS_ATTRIBUTE = "groups";
     public static final String DEFAULT_GROUP_NAME = "All users";
     private static final String DEFAULT_GROUP = "default";
@@ -51,19 +54,14 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
         configProperties = SpringContext.getAppContext().getBean(ConfigProperties.class);
     
+
         // Check that authentication has been set
         if (authentication == null) {
             return AuthenticationResult.unsuccessful();
         }
 
-        // Check if Id is set
-        String id = authentication.getName();
-        if (id == null || id.isEmpty()) {
-            return AuthenticationResult.unsuccessful();
-        }
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        
+
         Map<String, Object> attributes = new HashMap<>();
         if (!authorities.isEmpty()) {
             for (GrantedAuthority authority : authorities) {
@@ -71,6 +69,26 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                     attributes.putAll(oauth2UserAuthority.getAttributes());
                 }
             }
+        }
+
+        if (attributes.isEmpty()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                attributes.put("userDetails", userDetails);
+            } else if (principal instanceof DefaultOidcUser) {
+                DefaultOidcUser defaultOidcUser = (DefaultOidcUser) principal;
+                Map<String, Object> oidcAttributes = defaultOidcUser.getAttributes();
+                attributes.putAll(oidcAttributes);
+            }
+        }
+
+        // Check if Id is set
+        String id = attributes.get(ID).toString();
+
+
+        if (id == null || id.isEmpty()) {
+            return AuthenticationResult.unsuccessful();
         }
 
         AuthenticationResult authenticationResult = new AuthenticationResult(
@@ -109,12 +127,17 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                             IdentityService identityService) {
 
         User user = identityService.newUser(id);
+
         String name = (String) attributes.get(NAME);
         user.setFirstName(getFirstName(attributes, name));
         user.setLastName(getLastName(attributes, name));
-        user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
+        user.setEmail(requireNonNull(attributes.get(PREFERRED_USERNAME)).toString());
 
-        identityService.deleteUser(id);
+        User userExists = identityService.createUserQuery().userId(id).singleResult();
+        if (userExists != null) {
+            identityService.deleteUser(id);
+        }
+
         identityService.saveUser(user);
     }
 

@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.config;
 
+import jakarta.servlet.annotation.WebListener;
 import org.camunda.bpm.webapp.impl.security.auth.ContainerBasedAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.util.Collections;
@@ -30,7 +32,7 @@ public class WebSecurityWebAppConfig {
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
     }
-    
+
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -40,9 +42,14 @@ public class WebSecurityWebAppConfig {
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
+    @Configuration
+    @WebListener
+    public class MyRequestContextListener extends RequestContextListener {
+    }
+
     @Bean
     @SuppressWarnings("java:S4502")
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeRequests((requests) -> requests

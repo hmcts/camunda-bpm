@@ -235,7 +235,7 @@ public class SpringSecurityWebappAuthenticationProviderTest {
             "groups", groups,
             SpringSecurityWebappAuthenticationProvider.GIVEN_NAME,name,
             SpringSecurityWebappAuthenticationProvider.FAMILY_NAME,name,
-            SpringSecurityWebappAuthenticationProvider.UNIQUE_NAME,name
+            SpringSecurityWebappAuthenticationProvider.PREFERRED_USERNAME,name
 
         );
 
@@ -254,7 +254,7 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         Map<String, Object> attributes = ImmutableMap.of(
                 "groups", groups,
                 SpringSecurityWebappAuthenticationProvider.NAME, displayName,
-                SpringSecurityWebappAuthenticationProvider.UNIQUE_NAME, id
+                SpringSecurityWebappAuthenticationProvider.PREFERRED_USERNAME, id
 
         );
 
