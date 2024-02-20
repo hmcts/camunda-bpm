@@ -213,7 +213,7 @@
     <notes><![CDATA[
     file name: azure-core-amqp-2.9.0.jar
     ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-amqpy@.*$</packageUrl>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-amqp@.*$</packageUrl>
     <cve>CVE-2023-36052</cve>
   </suppress>
   <suppress until="2024-09-29">
@@ -252,6 +252,4 @@
     <packageUrl regex="true">^pkg:maven/com\.azure\.spring/spring\-cloud\-azure\-starter\-active\-directory@.*$</packageUrl>
     <cve>CVE-2021-42306</cve>
   </suppress>
-
-
 </suppressions>
