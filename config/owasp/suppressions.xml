@@ -189,31 +189,69 @@
     <cve>CVE-2023-41080</cve>
   </suppress>
   <suppress until="2024-02-29">
-   <notes><![CDATA[
-   file name: logback-core-1.2.12.jar
-   ]]></notes>
-   <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-core@.*$</packageUrl>
-   <cve>CVE-2023-6481</cve>
-</suppress>
-<suppress until="2024-02-29">
-   <notes><![CDATA[
-   file name: logback-classic-1.2.12.jar
-   ]]></notes>
-   <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-classic@.*$</packageUrl>
-   <cve>CVE-2023-6481</cve>
-</suppress>
-<suppress base="true">
-  <notes><![CDATA[
-  FP per issue #6100
-  ]]></notes>
-  <packageUrl regex="true">^pkg:maven/com\.azure/azure-core@.*$</packageUrl>
-  <cpe>cpe:/a:microsoft:azure_sdk_for_java</cpe>
-</suppress>
-<suppress base="true">
-  <notes><![CDATA[
-  FP per issue #5992
-  ]]></notes>
-  <packageUrl regex="true">^pkg:maven/com\.azure/azure-identity@.*$</packageUrl>
-  <cpe>cpe:/a:microsoft:azure_identity_sdk</cpe>
-</suppress>
+    <notes><![CDATA[
+    file name: logback-core-1.2.12.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-core@.*$</packageUrl>
+    <cve>CVE-2023-6481</cve>
+  </suppress>
+  <suppress until="2024-02-29">
+      <notes><![CDATA[
+      file name: logback-classic-1.2.12.jar
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-classic@.*$</packageUrl>
+      <cve>CVE-2023-6481</cve>
+  </suppress>
+  <suppress until="2024-09-29">
+    <notes><![CDATA[
+    file name: azure-core-1.45.1.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core@.*$</packageUrl>
+    <cve>CVE-2023-36052</cve>
+  </suppress>
+  <suppress until="2024-09-29">
+    <notes><![CDATA[
+    file name: azure-core-amqp-2.9.0.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-amqpy@.*$</packageUrl>
+    <cve>CVE-2023-36052</cve>
+  </suppress>
+  <suppress until="2024-09-29">
+    <notes><![CDATA[
+    file name: azure-core-http-netty-1.13.11.jar 
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-http\-netty@.*$</packageUrl>
+    <cve>CVE-2023-36052</cve>
+  </suppress>
+  <suppress until="2024-09-29">
+    <notes><![CDATA[
+    file name: azure-core-management-1.11.9.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-management@.*$</packageUrl>
+    <cve>CVE-2023-36052</cve>
+  </suppress>
+  <suppress base="true">
+    <notes><![CDATA[
+      file name:azure-identity-1.11.1.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-identity@.*$</packageUrl>
+    <cpe>cpe:/a:microsoft:azure_identity_sdk</cpe>
+    <cve>CVE-2023-36052</cve>
+  </suppress>
+  <suppress until="2024-09-29">
+    <notes><![CDATA[
+    file name: azure-json-1.1.0.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-json@.*$</packageUrl>
+    <cve>CVE-2023-36052</cve>
+  </suppress>
+  <suppress until="2024-09-29">
+    <notes><![CDATA[
+    file name: spring-cloud-azure-starter-active-directory-5.9.1.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.azure\.spring/spring\-cloud\-azure\-starter\-active\-directory@.*$</packageUrl>
+    <cve>CVE-2021-42306</cve>
+  </suppress>
+
+
 </suppressions>
