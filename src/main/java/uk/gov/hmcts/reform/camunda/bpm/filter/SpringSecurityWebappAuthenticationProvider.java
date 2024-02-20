@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
@@ -38,7 +37,9 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
-    private static final String ID = "sub";
+
+    private static final String principalID = "sub";
+
     public static final String NAME = "name";
     public static final String PREFERRED_USERNAME = "preferred_username";
     public static final String GROUPS_ATTRIBUTE = "groups";
@@ -63,10 +64,14 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         Map<String, Object> attributes = new HashMap<>();
+
+        String id = null;
+
         if (!authorities.isEmpty()) {
             for (GrantedAuthority authority : authorities) {
                 if (authority instanceof OAuth2UserAuthority oauth2UserAuthority) {
                     attributes.putAll(oauth2UserAuthority.getAttributes());
+                    id = authentication.getName();
                 }
             }
         }
@@ -81,12 +86,10 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                 Map<String, Object> oidcAttributes = defaultOidcUser.getAttributes();
                 attributes.putAll(oidcAttributes);
             }
+            id = attributes.get(principalID).toString();
         }
 
         // Check if Id is set
-        String id = attributes.get(ID).toString();
-
-
         if (id == null || id.isEmpty()) {
             return AuthenticationResult.unsuccessful();
         }
@@ -101,6 +104,9 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
         @SuppressWarnings("unchecked")
         List<String> adGroups = (List<String>) attributes.getOrDefault(GROUPS_ATTRIBUTE, emptyList());
+        if (adGroups == null) {
+            adGroups = new ArrayList<>();
+        }
 
         List<GroupConfig> applicableGroups = getCamundaGroupsList(adGroups);
 
