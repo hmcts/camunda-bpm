@@ -143,4 +143,10 @@
     <packageUrl regex="true">^pkg:maven/com\.azure\.spring/spring\-cloud\-azure\-starter\-active\-directory@.*$</packageUrl>
     <cve>CVE-2021-42306</cve>
   </suppress>
+  <suppress>
+     <notes><![CDATA[
+     False positive, the version we use is fixed, limitation due to same path used for python lib: https://github.com/jeremylong/DependencyCheck/issues/5992
+     ]]></notes>
+     <cve>CVE-2023-36415</cve>
+  </suppress>
 </suppressions>
