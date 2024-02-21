@@ -20,7 +20,7 @@ import java.util.Collections;
 
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.ui.auth", name = "enabled", matchIfMissing = false)
-@EnableWebSecurity(debug=true)
+@EnableWebSecurity(debug = true)
 @Order(100)
 public class WebSecurityWebAppConfig {
 
