@@ -14,8 +14,6 @@ management:
       base-path: /
       exposure:
         include: health
-  server:
-    port: 8999
 spring:
   main:
     allow-bean-definition-overriding: true

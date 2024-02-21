@@ -81,6 +81,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                 Map<String, Object> oidcAttributes = defaultOidcUser.getAttributes();
                 attributes.putAll(oidcAttributes);
             }
+            LOG.warn("value of attributes", attributes);
             id = attributes.get(PRINCIPAL_ID).toString();
         }
 
@@ -93,7 +94,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             id,
             true
         );
-
+        LOG.warn("made it this far");
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);
 
