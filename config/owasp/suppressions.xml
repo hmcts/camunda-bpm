@@ -6,26 +6,6 @@
     <packageUrl regex="true">^pkg:maven/jakarta.*$</packageUrl>
     <cve>CVE-2022-31569</cve>
   </suppress>
-  <suppress until="2024-10-01">
-    <notes><![CDATA[Ignored temporarily to upgrade dependencies]]></notes>
-    <cve>CVE-2023-33202</cve>
-    <cve>CVE-2023-6378</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: checkstyle-8.21.jar
-   ]]></notes>
-    <gav regex="true">^com\.puppycrawl\.tools:checkstyle:.*$</gav>
-    <cve>CVE-2019-10782</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: spring-boot-starter-oauth2-client-2.6.4.jar
-   ]]></notes>
-    <gav regex="true">^org\.springframework\.boot:spring-boot-starter-oauth2-client:.*$</gav>
-    <cve>CVE-2018-1258</cve>
-    <cve>CVE-2021-22112</cve>
-  </suppress>
   <suppress>
     <notes><![CDATA[
     Suppressing as this is from camunda and can't be controlled
@@ -89,15 +69,7 @@
     <filePath regex="true">.*postgresql-1.16.3.jar</filePath>
     <cpe>cpe:/a:postgresql:postgresql</cpe>
   </suppress>
-  <suppress until="2021-01-10">
-    <notes><![CDATA[
-   file name: oauth2-oidc-sdk-7.1.1.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.nimbusds/oauth2\-oidc\-sdk@.*$</packageUrl>
-    <cve>CVE-2007-1652</cve>
-    <cve>CVE-2007-1651</cve>
-  </suppress>
-  <suppress until="2030-01-01">
+  <suppress>
     <notes><![CDATA[
      Suppressing as it's a false positive we are using apache tomcat 9.0.39
    ]]></notes>
@@ -145,36 +117,6 @@
   </suppress>
   <suppress>
     <notes><![CDATA[
-   file name: snakeyaml-1.30.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
-    <cve>CVE-2022-38749</cve>
-    <cve>CVE-2022-41854</cve>
-    <cve>CVE-2022-1471</cve>
-    <cve>CVE-2022-38752</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: snakeyaml-1.30.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
-    <cve>CVE-2022-38751</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: snakeyaml-1.30.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
-    <cve>CVE-2022-38750</cve>
-  </suppress>
-  <suppress until="2023-01-01">
-    <notes><![CDATA[
-   Using snakeYAML to parse untrusted YAML files may be vulnerable to Denial of Service attacks (DOS).
-   ]]></notes>
-    <cve>CVE-2022-38752</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
    This is a junk CVE, see https://github.com/FasterXML/jackson-databind/issues/3972#issuecomment-1813589383
    ]]></notes>
     <cve>CVE-2023-35116</cve>
@@ -188,66 +130,15 @@
     <cve>CVE-2022-42252</cve>
     <cve>CVE-2023-41080</cve>
   </suppress>
-  <suppress until="2024-02-29">
+  <suppress>
     <notes><![CDATA[
-    file name: logback-core-1.2.12.jar
+    False positive: https://github.com/jeremylong/DependencyCheck/issues/6100
     ]]></notes>
-    <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-core@.*$</packageUrl>
-    <cve>CVE-2023-6481</cve>
-  </suppress>
-  <suppress until="2024-02-29">
-      <notes><![CDATA[
-      file name: logback-classic-1.2.12.jar
-      ]]></notes>
-      <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-classic@.*$</packageUrl>
-      <cve>CVE-2023-6481</cve>
-  </suppress>
-  <suppress until="2024-09-29">
-    <notes><![CDATA[
-    file name: azure-core-1.45.1.jar
-    ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core@.*$</packageUrl>
     <cve>CVE-2023-36052</cve>
   </suppress>
-  <suppress until="2024-09-29">
+  <suppress>
     <notes><![CDATA[
-    file name: azure-core-amqp-2.9.0.jar
-    ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-amqp@.*$</packageUrl>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress until="2024-09-29">
-    <notes><![CDATA[
-    file name: azure-core-http-netty-1.13.11.jar 
-    ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-http\-netty@.*$</packageUrl>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress until="2024-09-29">
-    <notes><![CDATA[
-    file name: azure-core-management-1.11.9.jar
-    ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-core\-management@.*$</packageUrl>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress base="true">
-    <notes><![CDATA[
-      file name:azure-identity-1.11.1.jar
-    ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-identity@.*$</packageUrl>
-    <cpe>cpe:/a:microsoft:azure_identity_sdk</cpe>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress until="2024-09-29">
-    <notes><![CDATA[
-    file name: azure-json-1.1.0.jar
-    ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.azure/azure\-json@.*$</packageUrl>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress until="2024-09-29">
-    <notes><![CDATA[
-    file name: spring-cloud-azure-starter-active-directory-5.9.1.jar
+    false positive, overly broad regex is applied to this CVE and it doesn't apply to this artifact
     ]]></notes>
     <packageUrl regex="true">^pkg:maven/com\.azure\.spring/spring\-cloud\-azure\-starter\-active\-directory@.*$</packageUrl>
     <cve>CVE-2021-42306</cve>
