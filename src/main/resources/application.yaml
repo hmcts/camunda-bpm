@@ -34,9 +34,6 @@ camunda:
   api:
     auth:
       enabled: true
-  ui:
-    auth:
-      enabled: false
   bpm:
     authorization:
       enabled: true
