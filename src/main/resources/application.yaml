@@ -180,3 +180,4 @@ camunda:
   ui:
     auth:
       enabled: true
+      
