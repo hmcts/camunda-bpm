@@ -81,10 +81,10 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
                 Map<String, Object> oidcAttributes = defaultOidcUser.getAttributes();
                 attributes.putAll(oidcAttributes);
             }
-            LOG.warn("value of attributes", attributes);
             id = attributes.get(PRINCIPAL_ID).toString();
         }
 
+        LOG.warn("value of attributes {}", attributes);
         // Check if Id is set
         if (id == null || id.isEmpty()) {
             return AuthenticationResult.unsuccessful();

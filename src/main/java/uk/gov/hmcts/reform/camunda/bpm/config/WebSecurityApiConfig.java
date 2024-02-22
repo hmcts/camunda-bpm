@@ -15,8 +15,8 @@ import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true)
-@EnableWebSecurity
-@Order(102)
+//@EnableWebSecurity
+//@Order(102)
 public class WebSecurityApiConfig {
 
     @Bean

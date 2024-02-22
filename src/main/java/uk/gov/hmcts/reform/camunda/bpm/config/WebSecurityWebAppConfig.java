@@ -2,6 +2,8 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import jakarta.servlet.annotation.WebListener;
 import org.camunda.bpm.webapp.impl.security.auth.ContainerBasedAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,15 +21,18 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.context.request.RequestContextListener;
+import uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider;
 
 import java.util.Collections;
 
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.ui.auth", name = "enabled", matchIfMissing = false)
 @SuppressWarnings("java:S4507")
-@EnableWebSecurity(debug = true)
-@Order(100)
+//@EnableWebSecurity(debug = true)
+//@Order(100)
 public class WebSecurityWebAppConfig {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WebSecurityWebAppConfig.class);
 
     @Bean
     public CommandLineRunner cmdLineRunner(ApplicationContext context) {
@@ -60,13 +65,17 @@ public class WebSecurityWebAppConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/health/**").permitAll()
+                .requestMatchers("/beans/**").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2 -> oauth2
                 .clientRegistrationRepository(this.clientRegistrationRepository)
                 .authorizedClientRepository(this.authorizedClientRepository)
                 .authorizedClientService(this.authorizedClientService));
+        LOG.warn("After WebApp SecurityFilter");
         return http.build();
+
     }
+
 
     @Bean
     public FilterRegistrationBean<ContainerBasedAuthenticationFilter> containerBasedAuthenticationFilter() {
@@ -77,6 +86,7 @@ public class WebSecurityWebAppConfig {
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
         //filterRegistration.setOrder(101); //make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/app/*");
+        LOG.warn("After WebApp FilterReg");
         return filterRegistration;
     }
 }
