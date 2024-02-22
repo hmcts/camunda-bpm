@@ -38,7 +38,7 @@ public class WebSecurityWebAppConfig {
             scib.iterator().forEachRemaining(System.out::println);
         };
     }
-    
+
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -75,7 +75,7 @@ public class WebSecurityWebAppConfig {
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityWebappAuthenticationProvider"));
-        filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
+        // filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/app/*");
         return filterRegistration;
     }
