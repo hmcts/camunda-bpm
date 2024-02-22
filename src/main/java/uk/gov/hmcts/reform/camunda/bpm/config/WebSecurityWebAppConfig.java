@@ -29,6 +29,16 @@ import java.util.Collections;
 @Order(100)
 public class WebSecurityWebAppConfig {
 
+    @Bean
+    public CommandLineRunner cmdLineRunner(ApplicationContext context) {
+        return args -> {
+            ServletContextInitializerBeans scib = new ServletContextInitializerBeans(context,
+                    FilterRegistrationBean.class, DelegatingFilterProxyRegistrationBean.class);
+            System.out.println("----");
+            scib.iterator().forEachRemaining(System.out::println);
+        };
+    }
+    
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -41,16 +51,6 @@ public class WebSecurityWebAppConfig {
     @Configuration
     @WebListener
     public static class MyRequestContextListener extends RequestContextListener {
-    }
-
-    @Bean
-    public CommandLineRunner cmdLineRunner(ApplicationContext context) {
-        return args -> {
-            ServletContextInitializerBeans scib = new ServletContextInitializerBeans(context,
-                    FilterRegistrationBean.class, DelegatingFilterProxyRegistrationBean.class);
-            System.out.println("----");
-            scib.iterator().forEachRemaining(System.out::println);
-        };
     }
 
     @Bean
