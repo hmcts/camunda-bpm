@@ -3,8 +3,12 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 import jakarta.servlet.annotation.WebListener;
 import org.camunda.bpm.webapp.impl.security.auth.ContainerBasedAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletContextInitializerBeans;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -37,6 +41,16 @@ public class WebSecurityWebAppConfig {
     @Configuration
     @WebListener
     public static class MyRequestContextListener extends RequestContextListener {
+    }
+
+    @Bean
+    public CommandLineRunner cmdLineRunner(ApplicationContext context) {
+        return args -> {
+            ServletContextInitializerBeans scib = new ServletContextInitializerBeans(context,
+                    FilterRegistrationBean.class, DelegatingFilterProxyRegistrationBean.class);
+            System.out.println("----");
+            scib.iterator().forEachRemaining(System.out::println);
+        };
     }
 
     @Bean
