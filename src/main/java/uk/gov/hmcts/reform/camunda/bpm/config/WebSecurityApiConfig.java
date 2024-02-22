@@ -33,7 +33,7 @@ public class WebSecurityApiConfig {
         filterRegistration.setFilter(new ProcessEngineAuthenticationFilter());
         filterRegistration.addInitParameter("authentication-provider",
             "uk.gov.hmcts.reform.camunda.bpm.filter.SpringSecurityApiAuthenticationProvider");
-        // filterRegistration.setOrder(103); // make sure the filter is registered after the Spring Security Filter Chain
+        //filterRegistration.setOrder(103); //make sure the filter is registered after the Spring Security Filter Chain
         filterRegistration.addUrlPatterns("/engine-rest/*");
         return filterRegistration;
     }
