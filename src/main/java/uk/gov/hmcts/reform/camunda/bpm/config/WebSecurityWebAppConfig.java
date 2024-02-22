@@ -61,6 +61,7 @@ public class WebSecurityWebAppConfig {
     @Bean
     @SuppressWarnings("java:S4502")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        LOG.warn("Before WebApp SecurityFilter");
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
@@ -79,7 +80,7 @@ public class WebSecurityWebAppConfig {
 
     @Bean
     public FilterRegistrationBean<ContainerBasedAuthenticationFilter> containerBasedAuthenticationFilter() {
-
+        LOG.warn("Before WebApp FilterReg");
         FilterRegistrationBean<ContainerBasedAuthenticationFilter> filterRegistration = new FilterRegistrationBean<>();
         filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
         filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider",
