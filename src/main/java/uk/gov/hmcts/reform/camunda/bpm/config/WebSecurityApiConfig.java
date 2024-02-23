@@ -14,7 +14,7 @@ import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 
 @Configuration
-@ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = false, havingValue = "true")
 @EnableWebSecurity
 public class WebSecurityApiConfig {
 

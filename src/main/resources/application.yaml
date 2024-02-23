@@ -180,7 +180,9 @@ spring:
           client-id: ${CLIENT_ID:}
           client-secret: ${CLIENT_SECRET:}
 camunda:
+  api:
+    auth:
+      enabled: false
   ui:
     auth:
       enabled: true
-      
