@@ -16,11 +16,11 @@ import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true)
 @EnableWebSecurity
-@Order(102)
 public class WebSecurityApiConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(2)
+    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests.anyRequest().anonymous())
                 .httpBasic(httpBasic -> httpBasic.disable());

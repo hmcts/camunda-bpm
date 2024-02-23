@@ -11,12 +11,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true, havingValue = "false")
 @EnableWebSecurity
-@Order(104)
 public class WebSecurityApiAnonymousConfig {
 
     @Bean
     @SuppressWarnings("java:S4502")
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(3)
+    public SecurityFilterChain anonymousFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests.anyRequest().anonymous())
                 .httpBasic(httpBasic -> httpBasic.disable());
