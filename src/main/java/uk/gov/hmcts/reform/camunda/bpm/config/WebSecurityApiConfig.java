@@ -38,7 +38,6 @@ public class WebSecurityApiConfig {
         return filterRegistration;
     }
 
-
     @Bean
     public AuthTokenValidator authTokenValidator(ServiceAuthorisationApi authorisationApi) {
         return new ServiceAuthTokenValidator(authorisationApi);
