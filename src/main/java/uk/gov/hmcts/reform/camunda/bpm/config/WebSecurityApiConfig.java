@@ -44,5 +44,4 @@ public class WebSecurityApiConfig {
         return new ServiceAuthTokenValidator(authorisationApi);
     }
 
-
 }
