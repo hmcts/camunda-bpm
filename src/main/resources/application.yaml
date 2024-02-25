@@ -5,11 +5,17 @@ management:
   endpoint:
     health:
       show-details: "always"
+      probes:
+        enabled: true
   security:
     enabled: false
   endpoints:
     web:
       base-path: /
+      exposure:
+        include: health
+  server:
+    port: 8999
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -173,6 +179,9 @@ spring:
           azure:
             issuer-uri: ${ISSUER_URI:https://sts.windows.net/531ff96d-0ae9-462a-8d2d-bec7c0b42082/}
 camunda:
+  api:
+    auth:
+      enabled: false
   ui:
     auth:
       enabled: true

@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.filter;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -19,7 +20,6 @@ import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
 public class SpringSecurityApiAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {

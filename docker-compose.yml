@@ -17,7 +17,7 @@ services:
       - ISSUER_URI
       - SPRING_FLYWAY_ENABLED=false
       - CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE=true
-      - SPRING_PROFILES_ACTIVE=default
+      - SPRING_PROFILES_ACTIVE
     ports:
       - 8999:8999
     depends_on:

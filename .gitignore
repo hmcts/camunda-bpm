@@ -5,6 +5,8 @@ target/
 build
 out/
 .secrets
+init.gradle
+.env
 gradle.properties
 lib/applicationinsights-agent-*.jar
 lib/applicationinsights.log

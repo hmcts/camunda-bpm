@@ -8,21 +8,24 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 
 @Configuration
-@ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "camunda.api.auth", name = "enabled", matchIfMissing = false, havingValue = "true")
 @EnableWebSecurity
 @Order(101)
-public class WebSecurityApiConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityApiConfig {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests().anyRequest().anonymous().and().httpBasic().disable();
+    @Bean
+    @Order(2)
+    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(requests -> requests.anyRequest().anonymous())
+                .httpBasic(httpBasic -> httpBasic.disable());
+        return http.build();
     }
 
     @Bean
@@ -41,6 +44,4 @@ public class WebSecurityApiConfig extends WebSecurityConfigurerAdapter {
     public AuthTokenValidator authTokenValidator(ServiceAuthorisationApi authorisationApi) {
         return new ServiceAuthTokenValidator(authorisationApi);
     }
-
-
 }
