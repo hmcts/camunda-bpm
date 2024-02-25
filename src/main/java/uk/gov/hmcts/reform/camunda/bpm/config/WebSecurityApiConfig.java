@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 public class WebSecurityApiConfig {
 
     @Bean
+    @SuppressWarnings("java:S4502")
     @Order(2)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
