@@ -17,7 +17,7 @@ public class WebSecurityApiAnonymousConfig {
     @Bean
     @SuppressWarnings("java:S4502")
     @Order(3)
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain anonymousFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests.anyRequest().anonymous())
