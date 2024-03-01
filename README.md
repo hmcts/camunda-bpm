@@ -246,4 +246,3 @@ Debugging is just running the application with extra logging and the ability to 
 ![debugMode](images/debugMode.png)
 
 Its also faster to run or debug your changes all in single window.
-
