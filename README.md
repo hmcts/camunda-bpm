@@ -192,7 +192,7 @@ To get SSO working locally, you will also need to supply the values of `CLIENT_I
 
 #### Running the application
 
-With the configuration complete you are almost ready to run the application via IntelliJ. However Camunda requires a database and IntelliJ does not provide this functinality so we need to go back to Docker for this.
+With the configuration complete you are almost ready to run the application via IntelliJ. However Camunda requires a database and IntelliJ does not provide this functionality so we need to go back to Docker for this.
 
 You can run the database via the docker-compose.yml file we used earlier. Run the following in your CLI to bring the database online:
 
