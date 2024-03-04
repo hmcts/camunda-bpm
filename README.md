@@ -112,7 +112,7 @@ SPRING_PROFILES_ACTIVE=springauth
 
 These are environment variables defined in `docker-compose.yml` which have no defaults, we need to supply them here so that Camunda builds and runs just as it would in AKS.
 
-It is possible to build without these values and Camunda will start without Single Sign On functionality, so you will need to have local Camunda credentials to log in (please check `src/main/resources/application.yaml for these).
+It is possible to build without these values and Camunda will start without Single Sign On functionality, so you will need to have local Camunda credentials to log in (please check `src/main/resources/application.yaml` for these).
 
 #### Docker Compose
 
