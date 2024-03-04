@@ -129,6 +129,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - fpl-case-service
+  sscs:
+    adGroupId: aa694620-518d-44a4-b494-0f8fe298f2b0
+    tenantId: sscs
+    groupId: sscs
+    accessControl: user
+    s2sServiceNames:
+      - sscs
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
