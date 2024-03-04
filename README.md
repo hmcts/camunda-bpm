@@ -32,7 +32,7 @@ Working on this Camunda BPM application requires the following:
 - Access to Azure Container Registry - hmctsprivate 
     - This is required if you want to pull the Jenkins built image to test locally, only in the event that a deployment to AKS is failing
     - You will also need Azure CLI installed to be able to log into this registry, its private which is why you need permissions to access.
-- Access to Azure Key Vault - 
+- Access to Azure Key Vault 
     - rpe-prod
         - You need secrets for Camunda Enterprise to download the required packages during local builds
     - camunda-ithc
