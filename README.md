@@ -138,7 +138,7 @@ a81bf23d4aaf   camunda-bpm-camunda-bpm-database   "docker-entrypoint.s…"   Abo
 
 The service runs by default on port `8999` and should be available by opening a browser and accessing `http://localhost:8999/`
 
-If you have used the env file then you should be redirected to provider to complete your login otherwise you will see a Camunda log in page (check `/src/main/resources/application.yaml for credentials`).
+If you have used the env file then you should be redirected to provider to complete your login otherwise you will see a Camunda log in page (check `/src/main/resources/application.yaml` for credentials).
 
 When you are finished testing you can stop the containers by running:
 
@@ -158,9 +158,11 @@ You'll need to setup a configuration for this application to let IntelliJ know w
 
 Before doing this, you need to add the `src` directory as an IntelliJ module source, by navigating to File > Project Structure > Modules.
 Click on the `src` folder, and then `Sources` in the menu, then click Appply.
+
 ![Defining project source](images/projectAddSource.png)
 
 Then in the same Project Structure window but under the `Dependencies` tab, add the Java SDK as a module dependency, as below:
+
 ![IntelliJ Java dependencies](images/projectJavaJDK.png)
 
 You're now set up to add a configuration and can close the Project Structure window after applying changes.
@@ -187,8 +189,18 @@ Just like Docker required additional environment variables, IntelliJ also needs 
 You can enter the variables via the in a single line separated by `;` or open the pop-up box and enter them individually which tends to be easier to view as well:
 
 ![envVars](images/envVars.png)
-At a bare minimum, you will need to supply values for the environment variables `CAMUNDA_NEXUS_USER`, `CAMUNDA_NEXUS_PASSWORD`, `CAMUNDA_DB_PASSWORD`, and `CAMUNDA_DB_PORT`. Please note, you will need to set `CAMUNDA_DB_PORT` to `5898` when using IntelliJ. This will let you login to Camunda as Admin user.
-To get SSO working locally, you will also need to supply the values of `CLIENT_ID`, `CLIENT_SECRET`, and `SPRING_PROFILES_ACTIVE` as environment variables as described above.
+At a bare minimum, you will need to supply values for the environment variables:
+
+- `CAMUNDA_NEXUS_USER`
+- `CAMUNDA_NEXUS_PASSWORD`
+- `CAMUNDA_DB_PASSWORD`
+- `CAMUNDA_DB_PORT`
+
+Please note, you will need to set `CAMUNDA_DB_PORT` to `5898` when using IntelliJ with the docker hosted DB.
+
+With this setup you can start Camunda and log in with the Camunda admin user.
+
+To use SSO locally, you will also need to supply the values of `CLIENT_ID`, `CLIENT_SECRET`, and `SPRING_PROFILES_ACTIVE` as environment variables as described above.
 
 #### Running the application
 
@@ -209,7 +221,8 @@ Its important to remember we are `running` the application not building it yet!
 Select the `play` button in IntelliJ to start the application:
 
 ![runApp](images/runApp.png)
-If the `play` button is grayed out, re-opening IntelliJ can sometimes resolve this.
+
+Note: _If the `play` button is grayed out, re-opening IntelliJ can sometimes resolve this._
 
 A new window will appear with a console to show the build progress of the application, this will also show logs from the application when you use the application which is very useful if you are troubleshooting a bug or issue:
 
