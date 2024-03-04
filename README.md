@@ -156,6 +156,15 @@ Open the Camunda repo folder in IntelliJ:
 
 You'll need to setup a configuration for this application to let IntelliJ know what to do when you want to build.
 
+Before doing this, you need to add the `src` directory as an IntelliJ module source, by navigating to File > Project Structure > Modules.
+Click on the `src` folder, and then `Sources` in the menu, then click Appply.
+![Defining project source](images/projectAddSource.png)
+
+Then in the same Project Structure window but under the `Dependencies` tab, add the Java SDK as a module dependency, as below:
+![IntelliJ Java dependencies](images/projectJavaJDK.png)
+
+You're now set up to add a configuration and can close the Project Structure window after applying changes.
+
 In the top right of the window you will see `current file` and a drop down button, select this and then `edit configuration`:
 
 ![editConfig](images/editConfig.png)
@@ -164,7 +173,7 @@ Select `add new` and `application` in the new pop-up window:
 
 ![newConfig](images/newConfig.png)
 
-Give the config a name and then select the field that shows `Main Class` to allow IntelliJ to discover the right class to use:
+Give the config a name and then select the field that shows `Main Class` to allow IntelliJ to discover the right class to use. If it is not showing up, you may need to use `Modify Options` and enable the `Use Classpath of module` option.
 
 ![mainClass](images/mainClass.png)
 
@@ -178,6 +187,8 @@ Just like Docker required additional environment variables, IntelliJ also needs 
 You can enter the variables via the in a single line separated by `;` or open the pop-up box and enter them individually which tends to be easier to view as well:
 
 ![envVars](images/envVars.png)
+At a bare minimum, you will need to supply values for the environment variables `CAMUNDA_NEXUS_USER`, `CAMUNDA_NEXUS_PASSWORD`, `CAMUNDA_DB_PASSWORD`, and `CAMUNDA_DB_PORT`. Please note, you will need to set `CAMUNDA_DB_PORT` to `5898` when using IntelliJ. This will let you login to Camunda as Admin user.
+To get SSO working locally, you will also need to supply the values of `CLIENT_ID`, `CLIENT_SECRET`, and `SPRING_PROFILES_ACTIVE` as environment variables as described above.
 
 #### Running the application
 
@@ -198,6 +209,7 @@ Its important to remember we are `running` the application not building it yet!
 Select the `play` button in IntelliJ to start the application:
 
 ![runApp](images/runApp.png)
+If the `play` button is grayed out, re-opening IntelliJ can sometimes resolve this.
 
 A new window will appear with a console to show the build progress of the application, this will also show logs from the application when you use the application which is very useful if you are troubleshooting a bug or issue:
 
