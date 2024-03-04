@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.camunda.bpm.filter;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -7,6 +8,7 @@ import org.camunda.bpm.engine.authorization.Authorization;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import uk.gov.hmcts.reform.camunda.bpm.app.AuthorizationHelper;
@@ -15,9 +17,10 @@ import uk.gov.hmcts.reform.camunda.bpm.config.GroupConfig;
 import uk.gov.hmcts.reform.camunda.bpm.context.SpringContext;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
@@ -53,16 +56,24 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             return AuthenticationResult.unsuccessful();
         }
 
-        List<OAuth2UserAuthority> authorities = (List<OAuth2UserAuthority>) authentication.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        Map<String, Object> attributes = authorities.get(0).getAttributes();
+        Map<String, Object> attributes = new HashMap<>();
+
+        if (!authorities.isEmpty()) {
+            for (GrantedAuthority authority : authorities) {
+                if (authority instanceof OAuth2UserAuthority oauth2UserAuthority) {
+                    attributes.putAll(oauth2UserAuthority.getAttributes());
+                    id = authentication.getName();
+                }
+            }
+        }
 
         AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
             true
         );
-
-
+        
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);
 
@@ -99,7 +110,10 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         user.setLastName(getLastName(attributes, name));
         user.setEmail(requireNonNull(attributes.get(UNIQUE_NAME)).toString());
 
-        identityService.deleteUser(id);
+        User userExists = identityService.createUserQuery().userId(id).singleResult();
+        if (userExists != null) {
+            identityService.deleteUser(id);
+        }
         identityService.saveUser(user);
     }
 
