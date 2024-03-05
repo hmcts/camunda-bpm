@@ -25,8 +25,12 @@ repositories {
     maven {
         url = 'https://artifacts.camunda.com/artifactory/camunda-bpm-ee/'
         credentials {
-            username "$CAMUNDA_NEXUS_USER"
-            password "$CAMUNDA_NEXUS_PASSWORD"
+            def userEnvVar = System.getenv('CAMUNDA_NEXUS_USER')
+            def passEnvVar = System.getenv('CAMUNDA_NEXUS_PASSWORD')
+
+            username userEnvVar == null ? "$CAMUNDA_NEXUS_USER" :  userEnvVar
+            password passEnvVar == null ? "$CAMUNDA_NEXUS_PASSWORD" : passEnvVar
+
         }
     }
 }
