@@ -25,7 +25,7 @@ module "postgresql_flexible" {
   pgsql_server_configuration = [
     {
       name  = "shared_buffers"
-      value = var.pgsql_server_configuration.shared_buffers
+      value = lookup(var.pgsql_server_configuration, "shared_buffers")
     },
     {
       name  = "work_mem"
@@ -61,7 +61,7 @@ module "postgresql_flexible" {
     },
     {
       name  = "max_wal_size"
-      value = var.pgsql_server_configuration.max_wal_size
+      value = lookup(var.pgsql_server_configuration, "max_wal_size")
     },
     {
       name  = "effective_io_concurrency"
