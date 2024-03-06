@@ -37,3 +37,12 @@ variable "pgsql_sku" {
   description = "SKU for Postgresql DB"
   default     = "GP_Standard_D2s_v3"
 }
+
+variable "pgsql_server_configuration" {
+  description = "pgsql server configuration options"
+  type = object({
+    shared_buffers  = optional(string, "786432")
+    max_wal_size    = optional(string, "4096")
+  })
+  default = {}
+}
