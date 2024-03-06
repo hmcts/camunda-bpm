@@ -41,7 +41,7 @@ variable "pgsql_sku" {
 variable "pgsql_server_configuration" {
   description = "Map of the pgsql server configuration options"
   type = map(object({
-    shared_buffers  = optional(number, 786432)
-    max_wal_size    = optional(number, 4096)
+    shared_buffers  = optional(string, "786432")
+    max_wal_size    = optional(string, "4096")
   }))
 }
