@@ -48,7 +48,7 @@ variable "pgsql_server_configuration" {
 }
 
 variable "pgsql_version" {
-  description = "Version number of pgsql instance"
+  description = "The version of PostgreSQL Flexible Server to use."
   type = string
   default = "14"
 }
