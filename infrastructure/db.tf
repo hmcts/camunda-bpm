@@ -13,6 +13,7 @@ module "postgresql_flexible" {
   pgsql_admin_username = "camundaadmin"
   pgsql_storage_mb     = var.pgsql_storage_mb
   pgsql_sku            = var.pgsql_sku
+  create_mode          = var.pgsql_create_mode
 
   common_tags          = var.common_tags
   admin_user_object_id = var.jenkins_AAD_objectId
@@ -77,7 +78,7 @@ module "postgresql_flexible" {
     }
   ]
   pgsql_firewall_rules = []
-  pgsql_version        = "14"
+  pgsql_version        = var.pgsql_version
 }
 
 resource "azurerm_key_vault_secret" "postgres-user" {
