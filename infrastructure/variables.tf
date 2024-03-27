@@ -49,12 +49,12 @@ variable "pgsql_server_configuration" {
 
 variable "pgsql_version" {
   description = "The version of PostgreSQL Flexible Server to use."
-  type = string
-  default = "14"
+  type        = string
+  default     = "14"
 }
 
 variable "pgsql_create_mode" {
   description = "The creation mode which can be used to restore or replicate existing servers. Possible values are Default, PointInTimeRestore, Replica and Update."
-  type = string
-  default = "Default"
+  type        = string
+  default     = "Default"
 }
