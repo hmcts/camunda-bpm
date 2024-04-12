@@ -14,6 +14,7 @@ module "postgresql_flexible" {
   pgsql_storage_mb     = var.pgsql_storage_mb
   pgsql_sku            = var.pgsql_sku
   create_mode          = var.pgsql_create_mode
+  high_availability    = var.high_availability
 
   common_tags          = var.common_tags
   admin_user_object_id = var.jenkins_AAD_objectId
