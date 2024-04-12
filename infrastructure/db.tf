@@ -206,21 +206,3 @@ resource "azurerm_key_vault_secret" "postgres-v15-password" {
   value        = module.postgresql_flexible_expanded.password
   key_vault_id = module.vault.key_vault_id
 }
-
-resource "azurerm_key_vault_secret" "postgres-v15-host" {
-  name         = "bpm-POSTGRES-V15-HOST"
-  value        = module.postgresql_flexible_expanded.fqdn
-  key_vault_id = module.vault.key_vault_id
-}
-
-resource "azurerm_key_vault_secret" "postgres-v15-port" {
-  name         = "bpm-POSTGRES-V15-PORT"
-  value        = "5432"
-  key_vault_id = module.vault.key_vault_id
-}
-
-resource "azurerm_key_vault_secret" "postgres-v15-database" {
-  name         = "bpm-POSTGRES-V15-DATABASE"
-  value        = "camunda"
-  key_vault_id = module.vault.key_vault_id
-}
