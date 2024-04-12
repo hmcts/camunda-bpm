@@ -1,2 +1,2 @@
 pgsql_create_mode = "Update"
-pgsql_version = "15"
+pgsql_version     = "15"
