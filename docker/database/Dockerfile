@@ -1,4 +1,4 @@
-FROM postgres:16.2
+FROM postgres:16.3
 
 COPY init-db.sh /docker-entrypoint-initdb.d
 
