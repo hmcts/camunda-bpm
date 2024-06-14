@@ -129,6 +129,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - fpl-case-service
+  sptribs:
+    adGroupId: 7f84be52-28f9-46cd-b409-757993c061b2
+    tenantId: sptribs
+    groupId: sptribs
+    accessControl: user
+    s2sServiceNames:
+      - sptribs_case_api
   sscs:
     adGroupId: aa694620-518d-44a4-b494-0f8fe298f2b0
     tenantId: sscs
