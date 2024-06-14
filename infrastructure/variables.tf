@@ -41,8 +41,8 @@ variable "pgsql_sku" {
 variable "pgsql_server_configuration" {
   description = "pgsql server configuration options"
   type = object({
-    shared_buffers  = optional(string, "786432")
-    max_wal_size    = optional(string, "4096")
+    shared_buffers = optional(string, "786432")
+    max_wal_size   = optional(string, "4096")
   })
   default = {}
 }
@@ -50,7 +50,7 @@ variable "pgsql_server_configuration" {
 variable "pgsql_version" {
   description = "The version of PostgreSQL Flexible Server to use."
   type        = string
-  default     = "14"
+  default     = "15"
 }
 
 variable "pgsql_create_mode" {

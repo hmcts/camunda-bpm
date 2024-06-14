@@ -6,4 +6,3 @@ pgsql_sku         = "GP_Standard_D8s_v3"
 high_availability = true
 
 pgsql_create_mode = "Update"
-pgsql_version     = "15"
