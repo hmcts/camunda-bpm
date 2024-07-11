@@ -52,9 +52,9 @@ camunda:
       properties:
         generalResourceWhitelistPattern: '[.a-zA-Z0-9@_-]+'
         historyTimeToLive: ${CAMUNDA_HISTORY_TTL:P5D}
-        historyCleanupStrategy: ${CAMUNDA_HISTORY_CLEANUP_STRATEGY:endTimeBased}
-        historyCleanupBatchWindowStartTime: ${CAMUNDA_HISTORY_CLEANUP_START_TIME:18:00+0100}
-        historyCleanupBatchWindowEndTime: ${CAMUNDA_HISTORY_CLEANUP_END_TIME:19:30+0100}
+        historyCleanupStrategy: ${CAMUNDA_HISTORY_CLEANUP_STRATEGY:removalTimeBased}
+        historyCleanupBatchWindowStartTime: ${CAMUNDA_HISTORY_CLEANUP_START_TIME:00:30+0100}
+        historyCleanupBatchWindowEndTime: ${CAMUNDA_HISTORY_CLEANUP_END_TIME:06:00+0100}
         historyCleanupBatchSize: 300
         historyCleanupJobLogTimeToLive: ${CAMUNDA_HISTORY_JOBLOG_TTL:P5D}
         historyCleanupDegreeOfParallelism: ${CAMUNDA_PARALLELISM:4}
