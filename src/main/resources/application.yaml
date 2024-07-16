@@ -131,8 +131,8 @@ camundaGroups:
       - fpl-case-service
   sptribs:
     adGroupId: 7f84be52-28f9-46cd-b409-757993c061b2
-    tenantId: sptribs
-    groupId: sptribs
+    tenantId: st_cic
+    groupId: st_cic
     accessControl: user
     s2sServiceNames:
       - sptribs_case_api
