@@ -170,7 +170,7 @@ dependencies {
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
     
     implementation 'org.postgresql:postgresql:42.7.4'
-    implementation 'org.flywaydb:flyway-core:11.1.0'
+    implementation 'org.flywaydb:flyway-core:11.1.1'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.5'
 
