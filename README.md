@@ -54,7 +54,7 @@ Working on this Camunda BPM application requires the following:
     OS:           Mac OS X 14.3 x86_64
     ```
 
-### Local setup
+### Local setup 
 
 With all pre-requisites installed or available its time to setup locally.
 
