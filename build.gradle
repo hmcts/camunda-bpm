@@ -2,7 +2,7 @@ import org.flywaydb.gradle.task.FlywayMigrateTask
 
 buildscript {
     dependencies {
-        classpath("org.flywaydb:flyway-database-postgresql:11.4.0")
+        classpath("org.flywaydb:flyway-database-postgresql:11.4.1")
     }
 }
 
@@ -170,7 +170,7 @@ dependencies {
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
     
     implementation 'org.postgresql:postgresql:42.7.5'
-    implementation 'org.flywaydb:flyway-core:11.4.0'
+    implementation 'org.flywaydb:flyway-core:11.4.1'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.5'
 
