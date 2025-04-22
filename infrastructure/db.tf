@@ -75,7 +75,7 @@ module "postgresql_flexible" {
     },
     {
       name  = "azure.extensions"
-      value = "PG_BUFFERCACHE,PG_STAT_STATEMENTS,PLPGSQL"
+      value = "PG_BUFFERCACHE,PG_STAT_STATEMENTS"
     }
   ]
   pgsql_firewall_rules = []
