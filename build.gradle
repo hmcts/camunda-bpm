@@ -2,7 +2,7 @@ import org.flywaydb.gradle.task.FlywayMigrateTask
 
 buildscript {
     dependencies {
-        classpath("org.flywaydb:flyway-database-postgresql:11.9.1")
+        classpath("org.flywaydb:flyway-database-postgresql:11.11.1")
     }
 }
 
@@ -13,7 +13,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'com.github.ben-manes.versions' version '0.52.0'
     id 'org.springframework.boot' version '3.3.5'
-    id 'org.flywaydb.flyway' version '11.9.1'
+    id 'org.flywaydb.flyway' version '11.11.1'
     id 'org.owasp.dependencycheck' version '12.1.3'
     id 'org.sonarqube' version '6.2.0.5505'
 }
@@ -21,7 +21,7 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
+    maven { url = 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1' }
     maven {
         url = 'https://artifacts.camunda.com/artifactory/camunda-bpm-ee/'
         credentials {
@@ -170,12 +170,12 @@ dependencies {
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
     
     implementation 'org.postgresql:postgresql:42.7.7'
-    implementation 'org.flywaydb:flyway-core:11.9.1'
+    implementation 'org.flywaydb:flyway-core:11.11.1'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.5'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.1.9'
-    implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '5.3.2'
+    implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '5.3.3'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.4'
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '13.6'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
@@ -186,7 +186,7 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
 
     testImplementation 'org.slf4j:jul-to-slf4j:2.0.17'
-    testImplementation 'org.testcontainers:postgresql:1.21.1'
+    testImplementation 'org.testcontainers:postgresql:1.21.3'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-standalone', version: '3.0.1'
     testImplementation "org.junit.vintage:junit-vintage-engine"
 
