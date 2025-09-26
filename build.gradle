@@ -168,7 +168,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
-    
+
     implementation 'org.postgresql:postgresql:42.7.7'
     implementation 'org.flywaydb:flyway-core:11.13.0'
     // JAX-B dependencies for JDK 9+
