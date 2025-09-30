@@ -64,3 +64,9 @@ variable "high_availability" {
   default     = false
   description = "Overrides the automatic selection of high availability mode for the PostgreSQL Flexible Server. Generally you shouldn't set this yourself."
 }
+
+variable "is_qpa_enabled" {
+  description = "Enable Query Performance Insight"
+  type        = string
+  default     = false
+}

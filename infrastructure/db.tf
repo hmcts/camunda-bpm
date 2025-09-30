@@ -18,6 +18,9 @@ module "postgresql_flexible" {
 
   common_tags          = var.common_tags
   admin_user_object_id = var.jenkins_AAD_objectId
+
+  enable_qpi = var.is_qpa_enabled
+
   pgsql_databases = [
     {
       name : "camunda"
