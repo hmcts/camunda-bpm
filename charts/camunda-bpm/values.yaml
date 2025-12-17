@@ -1,7 +1,7 @@
 java:
   applicationPort: 8999
   aadIdentityName: camunda
-  image: 'hmctsprivate.azurecr.io/camunda/bpm:latest'
+  image: 'hmctsprod.azurecr.io/camunda/bpm:latest'
   keyVaults:
     camunda:
       secrets:
