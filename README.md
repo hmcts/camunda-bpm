@@ -13,7 +13,7 @@ The main idea is to offload authentication to Spring Security which then makes i
 
 ## Optimize setup
 
-- Docker image is imported to hmctsprivate from `registry.camunda.cloud` ( credentials in `rpe-prod` keyvault)
+- Docker image is imported to hmctsprod from `registry.camunda.cloud` ( credentials in `rpe-prod` keyvault)
 - Elastic search is added in [camunda-shared-infrastructure](https://github.com/hmcts/camunda-shared-infrastructure)
 - Installed to AKS using [cnp-flux-config](https://github.com/hmcts/cnp-flux-config/tree/master/apps/camunda)
 - It currently doesn't pick license on start up, we need to add it one-off per environment (license in `rpe-prod` keyvault)
@@ -29,7 +29,7 @@ Working on this Camunda BPM application requires the following:
 - OpenJDK 17 installed locally
     - [Jenv](https://www.jenv.be/) is recommended to keep your system Java clean
 - [Docker](https://docs.docker.com/engine/install/) and [Docker-compose](https://docs.docker.com/compose/install/) installed
-- Access to Azure Container Registry - hmctsprivate 
+- Access to Azure Container Registry - hmctsprod 
     - This is required if you want to pull the Jenkins built image to test locally, only in the event that a deployment to AKS is failing
     - You will also need Azure CLI installed to be able to log into this registry, its private which is why you need permissions to access.
 - Access to Azure Key Vault 
