@@ -1,11 +1,13 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@DTSPO-27708-Test")
 
 def type = "java"
 def product = "camunda"
 def component = "bpm"
 
+// Test with a custom branch of cnp-jenkins-config
+env.JENKINS_CONFIG_BRANCH = 'DTSPO-27708'
 
 def secrets = [
     secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
