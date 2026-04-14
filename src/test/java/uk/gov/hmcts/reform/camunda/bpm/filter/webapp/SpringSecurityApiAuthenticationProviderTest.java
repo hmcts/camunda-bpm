@@ -7,9 +7,10 @@ import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.authorization.Resources;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.junit.Assume;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.ExternalResource;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,21 +43,26 @@ import static org.mockito.Mockito.when;
 @DirtiesContext
 public class SpringSecurityApiAuthenticationProviderTest {
 
-    // Jenkins PR/master build agents do not have Docker available, which causes Testcontainers
-    // (PostgreSQLContainer) to fail with initializationError rather than skipping gracefully.
-    // This check skips the entire test class when Docker is not present so the build continues.
-    @BeforeClass
-    public static void checkDockerAvailable() {
-        Assume.assumeTrue("Docker not available - skipping Testcontainers test",
-            DockerClientFactory.instance().isDockerAvailable());
-    }
-
-    public static final String TOKEN = "dummytoken";
-    @ClassRule
-    public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
+    private static final GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
         .withDatabaseName("camunda")
         .withUsername("camunda")
         .withPassword("camunda").withExposedPorts(5432);
+
+    // @ClassRule fires before @BeforeClass, so the container would start before any assumption
+    // check could run. Using RuleChain ensures the outer ExternalResource (Docker check) executes
+    // first — if Docker is unavailable the class is skipped before the container ever starts.
+    @ClassRule
+    public static RuleChain rules = RuleChain
+        .outerRule(new ExternalResource() {
+            @Override
+            protected void before() {
+                Assume.assumeTrue("Docker not available - skipping Testcontainers test",
+                    DockerClientFactory.instance().isDockerAvailable());
+            }
+        })
+        .around(postgreSQLContainer);
+
+    public static final String TOKEN = "dummytoken";
 
     @Autowired
     private ProcessEngine processEngine;
