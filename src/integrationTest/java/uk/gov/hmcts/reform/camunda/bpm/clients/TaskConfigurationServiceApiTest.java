@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import uk.gov.hmcts.reform.camunda.bpm.SpringBootIntegrationBaseTest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
@@ -27,6 +28,11 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+// @Testcontainers(disabledWithoutDocker = true) causes JUnit 5's ExecutionCondition to be
+// evaluated before Spring loads the application context. When Docker is unavailable (e.g. on
+// Jenkins PR build agents), the test class is skipped cleanly rather than failing with an
+// ApplicationContext load error caused by the Testcontainers JDBC driver.
+@Testcontainers(disabledWithoutDocker = true)
 class TaskConfigurationServiceApiTest extends SpringBootIntegrationBaseTest {
 
     private static final String CASE_ID = "CASE_12345";
