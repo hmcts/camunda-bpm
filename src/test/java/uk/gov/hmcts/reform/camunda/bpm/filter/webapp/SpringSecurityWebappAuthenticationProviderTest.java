@@ -8,9 +8,12 @@ import org.camunda.bpm.engine.authorization.Permissions;
 import org.camunda.bpm.engine.authorization.Resources;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.testcontainers.DockerClientFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,6 +52,15 @@ import static org.mockito.Mockito.when;
 //**Add it to new tests only if needed.** Application startup fails with ENGINE-08043 when running multiple tests.
 @DirtiesContext
 public class SpringSecurityWebappAuthenticationProviderTest {
+
+    // Jenkins PR/master build agents do not have Docker available, which causes Testcontainers
+    // (PostgreSQLContainer) to fail with initializationError rather than skipping gracefully.
+    // This check skips the entire test class when Docker is not present so the build continues.
+    @BeforeClass
+    public static void checkDockerAvailable() {
+        Assume.assumeTrue("Docker not available - skipping Testcontainers test",
+            DockerClientFactory.instance().isDockerAvailable());
+    }
 
     @ClassRule
     public static GenericContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.4")
