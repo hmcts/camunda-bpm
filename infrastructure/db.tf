@@ -3,7 +3,7 @@ module "postgresql_flexible" {
     azurerm.postgres_network = azurerm.postgres_network
   }
 
-  source               = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=temp-disable-ha-camunda"
+  source               = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
   env                  = var.env
   product              = var.product
   name                 = "hmcts-${var.product}-v14-flexible"
