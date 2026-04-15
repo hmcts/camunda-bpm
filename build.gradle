@@ -187,6 +187,7 @@ dependencies {
 
     testImplementation 'org.slf4j:jul-to-slf4j:2.0.17'
     testImplementation 'org.testcontainers:postgresql:1.21.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.21.3'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-standalone', version: '3.0.1'
     testImplementation "org.junit.vintage:junit-vintage-engine"
 
