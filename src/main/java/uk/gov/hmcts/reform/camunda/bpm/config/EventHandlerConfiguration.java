@@ -34,7 +34,11 @@ class EventHandlerConfiguration {
         try {
             taskInitiationService.pushInitiation(delegateTask);
         } catch (RuntimeException ex) {
-            LOG.warn("Push initiation failed for task id: {}. Cron fallback remains available.", delegateTask.getId(), ex);
+            LOG.warn(
+                "Push initiation failed for task id: {}. Cron fallback remains available.",
+                delegateTask.getId(),
+                ex
+            );
         }
     }
 
