@@ -69,9 +69,13 @@ public class TaskInitiationService {
         return variables;
     }
 
-    private CamundaVariable toCamundaVariable(TypedValue typedValue) {
-        String type = typedValue.getType() == null ? "Object" : typedValue.getType().getName();
-        return new CamundaVariable(typedValue.getValue(), type);
+    private CamundaVariable toCamundaVariable(Object value) {
+        if (value instanceof TypedValue typedValue) {
+            String type = typedValue.getType() == null ? "Object" : typedValue.getType().getName();
+            return new CamundaVariable(typedValue.getValue(), type);
+        }
+
+        return new CamundaVariable(value, value == null ? "Object" : value.getClass().getSimpleName());
     }
 
     private ZonedDateTime toZonedDateTime(java.util.Date date) {
