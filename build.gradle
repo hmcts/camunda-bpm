@@ -28,9 +28,8 @@ repositories {
             def userEnvVar = System.getenv('CAMUNDA_NEXUS_USER')
             def passEnvVar = System.getenv('CAMUNDA_NEXUS_PASSWORD')
 
-            username userEnvVar == null ? "$CAMUNDA_NEXUS_USER" :  userEnvVar
+            username userEnvVar == null ? "$CAMUNDA_NEXUS_USER" : userEnvVar
             password passEnvVar == null ? "$CAMUNDA_NEXUS_PASSWORD" : passEnvVar
-
         }
     }
 }
@@ -42,7 +41,7 @@ dependencyUpdates {
         def regex = /^[0-9,.v-]+(-r)?$/
         return !stableKeyword && !(version ==~ regex)
     }
-    rejectVersionIf { selection -> // <---- notice how the closure argument is named
+    rejectVersionIf { selection ->
         return isNonStable(selection.candidate.version) && !isNonStable(selection.currentVersion)
     }
 }
@@ -103,8 +102,6 @@ sourceSets {
         }
         resources.srcDir file('src/integrationTest/resources')
     }
-
-
 }
 
 task smoke(type: Test) {
@@ -144,30 +141,22 @@ sonarqube {
     }
 }
 
-dependencyManagement {
-    dependencies {
-        imports {
-            // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
-            mavenBom 'org.camunda.bpm:camunda-bom:7.21.0-ee'
-        }
-    }
-}
-
 dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:3.3.5")
+    implementation platform("org.camunda.bpm:camunda-bom:7.21.0-ee")
+
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest'
-
     implementation 'org.camunda.spin:camunda-spin-dataformat-all'
-
     implementation 'org.camunda.bpm:camunda-engine-plugin-spin'
-    implementation group: 'org.camunda.bpm', name: 'camunda-engine-spring-6'
+    implementation 'org.camunda.bpm:camunda-engine-spring-6'
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
+    implementation 'jakarta.servlet:jakarta.servlet-api'
 
     implementation 'org.postgresql:postgresql:42.7.7'
     implementation 'org.flywaydb:flyway-core:11.13.0'
@@ -180,28 +169,25 @@ dependencies {
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '13.12'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
-    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
-
-    testImplementation 'org.slf4j:jul-to-slf4j:2.0.17'
-    testImplementation 'org.testcontainers:postgresql:1.21.4'
-    testImplementation 'org.testcontainers:junit-jupiter:1.21.4'
-    testImplementation group: 'com.github.tomakehurst', name:'wiremock-standalone', version: '3.0.1'
-    testImplementation "org.junit.vintage:junit-vintage-engine"
-
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
+    testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit'
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert:1.2'
+    testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
+    testImplementation 'org.slf4j:jul-to-slf4j:2.0.17'
+    testImplementation 'org.testcontainers:postgresql:1.21.4'
+    testImplementation 'org.testcontainers:junit-jupiter:1.21.4'
+    testImplementation group: 'com.github.tomakehurst', name: 'wiremock-standalone', version: '3.0.1'
+    testImplementation 'org.junit.vintage:junit-vintage-engine'
 
     testUtilsImplementation sourceSets.main.runtimeClasspath
     testUtilsImplementation sourceSets.test.runtimeClasspath
 
     integrationTestImplementation sourceSets.main.runtimeClasspath
     integrationTestImplementation sourceSets.test.runtimeClasspath
-    integrationTestImplementation "org.junit.vintage:junit-vintage-engine"
+    integrationTestImplementation 'org.junit.vintage:junit-vintage-engine'
 
     smokeTestImplementation sourceSets.main.runtimeClasspath
     smokeTestImplementation sourceSets.test.runtimeClasspath
@@ -209,7 +195,6 @@ dependencies {
     functionalTestImplementation sourceSets.test.runtimeClasspath
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured'
     functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
-
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -222,7 +207,9 @@ java {
     }
 }
 
-mainClassName = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
+application {
+    mainClass = 'uk.gov.hmcts.reform.camunda.bpm.CamundaApplication'
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -256,7 +243,6 @@ task migratePostgresDatabase(type: FlywayMigrateTask) {
 }
 
 bootJar {
-
     archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
 
     manifest {
