@@ -8,8 +8,8 @@ def component = "bpm"
 
 
 def secrets = [
-    secret('camunda-enterprise-user', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER'),
-    secret('camunda-enterprise-password', 'ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD'),
+    secret('camunda-enterprise-user', 'CAMUNDA_NEXUS_USER'),
+    secret('camunda-enterprise-password', 'CAMUNDA_NEXUS_PASSWORD'),
 ]
 
 def vaultSecrets = [
@@ -34,13 +34,16 @@ withPipeline(type, product, component) {
 
     loadVaultSecrets(vaultSecrets)
 
-    afterSuccess('checkout') {
-    withAzureKeyvault( azureKeyVaultSecrets: secrets,
-                       keyVaultURLOverride: 'https://rpe-prod.vault.azure.net') {
-        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_USER
-        env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD = env.ORG_GRADLE_PROJECT_CAMUNDA_NEXUS_PASSWORD
-     }
-  }
+    before('build') {
+        withAzureKeyvault(
+            azureKeyVaultSecrets: secrets,
+            keyVaultURLOverride: 'https://rpe-prod.vault.azure.net'
+        ) {
+            env.CAMUNDA_NEXUS_USER = "${CAMUNDA_NEXUS_USER}"
+            env.CAMUNDA_NEXUS_PASSWORD = "${CAMUNDA_NEXUS_PASSWORD}"
+            echo 'Camunda EE credentials loaded for Gradle (CAMUNDA_NEXUS_USER / CAMUNDA_NEXUS_PASSWORD)'
+        }
+    }
 
     env.S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
     env.TASK_MANAGEMENT_API_URL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
