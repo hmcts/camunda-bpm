@@ -9,6 +9,8 @@ import uk.gov.hmcts.reform.camunda.bpm.config.FeignClientSnakeCaseConfiguration;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.camunda.bpm.domain.response.ConfigureTaskResponse;
 
+import java.util.Map;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static uk.gov.hmcts.reform.camunda.bpm.config.ServiceTokenGeneratorConfiguration.SERVICE_AUTHORIZATION;
 
@@ -28,4 +30,12 @@ public interface TaskConfigurationServiceApi {
                                         @PathVariable("url-path") String urlPath,
                                         @PathVariable("task-id") String taskId,
                                         @RequestBody ConfigureTaskRequest body);
+
+    @PostMapping(
+        value = "/task/{task-id}/initiation",
+        consumes = APPLICATION_JSON_VALUE
+    )
+    void initiateTask(@RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthToken,
+                      @PathVariable("task-id") String taskId,
+                      @RequestBody Map<String, Object> body);
 }
