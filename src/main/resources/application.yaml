@@ -165,12 +165,13 @@ idam:
     secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
 
 task-management-api:
-  url: http://localhost:8087
+  url: ${WA_TASK_MANAGEMENT_API_URL:${TASK_MANAGEMENT_API_URL:http://localhost:8087}}
 
 configuration:
   urlPath: ${TASK_CONFIGURATION_URL_PATH:task-configuration}
   maxRetries: ${MAX_TASK_CONFIGURATION_RETRIES:3}
   autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:true}
+  initiateTasksOnCreate: ${WA_INITIATE_TASKS_ON_CREATE_ENABLED:false}
 
 ---
 spring:

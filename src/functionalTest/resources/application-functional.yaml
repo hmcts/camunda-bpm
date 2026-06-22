@@ -1,0 +1,31 @@
+targets:
+  instance: ${TEST_URL:http://localhost:8999}
+  task-management: ${WA_TASK_MANAGEMENT_API_URL:${TASK_MANAGEMENT_API_URL:http://localhost:8087}}
+
+core_case_data:
+  api:
+    url: ${CCD_URL:http://ccd-data-store-api}
+
+idam:
+  api:
+    baseUrl: ${IDAM_URL:http://sidam-api}
+  redirectUrl: ${IA_IDAM_REDIRECT_URI:http://xui-webapp/oauth2/callback}
+  scope: openid profile roles
+  system:
+    username: ${WA_SYSTEM_USERNAME:}
+    password: ${WA_SYSTEM_PASSWORD:password}
+  s2s-auth:
+    url: ${S2S_URL:http://localhost:4552}
+    name: ${S2S_NAME_CAMUNDA_BPM:camunda_bpm}
+    secret: ${S2S_SECRET_CAMUNDA_BPM:AAAAAAAAAAAAAAAA}
+    ccd-name: ${S2S_NAME_CCD_CASE_CREATOR:wa_task_management_api}
+    ccd-secret: ${S2S_SECRET_CCD_CASE_CREATOR:${S2S_SECRET_TASK_MANAGEMENT_API:AAAAAAAAAAAAAAAA}}
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          oidc:
+            client-id: ${WA_IDAM_CLIENT_ID:wa}
+            client-secret: ${WA_IDAM_CLIENT_SECRET:something}
