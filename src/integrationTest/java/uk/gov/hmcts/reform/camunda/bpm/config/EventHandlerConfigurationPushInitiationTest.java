@@ -20,7 +20,9 @@ import uk.gov.hmcts.reform.camunda.bpm.domain.request.InitiateTaskRequest;
 
 import java.util.Map;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -120,7 +122,9 @@ class EventHandlerConfigurationPushInitiationTest extends SpringBootIntegrationB
             .singleResult();
         ArgumentCaptor<InitiateTaskRequest> requestCaptor = ArgumentCaptor.forClass(InitiateTaskRequest.class);
 
-        verify(taskManagementApi).initiateTask(eq(SERVICE_TOKEN), eq(task.getId()), requestCaptor.capture());
+        await().atMost(10, SECONDS).untilAsserted(() ->
+            verify(taskManagementApi).initiateTask(eq(SERVICE_TOKEN), eq(task.getId()), requestCaptor.capture())
+        );
 
         InitiateTaskRequest request = requestCaptor.getValue();
         assertThat(request.getOperation()).isEqualTo("INITIATION");
@@ -145,8 +149,10 @@ class EventHandlerConfigurationPushInitiationTest extends SpringBootIntegrationB
             .processDefinitionKey(PROCESS_ID)
             .singleResult();
 
-        verify(taskManagementApi).initiateTask(eq(SERVICE_TOKEN), eq(task.getId()), any(InitiateTaskRequest.class));
-        assertThat(taskService.getVariableLocal(task.getId(), CFT_TASK_STATE)).isEqualTo("unassigned");
+        await().atMost(10, SECONDS).untilAsserted(() -> {
+            verify(taskManagementApi).initiateTask(eq(SERVICE_TOKEN), eq(task.getId()), any(InitiateTaskRequest.class));
+            assertThat(taskService.getVariableLocal(task.getId(), CFT_TASK_STATE)).isEqualTo("unassigned");
+        });
     }
 
     @Test
@@ -161,8 +167,10 @@ class EventHandlerConfigurationPushInitiationTest extends SpringBootIntegrationB
             .processDefinitionKey(PROCESS_ID)
             .singleResult();
 
-        verify(taskManagementApi).initiateTask(eq(SERVICE_TOKEN), eq(task.getId()), any(InitiateTaskRequest.class));
-        assertThat(taskService.getVariableLocal(task.getId(), CFT_TASK_STATE)).isEqualTo("unconfigured");
+        await().atMost(10, SECONDS).untilAsserted(() -> {
+            verify(taskManagementApi).initiateTask(eq(SERVICE_TOKEN), eq(task.getId()), any(InitiateTaskRequest.class));
+            assertThat(taskService.getVariableLocal(task.getId(), CFT_TASK_STATE)).isEqualTo("unconfigured");
+        });
     }
 
     private void correlateCreateTaskMessage() {
