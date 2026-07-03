@@ -62,7 +62,7 @@ public class TaskInitiationService {
 
     public void setTaskStateToPendingTermination(String eventName, DelegateTask delegateTask) {
         LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, eventName, delegateTask.getId());
-        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "PENDING_TERMINATION_TASK_STATE");
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 
     public void requestTaskInitiation(DelegateTask delegateTask) {
