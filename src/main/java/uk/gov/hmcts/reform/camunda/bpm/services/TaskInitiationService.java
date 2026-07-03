@@ -27,9 +27,6 @@ public class TaskInitiationService {
     private static final Logger LOG = getLogger(TaskInitiationService.class);
     private static final String EVENT_RECEIVED_LOGGER_MESSAGE = "{} event received for task with id: {}";
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
-    private static final String UNCONFIGURED_TASK_STATE = "unconfigured";
-    private static final String PENDING_TERMINATION_TASK_STATE = "pendingTermination";
-    private static final String INITIATION_OPERATION = "INITIATION";
     private static final DateTimeFormatter CAMUNDA_DATA_TIME_FORMATTER =
         DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
@@ -56,7 +53,7 @@ public class TaskInitiationService {
             taskService.setVariableLocal(
                 taskId,
                 CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
-                UNCONFIGURED_TASK_STATE
+                "unconfigured"
             );
         } catch (Exception ex) {
             LOG.error("Task id: {} could not be updated to unconfigured after initiation failure.", taskId, ex);
@@ -65,13 +62,13 @@ public class TaskInitiationService {
 
     public void setTaskStateToPendingTermination(String eventName, DelegateTask delegateTask) {
         LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, eventName, delegateTask.getId());
-        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, PENDING_TERMINATION_TASK_STATE);
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "PENDING_TERMINATION_TASK_STATE");
     }
 
     public void requestTaskInitiation(DelegateTask delegateTask) {
         String taskId = delegateTask.getId();
         InitiateTaskRequest request = new InitiateTaskRequest(
-            INITIATION_OPERATION,
+            "INITIATION",
             taskAttributes(delegateTask)
         );
 
