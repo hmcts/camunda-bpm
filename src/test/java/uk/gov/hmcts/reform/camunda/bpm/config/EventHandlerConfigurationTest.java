@@ -5,29 +5,33 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import uk.gov.hmcts.reform.camunda.bpm.domain.event.TaskInitiationRequestedEvent;
-import uk.gov.hmcts.reform.camunda.bpm.domain.request.InitiateTaskRequest;
-import uk.gov.hmcts.reform.camunda.bpm.services.TaskInitiationService;
+import uk.gov.hmcts.reform.camunda.bpm.config.features.FeatureFlag;
+import uk.gov.hmcts.reform.camunda.bpm.services.TaskInitiationRequestPublisher;
 
-import java.util.Map;
-
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventHandlerConfigurationTest {
 
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
-    private TaskInitiationService taskInitiationService;
+    private TaskInitiationRequestPublisher taskInitiationRequestPublisher;
+    private LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider;
     private EventHandlerConfiguration eventHandlerConfiguration;
 
     @Before
     public void setUp() {
-        taskInitiationService = mock(TaskInitiationService.class);
-        eventHandlerConfiguration = new EventHandlerConfiguration(taskInitiationService, false);
+        taskInitiationRequestPublisher = mock(TaskInitiationRequestPublisher.class);
+        launchDarklyFeatureFlagProvider = mock(LaunchDarklyFeatureFlagProvider.class);
+        eventHandlerConfiguration = new EventHandlerConfiguration(
+            taskInitiationRequestPublisher,
+            launchDarklyFeatureFlagProvider
+        );
     }
 
     @Test
@@ -42,32 +46,23 @@ public class EventHandlerConfigurationTest {
     @Test
     public void should_not_request_task_initiation_when_feature_toggle_is_disabled() {
         DelegateTask delegateTask = mock(DelegateTask.class);
+        when(launchDarklyFeatureFlagProvider.getBooleanValue(eq(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)))
+            .thenReturn(false);
 
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
 
-        verify(taskInitiationService, never()).requestTaskInitiation(delegateTask);
+        verify(taskInitiationRequestPublisher, never()).publishTaskInitiationRequest(delegateTask);
     }
 
     @Test
     public void should_request_task_initiation_when_feature_toggle_is_enabled() {
-        eventHandlerConfiguration = new EventHandlerConfiguration(taskInitiationService, true);
         DelegateTask delegateTask = mock(DelegateTask.class);
+        when(launchDarklyFeatureFlagProvider.getBooleanValue(eq(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)))
+            .thenReturn(true);
 
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
 
-        verify(taskInitiationService, times(1)).requestTaskInitiation(delegateTask);
-    }
-
-    @Test
-    public void should_initiate_task_after_commit() {
-        TaskInitiationRequestedEvent event = new TaskInitiationRequestedEvent(
-            "task-id",
-            new InitiateTaskRequest("INITIATION", Map.of())
-        );
-
-        eventHandlerConfiguration.onTaskCreatedEventAndCommit(event);
-
-        verify(taskInitiationService, times(1)).initiateTask(event);
+        verify(taskInitiationRequestPublisher, times(1)).publishTaskInitiationRequest(delegateTask);
     }
 
     @Test
@@ -76,7 +71,7 @@ public class EventHandlerConfigurationTest {
 
         eventHandlerConfiguration.onTaskCompletedEvent(delegateTask);
 
-        verify(taskInitiationService, times(1)).setTaskStateToPendingTermination("COMPLETE", delegateTask);
+        verify(delegateTask, times(1)).setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 
     @Test
@@ -85,6 +80,6 @@ public class EventHandlerConfigurationTest {
 
         eventHandlerConfiguration.onTaskDeletedEvent(delegateTask);
 
-        verify(taskInitiationService, times(1)).setTaskStateToPendingTermination("DELETE", delegateTask);
+        verify(delegateTask, times(1)).setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 }

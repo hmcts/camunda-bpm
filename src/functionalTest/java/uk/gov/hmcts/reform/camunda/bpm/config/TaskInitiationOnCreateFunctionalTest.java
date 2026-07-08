@@ -14,8 +14,8 @@ import static org.awaitility.Awaitility.await;
 
 @SpringBootTest(classes = CamundaFunctionalTestUtils.class)
 @ActiveProfiles("functional")
-@Disabled("Disabled until WA_INITIATE_TASKS_ON_CREATE_ENABLED is enabled")
-class TaskInitiationPushFunctionalTest {
+@Disabled("Disabled until WA_INITIATE_TASKS_ON_CREATE LaunchDarkly flag is enabled")
+class TaskInitiationOnCreateFunctionalTest {
 
     private static final String MISSING_CCD_CASE_ID = "1678901234567890";
 

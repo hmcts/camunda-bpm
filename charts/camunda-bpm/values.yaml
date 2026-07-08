@@ -13,6 +13,8 @@ java:
           alias: S2S_SECRET_CAMUNDA_BPM
         - name: app-insights-connection-string
           alias: app-insights-connection-string
+        - name: ld-secret
+          alias: LAUNCH_DARKLY_SDK_KEY
   environment:
     CAMUNDA_DB_HOST: "hmcts-camunda-v14-flexible-{{ .Values.global.environment }}.postgres.database.azure.com"
     CAMUNDA_DB_NAME: "camunda"
@@ -20,4 +22,3 @@ java:
     CAMUNDA_DB_CONN_OPTIONS: ?sslmode=require&gssEncMode=disable
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     TASK_MANAGEMENT_API_URL: "http://wa-task-management-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    WA_INITIATE_TASKS_ON_CREATE_ENABLED: false

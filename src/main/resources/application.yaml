@@ -171,13 +171,17 @@ configuration:
   urlPath: ${TASK_CONFIGURATION_URL_PATH:task-configuration}
   maxRetries: ${MAX_TASK_CONFIGURATION_RETRIES:3}
   autoConfigureTasks: ${WA_AUTO_CONFIGURE_TASKS_ENABLED:true}
-  initiateTasksOnCreate: ${WA_INITIATE_TASKS_ON_CREATE_ENABLED:false}
 
 task-initiation:
   async:
     core-pool-size: ${TASK_INITIATION_CORE_POOL_SIZE:5}
     max-pool-size: ${TASK_INITIATION_MAX_POOL_SIZE:10}
     queue-capacity: ${TASK_INITIATION_QUEUE_CAPACITY:500}
+
+launchDarkly:
+  sdkKey: ${LAUNCH_DARKLY_SDK_KEY:sdk-key}
+  connectionTimeout: ${LAUNCH_DARKLY_CONNECTION_TIMEOUT:5000}
+  socketTimeout: ${LAUNCH_DARKLY_SOCKET_TIMEOUT:5000}
 
 ---
 spring:

@@ -2,13 +2,10 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
-import uk.gov.hmcts.reform.camunda.bpm.domain.event.TaskInitiationRequestedEvent;
-import uk.gov.hmcts.reform.camunda.bpm.services.TaskInitiationService;
+import uk.gov.hmcts.reform.camunda.bpm.config.features.FeatureFlag;
+import uk.gov.hmcts.reform.camunda.bpm.services.TaskInitiationRequestPublisher;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -19,13 +16,13 @@ class EventHandlerConfiguration {
     private static final String EVENT_RECEIVED_LOGGER_MESSAGE = "{} event received for task with id: {}";
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
-    private final TaskInitiationService taskInitiationService;
-    private final boolean initiateTasksOnCreate;
+    private final TaskInitiationRequestPublisher taskInitiationRequestPublisher;
+    private final LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider;
 
-    EventHandlerConfiguration(TaskInitiationService taskInitiationService,
-                              @Value("${configuration.initiateTasksOnCreate:false}") boolean initiateTasksOnCreate) {
-        this.taskInitiationService = taskInitiationService;
-        this.initiateTasksOnCreate = initiateTasksOnCreate;
+    EventHandlerConfiguration(TaskInitiationRequestPublisher taskInitiationRequestPublisher,
+                              LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider) {
+        this.taskInitiationRequestPublisher = taskInitiationRequestPublisher;
+        this.launchDarklyFeatureFlagProvider = launchDarklyFeatureFlagProvider;
     }
 
     @EventListener(condition = "#delegateTask.eventName=='create'")
@@ -34,26 +31,21 @@ class EventHandlerConfiguration {
                 CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
                 delegateTask.getId());
         delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
-        if (initiateTasksOnCreate) {
-            taskInitiationService.requestTaskInitiation(delegateTask);
+        if (launchDarklyFeatureFlagProvider.getBooleanValue(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)) {
+            taskInitiationRequestPublisher.publishTaskInitiationRequest(delegateTask);
         }
-    }
-
-    @TransactionalEventListener(
-        phase = TransactionPhase.AFTER_COMMIT
-    )
-    public void onTaskCreatedEventAndCommit(TaskInitiationRequestedEvent event) {
-        taskInitiationService.initiateTask(event);
     }
 
     @EventListener(condition = "#delegateTask.eventName=='complete'")
     public void onTaskCompletedEvent(DelegateTask delegateTask) {
-        taskInitiationService.setTaskStateToPendingTermination("COMPLETE", delegateTask);
+        LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "COMPLETE", delegateTask.getId());
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 
     @EventListener(condition = "#delegateTask.eventName=='delete'")
     public void onTaskDeletedEvent(DelegateTask delegateTask) {
-        taskInitiationService.setTaskStateToPendingTermination("DELETE", delegateTask);
+        LOG.info(EVENT_RECEIVED_LOGGER_MESSAGE, "DELETE", delegateTask.getId());
+        delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "pendingTermination");
     }
 
 }

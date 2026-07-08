@@ -108,7 +108,7 @@ class CamundaFunctionalTestUtils {
 
     ProcessDefinition deployTaskProcess() {
         String suffix = UUID.randomUUID().toString().replace("-", "");
-        String processId = "waTaskInitiationPushFunctionalTest" + suffix;
+        String processId = "waTaskInitiationOnCreateFunctionalTest" + suffix;
         String messageName = "createTaskMessage" + suffix;
         MultiPartSpecification bpmn = new MultiPartSpecBuilder(bpmn(processId, messageName).getBytes(
             StandardCharsets.UTF_8

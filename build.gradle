@@ -134,13 +134,13 @@ dependencyManagement {
     dependencies {
         imports {
             // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
-            mavenBom 'org.camunda.bpm:camunda-bom:7.21.0-ee'
+            mavenBom 'org.camunda.bpm:camunda-bom:7.21.0'
         }
     }
 }
 
 dependencies {
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest'
 
     implementation 'org.camunda.spin:camunda-spin-dataformat-all'
@@ -165,6 +165,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.4'
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '13.13'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '7.14.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -269,4 +270,10 @@ test {
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
+}
+
+bootRun {
+    jvmArgs = [
+            "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+            ]
 }
