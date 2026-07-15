@@ -8,15 +8,21 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.core.task.TaskRejectedException;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.camunda.bpm.clients.TaskConfigurationServiceApi;
 import uk.gov.hmcts.reform.camunda.bpm.domain.event.TaskInitiationRequestedEvent;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.InitiateTaskRequest;
 
 import java.util.Map;
+import java.util.concurrent.CyclicBarrier;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -93,5 +99,49 @@ public class TaskInitiationServiceTest {
         taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request));
 
         verify(taskService, times(1)).setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
+    }
+
+    @Test
+    public void should_process_multiple_task_initiation_requests_concurrently() throws Exception {
+        final int numberOfTasks = 4;
+        final InitiateTaskRequest request = new InitiateTaskRequest(
+            "INITIATION",
+            Map.of("taskType", "processApplication")
+        );
+        final CyclicBarrier allTasksStarted = new CyclicBarrier(numberOfTasks);
+        final ThreadPoolTaskExecutor concurrentExecutor = concurrentTaskInitiationExecutor(numberOfTasks);
+        taskInitiationService = new TaskInitiationService(
+            taskManagementApi,
+            authTokenGenerator,
+            taskService,
+            concurrentExecutor
+        );
+        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
+        doAnswer(invocation -> {
+            allTasksStarted.await(10, SECONDS);
+            return null;
+        }).when(taskManagementApi).initiateTask(anyString(), anyString(), any(InitiateTaskRequest.class));
+
+        try {
+            for (int i = 0; i < numberOfTasks; i++) {
+                taskInitiationService.initiateTask(new TaskInitiationRequestedEvent("task-id-" + i, request));
+            }
+
+            await().atMost(10, SECONDS).untilAsserted(() ->
+                verify(taskManagementApi, times(numberOfTasks))
+                    .initiateTask(eq(SERVICE_TOKEN), anyString(), eq(request))
+            );
+        } finally {
+            concurrentExecutor.shutdown();
+        }
+    }
+
+    private ThreadPoolTaskExecutor concurrentTaskInitiationExecutor(int poolSize) {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(poolSize);
+        executor.setMaxPoolSize(poolSize);
+        executor.setQueueCapacity(poolSize);
+        executor.initialize();
+        return executor;
     }
 }
