@@ -16,6 +16,7 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +28,6 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.GenericContainer;
@@ -73,13 +73,13 @@ public class SpringSecurityWebappAuthenticationProviderTest {
         })
         .around(postgreSQLContainer);
 
-    @MockitoBean
+    @MockBean
     private ClientRegistrationRepository clientRegistrationRepository;
 
-    @MockitoBean
+    @MockBean
     private OAuth2AuthorizedClientRepository authorizedClientRepository;
 
-    @MockitoBean
+    @MockBean
     private OAuth2AuthorizedClientService authorizedClientService;
 
 
@@ -92,7 +92,7 @@ public class SpringSecurityWebappAuthenticationProviderTest {
     @Autowired
     private IdentityService identityService;
 
-    @MockitoBean
+    @MockBean
     private ServiceAuthorisationApi serviceAuthorisationApi;
 
     @Test
