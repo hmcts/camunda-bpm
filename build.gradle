@@ -21,6 +21,10 @@ plugins {
     id 'org.sonarqube' version '7.3.1.8318'
 }
 
+configurations {
+    flywayMigration
+}
+
 // before committing a change, make sure task still works
 dependencyUpdates {
     def isNonStable = { String version ->
@@ -140,6 +144,9 @@ dependencyManagement {
 }
 
 dependencies {
+    flywayMigration 'org.postgresql:postgresql:42.7.7'
+    flywayMigration 'org.flywaydb:flyway-database-postgresql:12.11.0'
+
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest'
 
@@ -236,6 +243,8 @@ flyway {
     url = System.getenv('FLYWAY_URL')
     user = System.getenv('FLYWAY_USER')
     password = System.getenv('FLYWAY_PASSWORD')
+    configurations = ['flywayMigration']
+    locations = ['filesystem:src/main/resources/db/migration']
     baselineOnMigrate = true
     baselineVersion = '000'
 }
