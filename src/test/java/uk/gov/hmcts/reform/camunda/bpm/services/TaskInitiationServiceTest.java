@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.concurrent.CyclicBarrier;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -77,6 +78,24 @@ public class TaskInitiationServiceTest {
         taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request));
 
         verify(taskService, times(1)).setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
+    }
+
+    @Test
+    public void should_handle_failure_when_task_state_cannot_be_set_to_unconfigured() {
+        InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
+        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
+        doThrow(new RuntimeException("Task Management unavailable"))
+            .when(taskManagementApi)
+            .initiateTask(eq(SERVICE_TOKEN), eq(TASK_ID), any(InitiateTaskRequest.class));
+        doThrow(new RuntimeException("Camunda task unavailable"))
+            .when(taskService)
+            .setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
+
+        assertThatCode(() ->
+            taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request))
+        ).doesNotThrowAnyException();
+
+        verify(taskService).setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
     }
 
     @Test

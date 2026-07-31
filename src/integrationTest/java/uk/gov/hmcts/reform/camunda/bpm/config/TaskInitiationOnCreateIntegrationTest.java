@@ -12,6 +12,8 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.camunda.bpm.SpringBootIntegrationBaseTest;
@@ -29,6 +31,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -89,6 +92,9 @@ class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTes
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     @MockBean
     private AuthTokenGenerator authTokenGenerator;
 
@@ -141,6 +147,25 @@ class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTes
     }
 
     @Test
+    void should_not_push_task_initiation_request_when_camunda_transaction_rolls_back() {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+
+        transactionTemplate.executeWithoutResult(status -> {
+            correlateCreateTaskMessage();
+            status.setRollbackOnly();
+        });
+
+        assertThat(taskService.createTaskQuery()
+                       .processDefinitionKey(PROCESS_ID)
+                       .count()).isZero();
+        await()
+            .pollDelay(1, SECONDS)
+            .atMost(2, SECONDS)
+            .untilAsserted(() -> verify(taskManagementApi, never())
+                .initiateTask(anyString(), anyString(), any(InitiateTaskRequest.class)));
+    }
+
+    @Test
     void should_set_task_state_to_unassigned_when_push_initiation_succeeds() {
         doAnswer(invocation -> {
             taskService.setVariableLocal(invocation.getArgument(1), CFT_TASK_STATE, "unassigned");
@@ -160,7 +185,7 @@ class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTes
     }
 
     @Test
-    void should_set_task_state_to_unconfigured_when_feature_toggle_is_enabled_and_push_initiation_fails() {
+    void should_set_task_state_to_unconfigured_when_push_initiation_fails() {
         doThrow(new RuntimeException("Task Management unavailable"))
             .when(taskManagementApi)
             .initiateTask(anyString(), anyString(), any(InitiateTaskRequest.class));
