@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   camunda-bpm:
     build:
@@ -30,7 +28,7 @@ services:
     ports:
       - 5898:5432
     volumes:
-      - camunda-bpm:/var/lib/postgresql/data
+      - camunda-bpm:/var/lib/postgresql
 
 volumes:
   camunda-bpm:

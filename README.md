@@ -26,7 +26,7 @@ Working on this Camunda BPM application requires the following:
 
 - An IDE of choice and plugins for Java if required
     - [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/) recommended but VSCode or similar also works
-- OpenJDK 17 installed locally
+- OpenJDK 21 installed locally
     - [Jenv](https://www.jenv.be/) is recommended to keep your system Java clean
 - [Docker](https://docs.docker.com/engine/install/) and [Docker-compose](https://docs.docker.com/compose/install/) installed
 - Access to Azure Container Registry - hmctsprivate 
@@ -181,7 +181,7 @@ Give the config a name and then select the field that shows `Main Class` to allo
 
 IntelliJ should automatically search and find the correct class for you so select it and click ok.
 
-Back in the main config window, select the following information to complete this setup (note you need to ensure IntelliJ has access to your OpenJDK 17 install from the previous steps)
+Back in the main config window, select the following information to complete this setup (note you need to ensure IntelliJ has access to your OpenJDK 21 install from the previous steps)
 
 ![BuildRunConfig](images/BuildRunConfig.png)
 
