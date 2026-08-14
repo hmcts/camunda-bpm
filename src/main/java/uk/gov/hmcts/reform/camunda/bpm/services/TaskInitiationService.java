@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.core.task.TaskRejectedException;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.camunda.bpm.clients.TaskConfigurationServiceApi;
 import uk.gov.hmcts.reform.camunda.bpm.domain.event.TaskInitiationRequestedEvent;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -18,17 +16,14 @@ public class TaskInitiationService {
     private static final Logger LOG = getLogger(TaskInitiationService.class);
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
-    private final TaskConfigurationServiceApi taskManagementApi;
-    private final AuthTokenGenerator authTokenGenerator;
+    private final TaskInitiationRetryService taskInitiationRetryService;
     private final TaskService taskService;
     private final TaskExecutor taskInitiationExecutor;
 
-    public TaskInitiationService(TaskConfigurationServiceApi taskManagementApi,
-                                 AuthTokenGenerator authTokenGenerator,
+    public TaskInitiationService(TaskInitiationRetryService taskInitiationRetryService,
                                  TaskService taskService,
                                  @Qualifier("taskInitiationExecutor") TaskExecutor taskInitiationExecutor) {
-        this.taskManagementApi = taskManagementApi;
-        this.authTokenGenerator = authTokenGenerator;
+        this.taskInitiationRetryService = taskInitiationRetryService;
         this.taskService = taskService;
         this.taskInitiationExecutor = taskInitiationExecutor;
     }
@@ -60,11 +55,7 @@ public class TaskInitiationService {
 
     private void sendInitiationRequestToTaskManagement(TaskInitiationRequestedEvent event) {
         try {
-            taskManagementApi.initiateTask(
-                authTokenGenerator.generate(),
-                event.taskId(),
-                event.request()
-            );
+            taskInitiationRetryService.initiateTaskWithRetry(event.taskId(), event.request());
             LOG.info("Task id: {} pushed to Task Management for initiation", event.taskId());
         } catch (Exception ex) {
             LOG.warn(

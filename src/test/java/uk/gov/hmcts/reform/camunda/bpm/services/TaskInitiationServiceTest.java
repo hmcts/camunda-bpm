@@ -9,8 +9,6 @@ import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.core.task.TaskRejectedException;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.camunda.bpm.clients.TaskConfigurationServiceApi;
 import uk.gov.hmcts.reform.camunda.bpm.domain.event.TaskInitiationRequestedEvent;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.InitiateTaskRequest;
 
@@ -22,36 +20,30 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskInitiationServiceTest {
 
-    private static final String SERVICE_TOKEN = "S2S_TOKEN";
     private static final String TASK_ID = "task-id";
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
-    private TaskConfigurationServiceApi taskManagementApi;
-    private AuthTokenGenerator authTokenGenerator;
+    private TaskInitiationRetryService taskInitiationRetryService;
     private TaskService taskService;
     private TaskExecutor taskInitiationExecutor;
     private TaskInitiationService taskInitiationService;
 
     @Before
     public void setUp() {
-        taskManagementApi = mock(TaskConfigurationServiceApi.class);
-        authTokenGenerator = mock(AuthTokenGenerator.class);
+        taskInitiationRetryService = mock(TaskInitiationRetryService.class);
         taskService = mock(TaskService.class);
         taskInitiationExecutor = new SyncTaskExecutor();
         taskInitiationService = new TaskInitiationService(
-            taskManagementApi,
-            authTokenGenerator,
+            taskInitiationRetryService,
             taskService,
             taskInitiationExecutor
         );
@@ -60,20 +52,17 @@ public class TaskInitiationServiceTest {
     @Test
     public void should_initiate_task_from_requested_event() {
         InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
-        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
-
         taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request));
 
-        verify(taskManagementApi, times(1)).initiateTask(SERVICE_TOKEN, TASK_ID, request);
+        verify(taskInitiationRetryService, times(1)).initiateTaskWithRetry(TASK_ID, request);
     }
 
     @Test
     public void should_set_task_state_to_unconfigured_when_initiation_fails() {
         InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
-        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
         doThrow(new RuntimeException("Task Management unavailable"))
-            .when(taskManagementApi)
-            .initiateTask(eq(SERVICE_TOKEN), eq(TASK_ID), any(InitiateTaskRequest.class));
+            .when(taskInitiationRetryService)
+            .initiateTaskWithRetry(TASK_ID, request);
 
         taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request));
 
@@ -83,10 +72,9 @@ public class TaskInitiationServiceTest {
     @Test
     public void should_handle_failure_when_task_state_cannot_be_set_to_unconfigured() {
         InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
-        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
         doThrow(new RuntimeException("Task Management unavailable"))
-            .when(taskManagementApi)
-            .initiateTask(eq(SERVICE_TOKEN), eq(TASK_ID), any(InitiateTaskRequest.class));
+            .when(taskInitiationRetryService)
+            .initiateTaskWithRetry(TASK_ID, request);
         doThrow(new RuntimeException("Camunda task unavailable"))
             .when(taskService)
             .setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
@@ -109,8 +97,7 @@ public class TaskInitiationServiceTest {
             .when(taskInitiationExecutor)
             .execute(any(Runnable.class));
         taskInitiationService = new TaskInitiationService(
-            taskManagementApi,
-            authTokenGenerator,
+            taskInitiationRetryService,
             taskService,
             taskInitiationExecutor
         );
@@ -130,16 +117,14 @@ public class TaskInitiationServiceTest {
         final CyclicBarrier allTasksStarted = new CyclicBarrier(numberOfTasks);
         final ThreadPoolTaskExecutor concurrentExecutor = concurrentTaskInitiationExecutor(numberOfTasks);
         taskInitiationService = new TaskInitiationService(
-            taskManagementApi,
-            authTokenGenerator,
+            taskInitiationRetryService,
             taskService,
             concurrentExecutor
         );
-        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
         doAnswer(invocation -> {
             allTasksStarted.await(10, SECONDS);
             return null;
-        }).when(taskManagementApi).initiateTask(anyString(), anyString(), any(InitiateTaskRequest.class));
+        }).when(taskInitiationRetryService).initiateTaskWithRetry(anyString(), any(InitiateTaskRequest.class));
 
         try {
             for (int i = 0; i < numberOfTasks; i++) {
@@ -147,8 +132,8 @@ public class TaskInitiationServiceTest {
             }
 
             await().atMost(10, SECONDS).untilAsserted(() ->
-                verify(taskManagementApi, times(numberOfTasks))
-                    .initiateTask(eq(SERVICE_TOKEN), anyString(), eq(request))
+                verify(taskInitiationRetryService, times(numberOfTasks))
+                    .initiateTaskWithRetry(anyString(), any(InitiateTaskRequest.class))
             );
         } finally {
             concurrentExecutor.shutdown();
