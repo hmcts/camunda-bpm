@@ -160,6 +160,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
 
     implementation 'org.postgresql:postgresql:42.7.7'
@@ -170,8 +171,10 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '8.0.0'
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '5.3.4'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.4'
+    implementation group: 'org.springframework.retry', name: 'spring-retry'
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '13.13'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '7.14.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -210,7 +213,7 @@ group = 'uk.gov.hmcts.reform'
 version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
 
-tasks.register('printVersionInit') {
+tasks.register('printSnapshotVersionInit') {
     group = 'build'
     description = 'Prints root project version for CNP Jenkins (build-info.properties).'
     doLast {
