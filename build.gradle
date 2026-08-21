@@ -210,14 +210,6 @@ group = 'uk.gov.hmcts.reform'
 version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
 
-tasks.register('printVersionInit') {
-    group = 'build'
-    description = 'Prints root project version for CNP Jenkins (build-info.properties).'
-    doLast {
-        println(version)
-    }
-}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
