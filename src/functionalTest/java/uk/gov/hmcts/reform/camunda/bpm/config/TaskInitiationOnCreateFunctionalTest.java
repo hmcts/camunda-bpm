@@ -12,7 +12,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
-@SpringBootTest(classes = CamundaFunctionalTestUtils.class)
+@SpringBootTest(classes = {
+    CamundaFunctionalTestUtils.class,
+    FunctionalTestServiceAuthConfiguration.class
+})
 @ActiveProfiles("functional")
 @Disabled("Disabled until WA_INITIATE_TASKS_ON_CREATE LaunchDarkly flag is enabled")
 class TaskInitiationOnCreateFunctionalTest {

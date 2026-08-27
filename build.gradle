@@ -116,6 +116,12 @@ task integration(type: Test) {
     failFast = true
 }
 
+task tests {
+    description = "Runs junit, integration and functional tests"
+    group = "Verification"
+    dependsOn test, integration, functional
+}
+
 jacocoTestReport {
     executionData(test, integration)
     reports {
@@ -139,6 +145,7 @@ dependencyManagement {
         imports {
             // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
             mavenBom 'org.camunda.bpm:camunda-bom:7.21.0-ee'
+            mavenBom 'org.testcontainers:testcontainers-bom:1.21.4'
         }
     }
 }
@@ -183,8 +190,8 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
 
     testImplementation 'org.slf4j:jul-to-slf4j:2.0.18'
-    testImplementation 'org.testcontainers:postgresql:1.21.4'
-    testImplementation 'org.testcontainers:junit-jupiter:1.21.4'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-standalone', version: '3.0.1'
     testImplementation "org.junit.vintage:junit-vintage-engine"
 

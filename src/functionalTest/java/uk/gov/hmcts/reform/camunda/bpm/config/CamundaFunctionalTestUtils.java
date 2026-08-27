@@ -1,24 +1,24 @@
 package uk.gov.hmcts.reform.camunda.bpm.config;
 
-import com.warrenstrange.googleauth.GoogleAuthenticator;
 import io.restassured.RestAssured;
 import io.restassured.builder.MultiPartSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.MultiPartSpecification;
 import org.springframework.beans.factory.annotation.Value;
+import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGeneratorFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static java.lang.String.format;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 class CamundaFunctionalTestUtils {
 
@@ -42,11 +42,8 @@ class CamundaFunctionalTestUtils {
     private final String taskManagementUrl;
     private final String ccdUrl;
     private final String idamUrl;
-    private final String s2sUrl;
-    private final String s2sName;
-    private final String s2sSecret;
-    private final String ccdS2sName;
-    private final String ccdS2sSecret;
+    private final AuthTokenGenerator camundaServiceTokenGenerator;
+    private final AuthTokenGenerator ccdServiceTokenGenerator;
     private final String idamRedirectUrl;
     private final String idamScope;
     private final String idamClientId;
@@ -62,7 +59,6 @@ class CamundaFunctionalTestUtils {
         @Value("${targets.task-management}") String taskManagementUrl,
         @Value("${core_case_data.api.url}") String ccdUrl,
         @Value("${idam.api.baseUrl}") String idamUrl,
-        @Value("${idam.s2s-auth.url}") String s2sUrl,
         @Value("${idam.s2s-auth.name}") String s2sName,
         @Value("${idam.s2s-auth.secret}") String s2sSecret,
         @Value("${idam.s2s-auth.ccd-name}") String ccdS2sName,
@@ -72,17 +68,23 @@ class CamundaFunctionalTestUtils {
         @Value("${spring.security.oauth2.client.registration.oidc.client-id}") String idamClientId,
         @Value("${spring.security.oauth2.client.registration.oidc.client-secret}") String idamClientSecret,
         @Value("${idam.system.username}") String waSystemUsername,
-        @Value("${idam.system.password}") String waSystemPassword
+        @Value("${idam.system.password}") String waSystemPassword,
+        ServiceAuthorisationApi serviceAuthorisationApi
     ) {
         this.camundaUrl = camundaUrl;
         this.taskManagementUrl = taskManagementUrl;
         this.ccdUrl = ccdUrl;
         this.idamUrl = idamUrl;
-        this.s2sUrl = s2sUrl;
-        this.s2sName = s2sName;
-        this.s2sSecret = s2sSecret;
-        this.ccdS2sName = ccdS2sName;
-        this.ccdS2sSecret = ccdS2sSecret;
+        this.camundaServiceTokenGenerator = AuthTokenGeneratorFactory.createDefaultGenerator(
+            s2sSecret,
+            s2sName,
+            serviceAuthorisationApi
+        );
+        this.ccdServiceTokenGenerator = AuthTokenGeneratorFactory.createDefaultGenerator(
+            ccdS2sSecret,
+            ccdS2sName,
+            serviceAuthorisationApi
+        );
         this.idamRedirectUrl = idamRedirectUrl;
         this.idamScope = idamScope;
         this.idamClientId = idamClientId;
@@ -428,42 +430,11 @@ class CamundaFunctionalTestUtils {
     }
 
     private String camundaServiceToken() {
-        return serviceToken(s2sName, s2sSecret);
-    }
-
-    private String serviceToken(String microservice, String secret) {
-        String oneTimePassword = format("%06d", new GoogleAuthenticator().getTotpPassword(secret));
-
-        Response response = given()
-            .baseUri(s2sUrl)
-            .contentType(APPLICATION_JSON_VALUE)
-            .accept(TEXT_PLAIN_VALUE)
-            .body(Map.of(
-                "microservice", microservice,
-                "oneTimePassword", oneTimePassword
-            ))
-            .when()
-            .post("/lease");
-
-        if (response.statusCode() == 200) {
-            return response.asString();
-        }
-
-        return given()
-            .baseUri(s2sUrl)
-            .contentType(APPLICATION_JSON_VALUE)
-            .accept(TEXT_PLAIN_VALUE)
-            .body(Map.of("microservice", microservice))
-            .when()
-            .post("/testing-support/lease")
-            .then()
-            .statusCode(200)
-            .extract()
-            .asString();
+        return camundaServiceTokenGenerator.generate();
     }
 
     private String ccdServiceToken() {
-        return serviceToken(ccdS2sName, ccdS2sSecret);
+        return ccdServiceTokenGenerator.generate();
     }
 
     private String waSystemUserToken() {
