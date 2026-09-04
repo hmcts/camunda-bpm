@@ -116,6 +116,12 @@ task integration(type: Test) {
     failFast = true
 }
 
+task tests {
+    description = "Runs junit, integration and functional tests"
+    group = "Verification"
+    dependsOn test, integration, functional
+}
+
 jacocoTestReport {
     executionData(test, integration)
     reports {
@@ -139,6 +145,7 @@ dependencyManagement {
         imports {
             // Before upgrading, please copy relevant migration scripts in src/main/resources/db/migration/ from https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/resources/org/camunda/bpm/engine/db/upgrade/
             mavenBom 'org.camunda.bpm:camunda-bom:7.21.0-ee'
+            mavenBom 'org.testcontainers:testcontainers-bom:1.21.4'
         }
     }
 }
@@ -160,6 +167,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
 
     implementation 'org.postgresql:postgresql:42.7.7'
@@ -170,8 +178,10 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '8.0.0'
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '5.3.5'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.4'
+    implementation group: 'org.springframework.retry', name: 'spring-retry'
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '13.14'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '7.14.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -180,8 +190,8 @@ dependencies {
     testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1'
 
     testImplementation 'org.slf4j:jul-to-slf4j:2.0.18'
-    testImplementation 'org.testcontainers:postgresql:1.21.4'
-    testImplementation 'org.testcontainers:junit-jupiter:1.21.4'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation group: 'com.github.tomakehurst', name:'wiremock-standalone', version: '3.0.1'
     testImplementation "org.junit.vintage:junit-vintage-engine"
 
@@ -210,6 +220,14 @@ group = 'uk.gov.hmcts.reform'
 version = '1.0-SNAPSHOT'
 description = 'Camunda BPM Spring Boot Application'
 
+tasks.register('printSnapshotVersionInit') {
+    group = 'build'
+    description = 'Prints root project version for CNP Jenkins (build-info.properties).'
+    doLast {
+        println(version)
+    }
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -229,6 +247,7 @@ tasks.withType(Test) {
 
     testLogging {
         exceptionFormat = 'full'
+        showStandardStreams = true
     }
 }
 
