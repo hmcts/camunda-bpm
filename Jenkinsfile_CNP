@@ -13,6 +13,9 @@ def secrets = [
 ]
 
 def vaultSecrets = [
+    'wa-${env}': [
+        secret('ld-secret', 'LAUNCH_DARKLY_SDK_KEY'),
+    ],
     's2s-${env}': [
         secret('microservicekey-camunda-bpm', 'S2S_SECRET_CAMUNDA_BPM'),
     ]
