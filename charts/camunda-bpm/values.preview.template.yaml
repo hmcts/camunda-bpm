@@ -17,6 +17,7 @@ java:
     CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
     SPRING_FLYWAY_ENABLED: false
     CAMUNDA_DB_CONN_OPTIONS: ""
+    SPRING_PROFILES_ACTIVE: "springauth"
     LOGGING_LEVEL_UK_GOV_HMCTS_REFORM_CAMUNDA_BPM_FILTER: DEBUG
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     TASK_MANAGEMENT_API_URL: "http://wa-task-management-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
