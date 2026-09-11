@@ -90,7 +90,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         LOG.debug("Finished extracting OAuth2 attributes for user '{}'; merged attribute keys={}",
             id, attributes.keySet());
 
-        AuthenticationResult authenticationResult = new AuthenticationResult(
+        final AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
             true
         );

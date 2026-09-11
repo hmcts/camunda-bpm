@@ -106,7 +106,8 @@ public class SpringSecurityBaseAuthenticationProvider extends ContainerBasedAuth
                                                         IdentityService identityService) {
         List<String> camundaGroups = new ArrayList<>();
 
-        LOG.debug("Provisioning {} applicable Camunda group mappings for user '{}'; configured admin Entra group ID='{}'",
+        LOG.debug("Provisioning {} applicable Camunda group mappings for user '{}'; "
+                + "configured admin Entra group ID='{}'",
             applicableGroups.size(), id, configProperties.getCamundaAdminGroupId());
         applicableGroups.forEach(groupConfig -> {
                 long groupCount = identityService.createGroupQuery().groupId(groupConfig.getGroupId()).count();
