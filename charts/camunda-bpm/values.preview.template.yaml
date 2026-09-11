@@ -16,7 +16,6 @@ java:
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.auth.password}}"
     CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
     SPRING_FLYWAY_ENABLED: false
-    SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
     CAMUNDA_DB_CONN_OPTIONS: ""
     LOGGING_LEVEL_UK_GOV_HMCTS_REFORM_CAMUNDA_BPM_FILTER: DEBUG
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
