@@ -36,6 +36,33 @@ public class SpringSecurityWebappAuthenticationProviderUnitTest {
     }
 
     @Test
+    public void should_flatten_array_groups_claim() {
+        List<String> result = SpringSecurityWebappAuthenticationProvider.normalizeGroupsClaim(
+            new String[]{USER_GROUP_ID, ADMIN_GROUP_ID});
+
+        assertThat(result).containsExactly(USER_GROUP_ID, ADMIN_GROUP_ID);
+    }
+
+    @Test
+    public void should_preserve_scalar_group_claim() {
+        assertThat(SpringSecurityWebappAuthenticationProvider.normalizeGroupsClaim(ADMIN_GROUP_ID))
+            .containsExactly(ADMIN_GROUP_ID);
+    }
+
+    @Test
+    public void should_preserve_malformed_json_like_group_claim_as_scalar() {
+        String malformedGroups = "[\"" + USER_GROUP_ID + "\",\"invalid-json]";
+
+        assertThat(SpringSecurityWebappAuthenticationProvider.normalizeGroupsClaim(malformedGroups))
+            .containsExactly(malformedGroups);
+    }
+
+    @Test
+    public void should_ignore_unsupported_groups_claim_value() {
+        assertThat(SpringSecurityWebappAuthenticationProvider.normalizeGroupsClaim(42)).isEmpty();
+    }
+
+    @Test
     public void should_return_empty_list_when_groups_claim_is_missing() {
         assertThat(SpringSecurityWebappAuthenticationProvider.normalizeGroupsClaim(null)).isEmpty();
     }
