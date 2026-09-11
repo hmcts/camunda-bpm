@@ -130,11 +130,7 @@ sonarqube {
     properties {
         property "sonar.projectName", "Reform :: camunda-bpm"
         property "sonar.projectKey", "uk.gov.hmcts.reform:camunda-bpm"
-        property "sonar.coverage.exclusions", [
-            "**/config/**",
-            "**/filter/SpringSecurityBaseAuthenticationProvider.java",
-            "**/filter/SpringSecurityWebappAuthenticationProvider.java"
-        ].join(",")
+        property "sonar.coverage.exclusions", "**/config/**"
     }
 }
 
