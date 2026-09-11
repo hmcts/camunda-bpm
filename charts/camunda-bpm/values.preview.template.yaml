@@ -2,13 +2,7 @@ java:
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  keyVaults:
-    camunda:
-      secrets:
-        - name: openid-client-id
-          alias: CLIENT_ID
-        - name: openid-client-secret
-          alias: CLIENT_SECRET
+  disableKeyVaults: true
   environment:
     CAMUNDA_DB_HOST: "{{ .Release.Name }}-postgresql"
     CAMUNDA_DB_NAME: "{{ .Values.postgresql.auth.database}}"
@@ -16,9 +10,8 @@ java:
     CAMUNDA_DB_PASSWORD: "{{ .Values.postgresql.auth.password}}"
     CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: true
     SPRING_FLYWAY_ENABLED: false
+    SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
     CAMUNDA_DB_CONN_OPTIONS: ""
-    SPRING_PROFILES_ACTIVE: "springauth"
-    LOGGING_LEVEL_UK_GOV_HMCTS_REFORM_CAMUNDA_BPM_FILTER: DEBUG
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     TASK_MANAGEMENT_API_URL: "http://wa-task-management-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
   postgresql:
