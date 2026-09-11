@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.retry.annotation.EnableRetry;
 
 @SpringBootApplication
 @EnableProcessApplication
 @EnableFeignClients(basePackages = {"uk.gov.hmcts.reform.authorisation", "uk.gov.hmcts.reform.camunda.bpm"})
+@EnableRetry
 public class CamundaApplication {
 
     @Autowired
