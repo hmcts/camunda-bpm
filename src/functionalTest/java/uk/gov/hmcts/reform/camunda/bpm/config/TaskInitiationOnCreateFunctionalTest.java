@@ -19,7 +19,7 @@ import static org.awaitility.Awaitility.await;
     FunctionalTestServiceAuthConfiguration.class
 })
 @ActiveProfiles("functional")
-@Disabled("Disabled until WA_INITIATE_TASKS_ON_CREATE LaunchDarkly flag is enabled")
+//@Disabled("Disabled until WA_INITIATE_TASKS_ON_CREATE_ENABLED is enabled")
 class TaskInitiationOnCreateFunctionalTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskInitiationOnCreateFunctionalTest.class);

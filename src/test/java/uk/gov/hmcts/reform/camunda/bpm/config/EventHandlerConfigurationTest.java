@@ -5,15 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import uk.gov.hmcts.reform.camunda.bpm.config.features.FeatureFlag;
 import uk.gov.hmcts.reform.camunda.bpm.services.TaskInitiationRequestPublisher;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventHandlerConfigurationTest {
@@ -21,16 +18,14 @@ public class EventHandlerConfigurationTest {
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
     private TaskInitiationRequestPublisher taskInitiationRequestPublisher;
-    private LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider;
     private EventHandlerConfiguration eventHandlerConfiguration;
 
     @Before
     public void setUp() {
         taskInitiationRequestPublisher = mock(TaskInitiationRequestPublisher.class);
-        launchDarklyFeatureFlagProvider = mock(LaunchDarklyFeatureFlagProvider.class);
         eventHandlerConfiguration = new EventHandlerConfiguration(
             taskInitiationRequestPublisher,
-            launchDarklyFeatureFlagProvider
+            false
         );
     }
 
@@ -46,8 +41,6 @@ public class EventHandlerConfigurationTest {
     @Test
     public void should_not_request_task_initiation_when_feature_toggle_is_disabled() {
         DelegateTask delegateTask = mock(DelegateTask.class);
-        when(launchDarklyFeatureFlagProvider.getBooleanValue(eq(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)))
-            .thenReturn(false);
 
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
 
@@ -57,8 +50,7 @@ public class EventHandlerConfigurationTest {
     @Test
     public void should_request_task_initiation_when_feature_toggle_is_enabled() {
         DelegateTask delegateTask = mock(DelegateTask.class);
-        when(launchDarklyFeatureFlagProvider.getBooleanValue(eq(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)))
-            .thenReturn(true);
+        eventHandlerConfiguration = new EventHandlerConfiguration(taskInitiationRequestPublisher, true);
 
         eventHandlerConfiguration.onTaskCreatedEvent(delegateTask);
 

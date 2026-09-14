@@ -2,9 +2,9 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.reform.camunda.bpm.config.features.FeatureFlag;
 import uk.gov.hmcts.reform.camunda.bpm.services.TaskInitiationRequestPublisher;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -17,12 +17,13 @@ class EventHandlerConfiguration {
     private static final String CFT_TASK_STATE_LOCAL_VARIABLE_NAME = "cftTaskState";
 
     private final TaskInitiationRequestPublisher taskInitiationRequestPublisher;
-    private final LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider;
+    private final boolean initiateTasksOnCreate;
 
     EventHandlerConfiguration(TaskInitiationRequestPublisher taskInitiationRequestPublisher,
-                              LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider) {
+                              @Value("${configuration.initiateTasksOnCreate:false}")
+                              boolean initiateTasksOnCreate) {
         this.taskInitiationRequestPublisher = taskInitiationRequestPublisher;
-        this.launchDarklyFeatureFlagProvider = launchDarklyFeatureFlagProvider;
+        this.initiateTasksOnCreate = initiateTasksOnCreate;
     }
 
     @EventListener(condition = "#delegateTask.eventName=='create'")
@@ -31,7 +32,7 @@ class EventHandlerConfiguration {
                 CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
                 delegateTask.getId());
         delegateTask.setVariableLocal(CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
-        if (launchDarklyFeatureFlagProvider.getBooleanValue(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)) {
+        if (initiateTasksOnCreate) {
             taskInitiationRequestPublisher.publishTaskInitiationRequest(delegateTask);
         }
     }

@@ -18,7 +18,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.camunda.bpm.SpringBootIntegrationBaseTest;
 import uk.gov.hmcts.reform.camunda.bpm.clients.TaskConfigurationServiceApi;
-import uk.gov.hmcts.reform.camunda.bpm.config.features.FeatureFlag;
 import uk.gov.hmcts.reform.camunda.bpm.domain.request.InitiateTaskRequest;
 
 import java.util.Map;
@@ -38,7 +37,8 @@ import static org.mockito.Mockito.when;
 
 @Testcontainers(disabledWithoutDocker = true)
 @TestPropertySource(properties = {
-    "camunda.bpm.authorization.enabled=false"
+    "camunda.bpm.authorization.enabled=false",
+    "configuration.initiateTasksOnCreate=true"
 })
 class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTest {
 
@@ -101,16 +101,12 @@ class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTes
     @MockBean
     private TaskConfigurationServiceApi taskManagementApi;
 
-    @MockBean
-    private LaunchDarklyFeatureFlagProvider launchDarklyFeatureFlagProvider;
-
     private String deploymentId;
 
     @BeforeEach
     void setUp() {
         reset(taskManagementApi);
         when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
-        when(launchDarklyFeatureFlagProvider.getBooleanValue(FeatureFlag.WA_INITIATE_TASKS_ON_CREATE)).thenReturn(true);
 
         DeploymentWithDefinitions deployment = repositoryService.createDeployment()
             .addString("wa-task-initiation-push-test.bpmn", TEST_PROCESS_BPMN)
