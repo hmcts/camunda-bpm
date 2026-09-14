@@ -124,6 +124,17 @@ public class SpringSecurityWebappAuthenticationProviderTest {
     }
 
     @Test
+    public void shouldbe_having_admingroup_when_groups_claim_is_json_encoded() {
+        String encodedGroups = "[\"44886fcb-4564-4bf9-98a5-4f7629078223\"]";
+        getAuthenticationContext(singletonList(encodedGroups), "encodedAdminUser");
+        AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(
+            new MockHttpServletRequest(), processEngine);
+
+        assertThat(result.isAuthenticated()).isTrue();
+        assertThat(result.getGroups()).contains("default", "camunda-admin");
+    }
+
+    @Test
     public void shouldbe_authorized_withDefaultGroup_when_nonmapped_GroupId() {
         getAuthenticationContext(singletonList("2a1c93c8-b6f2-11e9-a2a3-2a2ae2dbcce4"),"defaultUser");
         AuthenticationResult result = new SpringSecurityWebappAuthenticationProvider().extractAuthenticatedUser(

@@ -1,5 +1,8 @@
 package uk.gov.hmcts.reform.camunda.bpm.filter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
@@ -29,6 +32,8 @@ import static java.util.Objects.requireNonNull;
 @SuppressWarnings("unused")
 public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBaseAuthenticationProvider {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final TypeReference<List<Object>> OBJECT_LIST_TYPE = new TypeReference<>() { };
     public static final String GIVEN_NAME = "given_name";
     public static final String FAMILY_NAME = "family_name";
 
@@ -40,7 +45,6 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
 
 
     @Override
-    @SuppressWarnings("unchecked")
     public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request, ProcessEngine engine) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -69,7 +73,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
             }
         }
 
-        AuthenticationResult authenticationResult = new AuthenticationResult(
+        final AuthenticationResult authenticationResult = new AuthenticationResult(
             id,
             true
         );
@@ -77,8 +81,7 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         IdentityService identityService = engine.getIdentityService();
         updateUser(id, attributes, identityService);
 
-        @SuppressWarnings("unchecked")
-        List<String> adGroups = (List<String>) attributes.getOrDefault(GROUPS_ATTRIBUTE, emptyList());
+        List<String> adGroups = normalizeGroupsClaim(attributes.get(GROUPS_ATTRIBUTE));
 
         List<GroupConfig> applicableGroups = getCamundaGroupsList(adGroups);
 
@@ -99,6 +102,47 @@ public class SpringSecurityWebappAuthenticationProvider extends SpringSecurityBa
         authorizationHelper.tasklistAccess(DEFAULT_GROUP);
 
         return authenticationResult;
+    }
+
+    static List<String> normalizeGroupsClaim(Object rawGroupsClaim) {
+        if (rawGroupsClaim == null) {
+            return emptyList();
+        }
+
+        List<String> normalizedGroups = new ArrayList<>();
+        addNormalizedGroups(rawGroupsClaim, normalizedGroups);
+        return normalizedGroups;
+    }
+
+    private static void addNormalizedGroups(Object claimValue, List<String> normalizedGroups) {
+        if (claimValue instanceof Collection<?> collection) {
+            collection.forEach(value -> addNormalizedGroups(value, normalizedGroups));
+            return;
+        }
+
+        if (claimValue instanceof Object[] values) {
+            for (Object value : values) {
+                addNormalizedGroups(value, normalizedGroups);
+            }
+            return;
+        }
+
+        if (!(claimValue instanceof String stringValue)) {
+            return;
+        }
+
+        String trimmedValue = stringValue.trim();
+        if (trimmedValue.startsWith("[") && trimmedValue.endsWith("]")) {
+            try {
+                List<Object> decodedGroups = OBJECT_MAPPER.readValue(trimmedValue, OBJECT_LIST_TYPE);
+                decodedGroups.forEach(value -> addNormalizedGroups(value, normalizedGroups));
+                return;
+            } catch (JsonProcessingException exception) {
+                // Retain malformed JSON-like values as scalar group identifiers.
+            }
+        }
+
+        normalizedGroups.add(stringValue);
     }
 
     private void updateUser(String id, Map<String, Object> attributes,
