@@ -144,7 +144,7 @@ dependencyManagement {
 }
 
 dependencies {
-    flywayMigration 'org.postgresql:postgresql:42.7.7'
+    flywayMigration 'org.postgresql:postgresql:42.7.13'
     flywayMigration 'org.flywaydb:flyway-database-postgresql:13.5.0'
 
     implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp-ee'
@@ -162,7 +162,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api'
 
-    implementation 'org.postgresql:postgresql:42.7.7'
+    implementation 'org.postgresql:postgresql:42.7.13'
     implementation 'org.flywaydb:flyway-core:13.5.0'
     // JAX-B dependencies for JDK 9+
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.9'
