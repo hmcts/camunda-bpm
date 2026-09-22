@@ -106,6 +106,9 @@ task smoke(type: Test) {
 task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
 }
 
 task integration(type: Test) {

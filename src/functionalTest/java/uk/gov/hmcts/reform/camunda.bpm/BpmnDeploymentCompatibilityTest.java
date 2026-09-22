@@ -77,12 +77,12 @@ public class BpmnDeploymentCompatibilityTest {
     }
 
     @Test
-    public void should_deploy_read_and_remove_simple_process() throws IOException {
+    public void should_upload_read_back_and_remove_simple_bpmn_process() throws IOException {
         deployReadAndRemove(SIMPLE_FIXTURE);
     }
 
     @Test
-    public void should_deploy_read_and_remove_civil_process_in_aat() throws IOException {
+    public void should_upload_read_back_and_remove_civil_bpmn_process_in_aat() throws IOException {
         Assume.assumeTrue("Civil BPMN deployment test runs in AAT only", runCivilBpmnDeploymentTest);
         deployReadAndRemove(CIVIL_FIXTURE);
     }
