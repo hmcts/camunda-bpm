@@ -2,24 +2,24 @@ package uk.gov.hmcts.reform.camunda.bpm.config;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @SpringBootTest(classes = {
     CamundaFunctionalTestUtils.class,
     FunctionalTestServiceAuthConfiguration.class
 })
 @ActiveProfiles("functional")
-@Disabled("Disabled until WA_INITIATE_TASKS_ON_CREATE_ENABLED is enabled")
 class TaskInitiationOnCreateFunctionalTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskInitiationOnCreateFunctionalTest.class);
@@ -28,10 +28,17 @@ class TaskInitiationOnCreateFunctionalTest {
     @Autowired
     private CamundaFunctionalTestUtils testUtils;
 
+    @Value("${configuration.initiateTasksOnCreate:false}")
+    private boolean initiateTasksOnCreate;
+
     private String taskId;
 
     @BeforeEach
     void setUp() {
+        assumeTrue(
+            initiateTasksOnCreate,
+            "configuration.initiateTasksOnCreate must be enabled"
+        );
         taskId = null;
         testUtils.setUp();
     }

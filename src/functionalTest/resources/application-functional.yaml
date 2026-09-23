@@ -2,6 +2,9 @@ targets:
   instance: ${TEST_URL:http://localhost:8999}
   task-management: ${WA_TASK_MANAGEMENT_API_URL:${TASK_MANAGEMENT_API_URL:http://localhost:8087}}
 
+configuration:
+  initiateTasksOnCreate: ${WA_INITIATE_TASKS_ON_CREATE_ENABLED:false}
+
 core_case_data:
   api:
     url: ${CCD_URL:http://ccd-data-store-api}
