@@ -2,6 +2,8 @@
 
 @Library("Infrastructure@2.8.0")
 
+import uk.gov.hmcts.contino.AppPipelineDsl
+
 def type = "java"
 def product = "camunda"
 def component = "bpm"
@@ -13,6 +15,9 @@ def secrets = [
 ]
 
 def vaultSecrets = [
+    'wa-${env}': [
+        secret('generic-docker-pact-broker-password', 'GENERIC_DOCKER_PACT_BROKER_YAML_PASS'),
+    ],
     's2s-${env}': [
         secret('microservicekey-camunda-bpm', 'S2S_SECRET_CAMUNDA_BPM'),
     ]
@@ -47,6 +52,19 @@ withPipeline(type, product, component) {
 
     env.S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
     env.TASK_MANAGEMENT_API_URL = "http://wa-task-management-api-aat.service.core-compute-aat.internal"
+    env.PACT_BROKER_FULL_URL = "https://pact-broker.platform.hmcts.net"
+
+    afterSuccess('pact-provider-verification') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/**/*'
+    }
+
+    onMaster() {
+        enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+    }
+
+    onPR() {
+        enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+    }
 
     enableDbMigration("camunda")
     def branchesToSync = ['demo', 'perftest', 'ithc']
