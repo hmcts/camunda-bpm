@@ -6,6 +6,28 @@ This project adds the integration of [Spring Security](https://projects.spring.i
 
 The main idea is to offload authentication to Spring Security which then makes it easy to plug in any authentication mechanism.
 
+## Verifying mutable image tags in Preview
+
+The Camunda chart sets `java.imagePullPolicy: Always` in its base, Preview and AAT values. Use `scripts/verify-image-pull-policy.sh` to prove that a disposable Preview, Plum or Toffee deployment resolves a restarted pod to the new image after its temporary tag is moved.
+
+The script requires authenticated `az`, `kubectl` and `jq`, a unique `TEMP_TAG` beginning with `image-pull-policy-test-`, two existing source digests, ACR write access, and access to a disposable deployment. It records the pod's immutable `imageID` before and after the move, restores the deployment image, and removes the temporary tag even if the check fails. Do not run it against Production.
+
+For a Camunda Preview release, provide the release's deployment/container name and its `app.kubernetes.io/instance` selector:
+
+```bash
+ACR_NAME=hmctsprod \
+AZURE_SUBSCRIPTION=<hmctsprod-subscription-id> \
+REPOSITORY=camunda/bpm \
+TEMP_TAG=image-pull-policy-test-<unique-id> \
+SOURCE_DIGEST_ONE=sha256:<first-known-good-digest> \
+SOURCE_DIGEST_TWO=sha256:<second-known-good-digest> \
+NAMESPACE=camunda \
+DEPLOYMENT=<preview-release>-java \
+CONTAINER=<preview-release>-java \
+POD_SELECTOR=app.kubernetes.io/instance=<preview-release> \
+./scripts/verify-image-pull-policy.sh
+```
+
 ## Onboard a new team/ tenant
 
 - One off configuration is needed by teams to add tenant to Camunda. See [example PR](https://github.com/hmcts/camunda-bpm/pull/403)
