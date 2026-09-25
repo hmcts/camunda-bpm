@@ -143,6 +143,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - sscs
+  probate:
+    adGroupId: 831dd455-301a-4d29-b41d-9bfaff9a124a
+    tenantId: probate
+    groupId: probate
+    accessControl: user
+    s2sServiceNames:
+      - probate-back-office
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
