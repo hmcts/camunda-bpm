@@ -165,6 +165,7 @@ public class BpmnDeploymentCompatibilityTest {
             .config(RestAssuredConfig.config().httpClient(HttpClientConfig.httpClientConfig()
                 .setParam("http.connection.timeout", REQUEST_TIMEOUT_MILLIS)
                 .setParam("http.socket.timeout", REQUEST_TIMEOUT_MILLIS)))
+            .header(SERVICE_AUTHORIZATION, authTokenGenerator.generate())
             .header("Connection", "close");
     }
 
