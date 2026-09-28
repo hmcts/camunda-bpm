@@ -1,5 +1,9 @@
 java:
   imagePullPolicy: Always
+  # Cascade deployment deletes can take well over the ingress-nginx default timeout on AAT.
+  ingressAnnotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '150'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '150'
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
