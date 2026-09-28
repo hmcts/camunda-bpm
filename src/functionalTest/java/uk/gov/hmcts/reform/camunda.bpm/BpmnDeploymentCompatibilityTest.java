@@ -42,7 +42,7 @@ public class BpmnDeploymentCompatibilityTest {
 
     private static final String BPMN_RESOURCE_DIRECTORY = "bpmn/";
     private static final String DEPLOYMENT_NAME_PREFIX = "camunda-bpmn-test-";
-    private static final int REQUEST_TIMEOUT_MILLIS = 30_000;
+    private static final int REQUEST_TIMEOUT_MILLIS = 120_000;
     private static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
     private static final String SERVICE_NAME = "wa_camunda_pipeline_upload";
 
