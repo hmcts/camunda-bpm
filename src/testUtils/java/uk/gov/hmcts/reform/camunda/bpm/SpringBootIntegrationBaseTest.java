@@ -13,7 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest(
-    properties = {"task-management-api.url=http://localhost:8880"},
+    properties = {
+        "task-management-api.url=http://localhost:8880",
+        "camunda.bpm.generate-unique-process-application-name=true",
+        "camunda.bpm.generate-unique-process-engine-name=true"
+    },
     classes = CamundaApplication.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SpringBootIntegrationBaseTest {
