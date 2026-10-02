@@ -6,6 +6,22 @@ This project adds the integration of [Spring Security](https://projects.spring.i
 
 The main idea is to offload authentication to Spring Security which then makes it easy to plug in any authentication mechanism.
 
+## BPMN deployment compatibility tests
+
+The Jenkins functional tests use Camunda's REST API to upload, read back and remove BPMN deployments. Pull requests run the simple `CAMUNDA_RELEASE_SIMPLE` fixture in Preview. Master runs that fixture and the Civil `JUDGMENT_REQUESTED_SPEC` fixture in AAT.
+
+The Civil fixture is copied from [civil-service at commit aa961d3b5c685550fc439ab45682fd24f55703eb](https://github.com/hmcts/civil-service/blob/aa961d3b5c685550fc439ab45682fd24f55703eb/src/main/resources/camunda/judgment_requested_spec.bpmn). It is kept here so the release test remains stable when Civil changes its own definitions.
+
+Each test uses a unique deployment name beginning with `camunda-bpmn-test-`. It checks that the deployment and its process definition cannot be read after deletion. After an AAT run, an authorised database operator can confirm there are no remaining test records with:
+
+```sql
+SELECT deployment.ID_, process_definition.ID_, resource.ID_
+FROM ACT_RE_DEPLOYMENT deployment
+LEFT JOIN ACT_RE_PROCDEF process_definition ON process_definition.DEPLOYMENT_ID_ = deployment.ID_
+LEFT JOIN ACT_GE_BYTEARRAY resource ON resource.DEPLOYMENT_ID_ = deployment.ID_
+WHERE deployment.NAME_ LIKE 'camunda-bpmn-test-%';
+```
+
 ## Onboard a new team/ tenant
 
 - One off configuration is needed by teams to add tenant to Camunda. See [example PR](https://github.com/hmcts/camunda-bpm/pull/403)

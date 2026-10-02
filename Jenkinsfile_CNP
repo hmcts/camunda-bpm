@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@2.8.0")
+@Library("Infrastructure@2.10.1")
 
 import uk.gov.hmcts.contino.AppPipelineDsl
 
@@ -20,6 +20,9 @@ def vaultSecrets = [
     ],
     's2s-${env}': [
         secret('microservicekey-camunda-bpm', 'S2S_SECRET_CAMUNDA_BPM'),
+    ],
+    's2s-aat': [
+        secret('microservicekey-wa-camunda-pipeline-upload', 'S2S_SECRET_WA_CAMUNDA_PIPELINE_UPLOAD'),
     ]
 ]
 
@@ -38,6 +41,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
 
     loadVaultSecrets(vaultSecrets)
+    disableSmokeTestSecrets()
 
     before('build') {
         withAzureKeyvault(
@@ -70,4 +74,12 @@ withPipeline(type, product, component) {
     def branchesToSync = ['demo', 'perftest', 'ithc']
     syncBranchesWithMaster(branchesToSync)
     alwaysTerraformPlanOnPR()
+
+    before('functionalTest:preview') {
+        env.RUN_CIVIL_BPMN_DEPLOYMENT_TEST = 'false'
+    }
+
+    before('functionalTest:aat') {
+        env.RUN_CIVIL_BPMN_DEPLOYMENT_TEST = 'true'
+    }
 }
