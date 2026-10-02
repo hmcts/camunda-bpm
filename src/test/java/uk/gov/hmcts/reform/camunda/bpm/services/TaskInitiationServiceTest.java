@@ -25,6 +25,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskInitiationServiceTest {
@@ -138,6 +139,86 @@ public class TaskInitiationServiceTest {
         } finally {
             concurrentExecutor.shutdown();
         }
+    }
+
+    @Test
+    public void should_preserve_task_and_request_pairing_during_concurrent_initiation() throws Exception {
+        final Map<String, InitiateTaskRequest> taskRequests = concurrentTaskRequests();
+        final CyclicBarrier allTasksStarted = new CyclicBarrier(taskRequests.size());
+        final ThreadPoolTaskExecutor concurrentExecutor = concurrentTaskInitiationExecutor(taskRequests.size());
+        taskInitiationService = new TaskInitiationService(
+            taskInitiationRetryService,
+            taskService,
+            concurrentExecutor
+        );
+        doAnswer(invocation -> {
+            allTasksStarted.await(10, SECONDS);
+            return null;
+        }).when(taskInitiationRetryService).initiateTaskWithRetry(anyString(), any(InitiateTaskRequest.class));
+
+        try {
+            taskRequests.forEach((taskId, request) ->
+                taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(taskId, request))
+            );
+
+            await().atMost(10, SECONDS).untilAsserted(() ->
+                taskRequests.forEach((taskId, request) ->
+                    verify(taskInitiationRetryService, times(1)).initiateTaskWithRetry(taskId, request)
+                )
+            );
+            verifyNoMoreInteractions(taskInitiationRetryService);
+        } finally {
+            concurrentExecutor.shutdown();
+        }
+    }
+
+    @Test
+    public void should_isolate_failure_when_concurrent_task_initiation_fails() throws Exception {
+        final String failingTaskId = "task-id-2";
+        final Map<String, InitiateTaskRequest> taskRequests = concurrentTaskRequests();
+        final CyclicBarrier allTasksStarted = new CyclicBarrier(taskRequests.size());
+        final ThreadPoolTaskExecutor concurrentExecutor = concurrentTaskInitiationExecutor(taskRequests.size());
+        taskInitiationService = new TaskInitiationService(
+            taskInitiationRetryService,
+            taskService,
+            concurrentExecutor
+        );
+        doAnswer(invocation -> {
+            allTasksStarted.await(10, SECONDS);
+            if (failingTaskId.equals(invocation.getArgument(0))) {
+                throw new RuntimeException("Task Management unavailable");
+            }
+            return null;
+        }).when(taskInitiationRetryService).initiateTaskWithRetry(anyString(), any(InitiateTaskRequest.class));
+
+        try {
+            taskRequests.forEach((taskId, request) ->
+                taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(taskId, request))
+            );
+
+            await().atMost(10, SECONDS).untilAsserted(() -> {
+                taskRequests.forEach((taskId, request) ->
+                    verify(taskInitiationRetryService, times(1)).initiateTaskWithRetry(taskId, request)
+                );
+                verify(taskService, times(1)).setVariableLocal(
+                    failingTaskId,
+                    CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
+                    "unconfigured"
+                );
+            });
+            verifyNoMoreInteractions(taskInitiationRetryService, taskService);
+        } finally {
+            concurrentExecutor.shutdown();
+        }
+    }
+
+    private Map<String, InitiateTaskRequest> concurrentTaskRequests() {
+        return Map.of(
+            "task-id-0", new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication-0")),
+            "task-id-1", new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication-1")),
+            "task-id-2", new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication-2")),
+            "task-id-3", new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication-3"))
+        );
     }
 
     private ThreadPoolTaskExecutor concurrentTaskInitiationExecutor(int poolSize) {
