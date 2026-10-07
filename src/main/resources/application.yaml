@@ -150,6 +150,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - probate-back-office
+  financial-remedy:
+    adGroupId: 645b757f-5015-4fc1-93f9-0522b623c0fa
+    tenantId: divorce
+    groupId: finrem
+    accessControl: user
+    s2sServiceNames:
+      - finrem_case_orchestration
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
