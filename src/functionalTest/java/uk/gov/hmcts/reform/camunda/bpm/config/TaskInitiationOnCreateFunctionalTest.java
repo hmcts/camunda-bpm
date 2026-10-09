@@ -54,11 +54,11 @@ class TaskInitiationOnCreateFunctionalTest {
     void should_initiate_task_when_task_committed_successfully() {
         LOG.info("Starting successful task initiation functional test");
         String caseId = testUtils.createWaCcdCase();
-        CamundaFunctionalTestUtils.ProcessDefinition processDefinition = testUtils.deployTaskProcess();
-        LOG.info("Created CCD case: {} and deployed Camunda process: {}", caseId, processDefinition.processId());
+        testUtils.deployTaskProcess();
+        LOG.info("Created CCD case: {}", caseId);
 
-        testUtils.correlateCreateTaskMessage(processDefinition, caseId);
-        taskId = testUtils.getCreatedTaskId(processDefinition.processId());
+        testUtils.correlateCreateTaskMessage(caseId);
+        taskId = testUtils.getCreatedTaskId();
         LOG.info("Created Camunda task: {}. Waiting for cftTaskState to become unassigned", taskId);
 
         await()
@@ -73,11 +73,9 @@ class TaskInitiationOnCreateFunctionalTest {
     @Test
     void should_set_task_to_unconfigured_when_camunda_initiation_fails() {
         LOG.info("Starting failed task initiation functional test using missing CCD case: {}", MISSING_CCD_CASE_ID);
-        CamundaFunctionalTestUtils.ProcessDefinition processDefinition = testUtils.deployTaskProcess();
-        LOG.info("Deployed Camunda process: {}", processDefinition.processId());
-
-        testUtils.correlateCreateTaskMessage(processDefinition, MISSING_CCD_CASE_ID);
-        taskId = testUtils.getCreatedTaskId(processDefinition.processId());
+        testUtils.deployTaskProcess();
+        testUtils.correlateCreateTaskMessage(MISSING_CCD_CASE_ID);
+        taskId = testUtils.getCreatedTaskId();
         LOG.info("Created Camunda task: {}. Waiting for cftTaskState to remain unconfigured", taskId);
 
         await()

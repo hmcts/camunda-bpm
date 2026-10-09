@@ -15,8 +15,9 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static java.util.Map.entry;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.awaitility.Awaitility.await;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -37,6 +38,7 @@ class CamundaFunctionalTestUtils {
     private static final String EVENT_SUMMARY = "summary";
     private static final String EVENT_DESCRIPTION = "description";
     private static final String CLEANUP_TERMINATE_REASON = "Functional test cleanup";
+    private static final String PROCESS_DEFINITION_KEY = "wa-task-initiation-ia-asylum";
 
     private final String camundaUrl;
     private final String taskManagementUrl;
@@ -52,7 +54,10 @@ class CamundaFunctionalTestUtils {
     private final String waSystemPassword;
 
     private String camundaServiceToken;
+    private String businessKey;
     private String deploymentId;
+    private String tenantId;
+    private String messageName;
 
     CamundaFunctionalTestUtils(
         @Value("${targets.instance}") String camundaUrl,
@@ -95,7 +100,10 @@ class CamundaFunctionalTestUtils {
 
     void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
+        businessKey = null;
         deploymentId = null;
+        tenantId = null;
+        messageName = null;
         camundaServiceToken = camundaServiceToken();
     }
 
@@ -108,39 +116,40 @@ class CamundaFunctionalTestUtils {
         deleteDeployment();
     }
 
-    ProcessDefinition deployTaskProcess() {
+    void deployTaskProcess() {
         String suffix = UUID.randomUUID().toString().replace("-", "");
-        String processId = "waTaskInitiationOnCreateFunctionalTest" + suffix;
-        String messageName = "createTaskMessage" + suffix;
-        MultiPartSpecification bpmn = new MultiPartSpecBuilder(bpmn(processId, messageName).getBytes(
-            StandardCharsets.UTF_8
-        ))
+        tenantId = "wa-ft-" + suffix;
+        messageName = "createTaskMessage" + suffix;
+        MultiPartSpecification bpmn = new MultiPartSpecBuilder(bpmn(messageName).getBytes(StandardCharsets.UTF_8))
             .controlName("data")
-            .fileName(processId + ".bpmn")
+            .fileName("task-initiation-" + suffix + ".bpmn")
             .mimeType("text/xml")
             .build();
 
         Response response = given()
             .header(SERVICE_AUTHORIZATION, camundaServiceToken)
             .baseUri(camundaUrl)
-            .multiPart("deployment-name", processId)
+            .multiPart("deployment-name", "task-initiation-" + suffix)
+            .multiPart("tenant-id", tenantId)
             .multiPart(bpmn)
             .when()
             .post("/engine-rest/deployment/create");
         assertThat(response.statusCode()).as(response.asString()).isEqualTo(200);
-
+        assertThat(response.jsonPath().getString("tenantId")).isEqualTo(tenantId);
         deploymentId = response.path("id");
-        return new ProcessDefinition(processId, messageName);
     }
 
-    void correlateCreateTaskMessage(ProcessDefinition processDefinition, String caseId) {
+    void correlateCreateTaskMessage(String caseId) {
+        businessKey = UUID.randomUUID().toString();
         given()
             .header(SERVICE_AUTHORIZATION, camundaServiceToken)
             .baseUri(camundaUrl)
             .contentType(APPLICATION_JSON_VALUE)
             .body(Map.of(
-                "messageName", processDefinition.messageName(),
-                "processDefinitionKey", processDefinition.processId(),
+                "messageName", messageName,
+                "processDefinitionKey", PROCESS_DEFINITION_KEY,
+                "tenantId", tenantId,
+                "businessKey", businessKey,
                 "processVariables", taskProcessVariables(caseId)
             ))
             .when()
@@ -149,19 +158,21 @@ class CamundaFunctionalTestUtils {
             .statusCode(204);
     }
 
-    String getCreatedTaskId(String processId) {
-        return given()
-            .header(SERVICE_AUTHORIZATION, camundaServiceToken)
-            .baseUri(camundaUrl)
-            .accept(APPLICATION_JSON_VALUE)
-            .queryParam("processDefinitionKey", processId)
-            .when()
-            .get("/engine-rest/task")
-            .then()
-            .statusCode(200)
-            .body("size()", is(1))
-            .extract()
-            .path("[0].id");
+    String getCreatedTaskId() {
+        return await()
+            .pollInterval(2, SECONDS)
+            .atMost(60, SECONDS)
+            .until(() -> {
+                Response response = given()
+                    .header(SERVICE_AUTHORIZATION, camundaServiceToken)
+                    .baseUri(camundaUrl)
+                    .accept(APPLICATION_JSON_VALUE)
+                    .queryParam("processInstanceBusinessKey", businessKey)
+                    .when()
+                    .get("/engine-rest/task");
+                assertThat(response.statusCode()).as(response.asString()).isEqualTo(200);
+                return response.jsonPath().getString("[0].id");
+            }, taskId -> taskId != null);
     }
 
     String cftTaskState(String taskId) {
@@ -483,7 +494,7 @@ class CamundaFunctionalTestUtils {
         );
     }
 
-    private String bpmn(String processId, String messageName) {
+    private String bpmn(String messageName) {
         return """
             <?xml version="1.0" encoding="UTF-8"?>
             <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
@@ -518,9 +529,6 @@ class CamundaFunctionalTestUtils {
                                    targetRef="userTaskCompleted" />
               </bpmn:process>
             </bpmn:definitions>
-            """.formatted(processId, messageName, TASK_DESCRIPTION);
-    }
-
-    record ProcessDefinition(String processId, String messageName) {
+            """.formatted(PROCESS_DEFINITION_KEY, messageName, TASK_DESCRIPTION);
     }
 }

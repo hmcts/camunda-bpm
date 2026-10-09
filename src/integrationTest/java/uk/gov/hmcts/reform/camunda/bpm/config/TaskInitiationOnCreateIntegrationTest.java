@@ -47,7 +47,7 @@ class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTes
     private static final String CFT_TASK_STATE = "cftTaskState";
     private static final String TASK_NAME = "Process Application";
     private static final String TASK_TYPE = "processApplication";
-    private static final String PROCESS_ID = "wa-task-initiation-push-test";
+    private static final String PROCESS_ID = "wa-task-initiation-ia-asylum";
     private static final String TEST_PROCESS_BPMN = """
         <?xml version="1.0" encoding="UTF-8"?>
         <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
@@ -55,7 +55,7 @@ class TaskInitiationOnCreateIntegrationTest extends SpringBootIntegrationBaseTes
                           id="Definitions_task_push_test"
                           targetNamespace="http://bpmn.io/schema/bpmn">
           <bpmn:message id="Message_createTaskMessage" name="createTaskMessage" />
-          <bpmn:process id="wa-task-initiation-push-test"
+          <bpmn:process id="wa-task-initiation-ia-asylum"
                         name="Create User Task"
                         isExecutable="true"
                         camunda:historyTimeToLive="P90D">
