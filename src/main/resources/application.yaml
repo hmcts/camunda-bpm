@@ -107,7 +107,7 @@ camundaGroups:
     groupId: civil
     accessControl: user
     s2sServiceNames:
-      - civil-service 
+      - civil-service
   prl:
     adGroupId: 882d8512-688b-48b1-8ce2-05fd49d90478
     tenantId: privatelaw
@@ -150,6 +150,13 @@ camundaGroups:
     accessControl: user
     s2sServiceNames:
       - probate-back-office
+  financial-remedy:
+    adGroupId: 94ac8962-b614-441b-aa4c-9be878a6bf17
+    tenantId: divorce
+    groupId: finrem
+    accessControl: user
+    s2sServiceNames:
+      - finrem_case_orchestration
 camundaAdminGroupId: e7ea2042-4ced-45dd-8ae3-e051c6551789
 camundaAccess:
   user:
