@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.camunda.bpm.services;
 
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.camunda.bpm.domain.event.TaskInitiationRequestedEvent;
@@ -35,8 +36,12 @@ public class TaskInitiationRequestPublisher {
     }
 
     private boolean isTargetProcess(DelegateTask delegateTask) {
-        return PROCESS_DEFINITION_KEY.equals(
-            repositoryService.getProcessDefinition(delegateTask.getProcessDefinitionId()).getKey()
-        );
+        String processDefinitionKey;
+        if (delegateTask.getExecution() instanceof ExecutionEntity execution) {
+            processDefinitionKey = execution.getProcessDefinition().getKey();
+        } else {
+            processDefinitionKey = repositoryService.getProcessDefinition(delegateTask.getProcessDefinitionId()).getKey();
+        }
+        return PROCESS_DEFINITION_KEY.equals(processDefinitionKey);
     }
 }

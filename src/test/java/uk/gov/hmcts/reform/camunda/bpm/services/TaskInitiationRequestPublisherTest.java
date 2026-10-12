@@ -2,6 +2,8 @@ package uk.gov.hmcts.reform.camunda.bpm.services;
 
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity;
+import org.camunda.bpm.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,6 +66,42 @@ public class TaskInitiationRequestPublisherTest {
         TaskInitiationRequestedEvent event = eventCaptor.getValue();
         assertThat(event.taskId()).isEqualTo(TASK_ID);
         assertThat(event.request()).isEqualTo(request);
+    }
+
+    @Test
+    public void should_publish_from_execution_without_repository_lookup() {
+        DelegateTask delegateTask = mock(DelegateTask.class);
+        ExecutionEntity execution = mock(ExecutionEntity.class);
+        ProcessDefinitionEntity processDefinition = mock(ProcessDefinitionEntity.class);
+        InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
+        when(delegateTask.getTaskDefinitionKey()).thenReturn("processTask");
+        when(delegateTask.getExecution()).thenReturn(execution);
+        when(execution.getProcessDefinition()).thenReturn(processDefinition);
+        when(processDefinition.getKey()).thenReturn("wa-task-initiation-ia-asylum");
+        when(delegateTask.getId()).thenReturn(TASK_ID);
+        when(taskInitiationRequestFactory.create(delegateTask)).thenReturn(request);
+
+        taskInitiationRequestPublisher.publishTaskInitiationRequest(delegateTask);
+
+        verify(applicationEventPublisher).publishEvent(new TaskInitiationRequestedEvent(TASK_ID, request));
+        verify(repositoryService, never()).getProcessDefinition(any());
+    }
+
+    @Test
+    public void should_not_publish_from_another_execution_process() {
+        DelegateTask delegateTask = mock(DelegateTask.class);
+        ExecutionEntity execution = mock(ExecutionEntity.class);
+        ProcessDefinitionEntity processDefinition = mock(ProcessDefinitionEntity.class);
+        when(delegateTask.getTaskDefinitionKey()).thenReturn("processTask");
+        when(delegateTask.getExecution()).thenReturn(execution);
+        when(execution.getProcessDefinition()).thenReturn(processDefinition);
+        when(processDefinition.getKey()).thenReturn("other-process");
+
+        taskInitiationRequestPublisher.publishTaskInitiationRequest(delegateTask);
+
+        verify(repositoryService, never()).getProcessDefinition(any());
+        verify(taskInitiationRequestFactory, never()).create(delegateTask);
+        verify(applicationEventPublisher, never()).publishEvent(any());
     }
 
     @Test
