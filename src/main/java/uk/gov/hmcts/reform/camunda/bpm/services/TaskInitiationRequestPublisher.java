@@ -40,7 +40,8 @@ public class TaskInitiationRequestPublisher {
         if (delegateTask.getExecution() instanceof ExecutionEntity execution) {
             processDefinitionKey = execution.getProcessDefinition().getKey();
         } else {
-            processDefinitionKey = repositoryService.getProcessDefinition(delegateTask.getProcessDefinitionId()).getKey();
+            processDefinitionKey =
+                    repositoryService.getProcessDefinition(delegateTask.getProcessDefinitionId()).getKey();
         }
         return PROCESS_DEFINITION_KEY.equals(processDefinitionKey);
     }
