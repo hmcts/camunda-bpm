@@ -49,7 +49,6 @@ public class TaskInitiationService {
                 event.taskId(),
                 ex
             );
-            setTaskStateToUnconfigured(event.taskId());
         }
     }
 
@@ -59,11 +58,10 @@ public class TaskInitiationService {
             LOG.info("Task id: {} pushed to Task Management for initiation", event.taskId());
         } catch (Exception ex) {
             LOG.warn(
-                "Task id: {} could not be pushed for initiation. Task state will be set to unconfigured.",
+                "Task id: {} could not be pushed for initiation. Task state will remain unchanged.",
                 event.taskId(),
                 ex
             );
-            setTaskStateToUnconfigured(event.taskId());
         }
     }
 }
