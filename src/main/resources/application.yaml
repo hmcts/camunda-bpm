@@ -17,12 +17,6 @@ management:
   server:
     port: 8999
 spring:
-  cloud:
-    openfeign:
-      client:
-        config:
-          task-management-api:
-            readTimeout: 60000
   main:
     allow-bean-definition-overriding: true
   flyway:
