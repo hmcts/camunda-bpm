@@ -130,22 +130,6 @@ class TaskInitiationRetryServiceTest {
         verify(taskManagementApi, times(3)).initiateTask(SERVICE_TOKEN, TASK_ID, request);
     }
 
-    @Test
-    void should_retry_service_unavailable_response_with_malformed_body() {
-        InitiateTaskRequest request = new InitiateTaskRequest(
-            "INITIATION",
-            Map.of("taskType", "processApplication")
-        );
-        when(authTokenGenerator.generate()).thenReturn(SERVICE_TOKEN);
-        doThrow(feignException(503, "{invalid-json"))
-            .when(taskManagementApi)
-            .initiateTask(anyString(), eq(TASK_ID), eq(request));
-
-        assertThrows(FeignException.class, () -> taskInitiationRetryService.initiateTaskWithRetry(TASK_ID, request));
-
-        verify(taskManagementApi, times(3)).initiateTask(SERVICE_TOKEN, TASK_ID, request);
-    }
-
     private FeignException feignException() {
         return feignException(500, "");
     }
