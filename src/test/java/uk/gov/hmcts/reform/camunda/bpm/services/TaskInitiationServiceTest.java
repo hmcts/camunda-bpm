@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.concurrent.CyclicBarrier;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -25,6 +24,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -59,7 +59,7 @@ public class TaskInitiationServiceTest {
     }
 
     @Test
-    public void should_set_task_state_to_unconfigured_when_initiation_fails() {
+    public void should_not_reset_task_state_when_initiation_fails() {
         InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
         doThrow(new RuntimeException("Task Management unavailable"))
             .when(taskInitiationRetryService)
@@ -67,28 +67,11 @@ public class TaskInitiationServiceTest {
 
         taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request));
 
-        verify(taskService, times(1)).setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
+        verifyNoInteractions(taskService);
     }
 
     @Test
-    public void should_handle_failure_when_task_state_cannot_be_set_to_unconfigured() {
-        InitiateTaskRequest request = new InitiateTaskRequest("INITIATION", Map.of("taskType", "processApplication"));
-        doThrow(new RuntimeException("Task Management unavailable"))
-            .when(taskInitiationRetryService)
-            .initiateTaskWithRetry(TASK_ID, request);
-        doThrow(new RuntimeException("Camunda task unavailable"))
-            .when(taskService)
-            .setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
-
-        assertThatCode(() ->
-            taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request))
-        ).doesNotThrowAnyException();
-
-        verify(taskService).setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
-    }
-
-    @Test
-    public void should_set_task_state_to_unconfigured_when_initiation_is_rejected_by_executor() {
+    public void should_leave_task_state_unchanged_when_initiation_is_rejected_by_executor() {
         final InitiateTaskRequest request = new InitiateTaskRequest(
             "INITIATION",
             Map.of("taskType", "processApplication")
@@ -105,7 +88,7 @@ public class TaskInitiationServiceTest {
 
         taskInitiationService.initiateTask(new TaskInitiationRequestedEvent(TASK_ID, request));
 
-        verify(taskService, times(1)).setVariableLocal(TASK_ID, CFT_TASK_STATE_LOCAL_VARIABLE_NAME, "unconfigured");
+        verifyNoInteractions(taskService);
     }
 
     @Test
@@ -200,11 +183,7 @@ public class TaskInitiationServiceTest {
                 taskRequests.forEach((taskId, request) ->
                     verify(taskInitiationRetryService, times(1)).initiateTaskWithRetry(taskId, request)
                 );
-                verify(taskService, times(1)).setVariableLocal(
-                    failingTaskId,
-                    CFT_TASK_STATE_LOCAL_VARIABLE_NAME,
-                    "unconfigured"
-                );
+                verifyNoInteractions(taskService);
             });
             verifyNoMoreInteractions(taskInitiationRetryService, taskService);
         } finally {
