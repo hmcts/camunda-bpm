@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class TaskInitiationRetryServiceUnitTest {
+class TaskInitiationRetryServiceTest {
 
     @Test
     void should_propagate_service_unavailable_when_response_body_is_malformed() {

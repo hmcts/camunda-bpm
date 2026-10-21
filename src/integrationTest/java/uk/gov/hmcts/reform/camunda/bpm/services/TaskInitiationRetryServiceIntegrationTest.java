@@ -34,8 +34,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@Import(TaskInitiationRetryServiceTest.RetryTestConfiguration.class)
-class TaskInitiationRetryServiceTest {
+@Import(TaskInitiationRetryServiceIntegrationTest.RetryTestConfiguration.class)
+class TaskInitiationRetryServiceIntegrationTest {
 
     private static final String TASK_ID = "task-id";
     private static final String SERVICE_TOKEN = "s2s-token";
